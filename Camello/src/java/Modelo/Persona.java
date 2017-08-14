@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Persona {
     
     private int idPersona;
+    private String contraseñaPersona;
     private String nombresPersona;
     private String apellidosPersona;
     private int telefono;
@@ -24,6 +25,10 @@ public class Persona {
         this.correoPersona = correoPersona;
         this.direccionPersona = direccionPersona;
         this.interesLaboral = interesLaboral;
+    }
+
+    public Persona() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getIdPersona() {
@@ -104,6 +109,14 @@ public class Persona {
 
     public void setRutaHojadevida(String rutaHojadevida) {
         this.rutaHojadevida = rutaHojadevida;
+    }
+
+    public String getContraseñaPersona() {
+        return contraseñaPersona;
+    }
+
+    public void setContraseñaPersona(String contraseñaPersona) {
+        this.contraseñaPersona = contraseñaPersona;
     }
 
    

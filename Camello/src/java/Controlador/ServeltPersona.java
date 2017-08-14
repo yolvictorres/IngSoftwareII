@@ -5,8 +5,13 @@
  */
 package Controlador;
 
+import Acceso.DAOPersona;
+import Modelo.Persona;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,16 +36,42 @@ public class ServeltPersona extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServeltPersona</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServeltPersona at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+            DAOPersona dao = new DAOPersona();
+            Persona persona = new Persona();
+            List<Persona> per = new ArrayList<>();
+            String respuesta = "";
+            RequestDispatcher rd = null;
+//            try {
+//                 if (request.getParameter("btniniciar") != null) {
+//                    HttpSession sesion = request.getSession(true);
+//                    String u =request.getParameter("usuario");
+//                    String contra = request.getParameter("contrasena");
+//                    usuario.setUsuario(u);
+//                    usuario.setContra(contra);
+//                    List<usuarios> y = dao.autenticar(usuario);
+//                    if (y.size() > 0) {
+//                        for (usuarios usu : y) {
+//                            sesion.setAttribute("usuario", usu.getUsuario());
+//                            sesion.setAttribute("id", usu.getId_usuario());
+//                            sesion.setAttribute("nivel", usu.getNivel());
+//                        }
+//                        response.sendRedirect("index.jsp");
+//                    } else {
+//                        out.println("<!DOCTYPE html>");
+//                        out.println("<script type='text/javascript'>  alert('El usuario no existe. o contraseña incorrecta!');</script>");
+//                        out.println("<META HTTP-EQUIV='REFRESH' CONTENT='0;URL=http://localhost:8080/FutbolColombia/iniciarSesion.jsp'>");
+//                    }
+//
+//                } 
+//            } catch (IOException | NumberFormatException e) {
+//
+//            }
+
+            rd.forward(request, response);
+            
+        } catch (Exception e) {
+
         }
     }
 
