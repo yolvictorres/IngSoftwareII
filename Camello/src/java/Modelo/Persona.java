@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Persona {
     
     private int idPersona;
-    private String contraseñaPersona;
+    private String clavePersona;
     private String nombresPersona;
     private String apellidosPersona;
     private int telefono;
@@ -111,12 +111,12 @@ public class Persona {
         this.rutaHojadevida = rutaHojadevida;
     }
 
-    public String getContraseñaPersona() {
-        return contraseñaPersona;
+    public String getClavePersona() {
+        return clavePersona;
     }
 
-    public void setContraseñaPersona(String contraseñaPersona) {
-        this.contraseñaPersona = contraseñaPersona;
+    public void setClavePersona(String contraseñaPersona) {
+        this.clavePersona = contraseñaPersona;
     }
 
    

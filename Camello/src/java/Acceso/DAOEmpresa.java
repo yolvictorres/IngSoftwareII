@@ -1,5 +1,9 @@
 package Acceso;
 
+import Modelo.Empresa;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class DAOEmpresa implements CRUDyBuscar{
@@ -8,7 +12,33 @@ public class DAOEmpresa implements CRUDyBuscar{
 
     @Override
     public String crear(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Empresa empresa = (Empresa) obj;
+        String consulta = "insert into empresa(nit, nombre, correo, clave) values (?, ?, ?, ?)";
+        String respuesta = "";
+        Connection conn = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, empresa.getIdEmpresa());
+            pst.setString(2, empresa.getNombreEmpresa());
+            pst.setString(3, empresa.getCorreoEmpresa());
+            pst.setString(4, empresa.getClaveEmpresa());
+            int filas = pst.executeUpdate();
+            respuesta = "Usuario creado con éxito";
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Error" + e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                System.out.println("Error" + e);
+            }
+        }
+        return respuesta;
     }
 
     @Override

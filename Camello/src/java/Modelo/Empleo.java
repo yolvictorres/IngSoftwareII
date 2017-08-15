@@ -3,20 +3,25 @@ package Modelo;
 public class Empleo {
 
     private int idEmpleo;
-    private int idPublicador;
+    private int idEmpresa;
+    private int idCiudad;
+    private int idJornada;
     private String detalles;
     private String fecha;    
     private String cargo;
     private String experiencia;
 
-    public Empleo(int idEmpleo, int idPublicador, String detalles, String fecha, String cargo, String experiencia) {
+    public Empleo(int idEmpleo, int idEmpresa, int idCiudad, int idJornada, String detalles, String fecha, String cargo, String experiencia) {
         this.idEmpleo = idEmpleo;
-        this.idPublicador = idPublicador;
+        this.idEmpresa = idEmpresa;
+        this.idCiudad = idCiudad;
+        this.idJornada = idJornada;
         this.detalles = detalles;
         this.fecha = fecha;
         this.cargo = cargo;
         this.experiencia = experiencia;
     }
+    
 
     public int getIdEmpleo() {
         return idEmpleo;
@@ -26,12 +31,12 @@ public class Empleo {
         this.idEmpleo = idEmpleo;
     }
 
-    public int getIdPublicador() {
-        return idPublicador;
+    public int getIdEmpresa() {
+        return idEmpresa;
     }
 
     public void setIdPublicador(int idPublicador) {
-        this.idPublicador = idPublicador;
+        this.idEmpresa = idPublicador;
     }
 
     public String getDetalles() {
@@ -64,6 +69,22 @@ public class Empleo {
 
     public void setExperiencia(String experiencia) {
         this.experiencia = experiencia;
+    }
+
+    public int getIdCiudad() {
+        return idCiudad;
+    }
+
+    public void setIdCiudad(int ciudad) {
+        this.idCiudad = ciudad;
+    }
+
+    public int getIdJornada() {
+        return idJornada;
+    }
+
+    public void setIdJornada(int jornada) {
+        this.idJornada = jornada;
     }
     
     
