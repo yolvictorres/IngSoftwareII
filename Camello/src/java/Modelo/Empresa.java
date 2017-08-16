@@ -8,6 +8,7 @@ public class Empresa {
     private String correoEmpresa;
     private String campoLaboral;
     private String rutaLogo;
+    private String claveEmpresa;
 
     public Empresa() {
     }
@@ -66,6 +67,14 @@ public class Empresa {
 
     public void setRutaLogo(String rutaLogo) {
         this.rutaLogo = rutaLogo;
+    }
+
+    public String getClaveEmpresa() {
+        return claveEmpresa;
+    }
+
+    public void setClaveEmpresa(String claveEmpresa) {
+        this.claveEmpresa = claveEmpresa;
     }
 
 
