@@ -13,7 +13,7 @@ public class DAOPersona implements CRUDyBuscar {
     @Override
     public String crear(Object obj) {
         Persona persona = (Persona) obj;
-        String consulta = "insert into persona (cedula, nombres, apellidos, correo, clave) values (?, ?, ?, ?, ?)";
+        String consulta = "insert into persona (cod_persona, nombres, apellidos, correo, clave) values (?, ?, ?, ?, ?)";
         String respuesta = "";
         Connection conn = null;
         PreparedStatement pst = null;
