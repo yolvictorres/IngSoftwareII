@@ -33,6 +33,10 @@
         <div class="jumbotron boxlogin">
             <h2 class="col-lg-12 registerSection">Inicio de Sesión</h2>
             <form action="">
+                <div style="position: relative; width: 30%;">
+                    <input type="image" src="images/persona.png" style="width: 30%; height: 20%; left: 60%;" formaction="vista/registroPersona.jsp"/>
+                    <input type="image" src="images/empresa.png" style="width: 30%; height: 20%; left: 20%;" formaction="vista/registroEmpresa.jsp"/>
+                </div>
                 <div><input type="text" placeholder="Nombre" class="form-control inputSection"></div>
                 <div><input type="password" placeholder="Contraseña" class="form-control inputSection"></div>
                 <div><input type="submit" value="Ingresar" class="btn btn-success"></div>
@@ -42,6 +46,7 @@
         <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/lib/bootstrap.min_1.js"></script>
         <script type="text/javascript" src="js/lib/bootstrap_1.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>        
         <!--<script type="text/javascript" src="js/lib/angular.js"></script>--->
         <!--<script type="text/javascript" src="js/lib/angular.min.js"></script>--->
     </body>
