@@ -33,9 +33,14 @@
         <div class="jumbotron boxlogin">
             <h2 class="col-lg-12 registerSection">Registo Empresa</h2>
             <form action="">
-                <div><input placeholder="Nombre" class="form-control inputSection"></div>
-                <div><input placeholder="Nit" class="form-control inputSection" type="number" min="0"></div><br>
-                <div><input type="submit" value="Ingresar" class="btn btn-success"></div>
+                <div><input placeholder="Nit" class="form-control inputSection" type="number" min="1"/></div>
+                <div><input placeholder="Nombre" class="form-control inputSection" type="text"/></div>
+                <div><input placeholder="Correo" class="form-control inputSection" type="email"/></div>
+                <div><input placeholder="Contraseña" class="form-control inputSection" type="password"/></div>
+                <div>
+                    <input type="submit" value="Registrar" class="btn btn-success"/>
+                    <input type="submit" value="Cancelar" class="btn btn-danger" formaction="../index.jsp" formnovalidate/>
+                </div>
             </form>
         </div>
         <script type="text/javascript" src="../js/lib/bootstrap.js"></script>
