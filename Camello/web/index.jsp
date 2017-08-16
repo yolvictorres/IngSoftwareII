@@ -9,10 +9,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Home</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <a href='registroPersona.jsp' class='active'><h5>Inicio</h5></a>
+        <h1>Menu:</h1>
+        <a href='registroPersona.jsp' class='active'><h5>Crear Persona</h5></a>
+        <a href='registroEmpresa.jsp' class='active'><h5>Crear Empresa</h5></a>
     </body>
 </html>

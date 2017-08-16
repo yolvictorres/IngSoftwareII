@@ -12,7 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Registro Persona:</h1>
 
         <form action="ServletPersona" method="post">
             <label>Formulario Persona</label>
