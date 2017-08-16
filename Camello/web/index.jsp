@@ -15,5 +15,6 @@
         <h1>Menu:</h1>
         <a href='registroPersona.jsp' class='active'><h5>Crear Persona</h5></a>
         <a href='registroEmpresa.jsp' class='active'><h5>Crear Empresa</h5></a>
+        <a href='crearEmpleo.jsp' class='active'><h5>Crear Empleo</h5></a>
     </body>
 </html>
