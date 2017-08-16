@@ -22,9 +22,9 @@
     <body>
         <div>
             <nav class="navbar-inverse">
-                <div class="container">
-                    <div class="navbar-header" >
-                        <h1 style="color: whitesmoke">Logo</h1>
+                <div class="container" style="position: relative; width: 30%; right: 30%;">
+                    <div>
+                        <img src="../images/camello.png" style="width: 30%; height: 25%;"/>
                     </div>
                 </div>
             </nav>
