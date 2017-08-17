@@ -1,10 +1,7 @@
 #CREACION DE SCHEMA----------------
-<<<<<<< HEAD
 #CREATE database CAMELLO;
-=======
-CREATE database CAMELLO;
-use CAMELLO;
->>>>>>> 06d4c542e1e07046f4aec8229c0c658af020c92b
+#CREATE database CAMELLO;
+#use CAMELLO;
 #CREACION DE TABLAS-----------------
 CREATE TABLE PERSONA
 (
