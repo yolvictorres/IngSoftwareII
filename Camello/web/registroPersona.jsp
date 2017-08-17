@@ -1,6 +1,6 @@
 <%-- 
-    Document   : newjsp
-    Created on : 16/08/2017, 11:06:41 AM
+    Document   : registroPersona
+    Created on : 16/08/2017, 11:23:56 AM
     Author     : diego
 --%>
 
@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Inicio de Sesión</title>
+        <title>Registro Persona</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link  rel="stylesheet" type="text/css" href="css/normalize.css" />
@@ -29,19 +29,20 @@
                 </div>
             </nav>
         </div>
+
         <div class="jumbotron boxlogin">
-            <h2 class="col-lg-12 registerSection">Registro</h2>
-            <div style="position: relative; width: 50%; left: 15%;">
-                <form action="">
-                <span><a href='registroPersona.jsp'></a><input type="image" src="images/persona.png" style="width: 30%; height: 25%;" formaction="registroPersona.jsp" /></span>
-                <span><a href='registroEmpresa.jsp'></a><input type="image" src="images/empresa.png" style="width: 30%; height: 25%;" formaction="registroEmpresa.jsp"/></span>
-                </form>
-            </div>
-            <h2 class="col-lg-12 registerSection">Inicio de Sesión</h2>            
-            <form action="">
-                <div><input type="text" placeholder="Nombre" class="form-control inputSection"></div>
-                <div><input type="password" placeholder="Contraseña" class="form-control inputSection"></div>
-                <div><input type="submit" value="Ingresar" class="btn btn-success"></div>
+            <h2 class="col-lg-12 registerSection">Registo Persona</h2>
+            <form action="ServletPersona" method="post">
+
+                <div><input name="cedula" placeholder="Número de cédula" class="form-control inputSection" type="number" min="1" required/></div>
+                <div><input name="nombres" placeholder="Nombres" class="form-control inputSection" type="text" required/></div>
+                <div><input name="apellidos" placeholder="Apellidos" class="form-control inputSection" type="text" required/></div>
+                <div><input name="correo" placeholder="Correo" class="form-control inputSection" type="email" required/></div>
+                <div><input name="clave" placeholder="Contraseña" class="form-control inputSection" type="password" required/></div><br>
+                <div>
+                    <input type="submit" value="Registrar" class="btn btn-success" name="crearPersona"/>
+                    <input type="submit" value="Cancelar" class="btn btn-danger" formaction="../index.jsp" formnovalidate/>
+                </div>
             </form>
         </div>
         <script type="text/javascript" src="js/lib/bootstrap.js"></script>
