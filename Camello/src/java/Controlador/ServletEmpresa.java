@@ -5,17 +5,24 @@
  */
 package Controlador;
 
+import Acceso.DAOEmpresa;
+import Modelo.Empresa;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author usuario
+ * @author IAN
  */
+@WebServlet(name = "ServletEmpresa", urlPatterns = {"/ServletEmpresa"})
 public class ServletEmpresa extends HttpServlet {
 
     /**
@@ -31,16 +38,30 @@ public class ServletEmpresa extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServletEmpresa</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServletEmpresa at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+            DAOEmpresa dao = new DAOEmpresa();
+            Empresa empresa = new Empresa();
+            List<Empresa> per = new ArrayList<>();
+            String respuesta = "";
+            RequestDispatcher rd = null;
+            try {
+                if (request.getParameter("crearEmpresa") != null) {
+                    empresa.setIdEmpresa(Integer.parseInt(request.getParameter("nit")));
+                    empresa.setNombreEmpresa(request.getParameter("nombre"));
+                    empresa.setCorreoEmpresa(request.getParameter("correo"));
+                    empresa.setClaveEmpresa(request.getParameter("clave"));
+                    respuesta = dao.crear(empresa);
+                    request.setAttribute("respuesta", respuesta);
+                    rd = request.getRequestDispatcher("index.jsp");
+                }
+            } catch (NumberFormatException e) {
+
+            }
+
+            rd.forward(request, response);
+
+        } catch (Exception e) {
+
         }
     }
 

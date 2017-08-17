@@ -32,13 +32,13 @@
 
         <div class="jumbotron boxlogin">
             <h2 class="col-lg-12 registerSection">Registo Persona</h2>
-            <form action="">
+            <form action="ServletPersona" method="post">
 
-                <div><input placeholder="Número de cédula" class="form-control inputSection" type="number" min="1"/></div>
-                <div><input placeholder="Nombres" class="form-control inputSection" type="text"/></div>
-                <div><input placeholder="Apellidos" class="form-control inputSection" type="text"/></div>
-                <div><input placeholder="Correo" class="form-control inputSection" type="email"/></div>
-                <div><input placeholder="Contraseña" class="form-control inputSection" type="password"/></div><br>
+                <div><input placeholder="Número de cédula" class="form-control inputSection" type="number" min="1" required/></div>
+                <div><input placeholder="Nombres" class="form-control inputSection" type="text" required/></div>
+                <div><input placeholder="Apellidos" class="form-control inputSection" type="text" required/></div>
+                <div><input placeholder="Correo" class="form-control inputSection" type="email" required/></div>
+                <div><input placeholder="Contraseña" class="form-control inputSection" type="password" required/></div><br>
                 <div>
                     <input type="submit" value="Registrar" class="btn btn-success"/>
                     <input type="submit" value="Cancelar" class="btn btn-danger" formaction="../index.jsp" formnovalidate/>

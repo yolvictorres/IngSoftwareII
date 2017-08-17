@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Persona {
     
     private int idPersona;
+    private String clavePersona;
     private String nombresPersona;
     private String apellidosPersona;
     private int telefono;
@@ -24,6 +25,10 @@ public class Persona {
         this.correoPersona = correoPersona;
         this.direccionPersona = direccionPersona;
         this.interesLaboral = interesLaboral;
+    }
+
+    public Persona() {
+        
     }
 
     public int getIdPersona() {
@@ -104,6 +109,14 @@ public class Persona {
 
     public void setRutaHojadevida(String rutaHojadevida) {
         this.rutaHojadevida = rutaHojadevida;
+    }
+
+    public String getClavePersona() {
+        return clavePersona;
+    }
+
+    public void setClavePersona(String contraseñaPersona) {
+        this.clavePersona = contraseñaPersona;
     }
 
    
