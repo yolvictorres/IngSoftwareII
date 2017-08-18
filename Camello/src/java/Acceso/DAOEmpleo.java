@@ -13,18 +13,20 @@ public class DAOEmpleo implements CRUD{
     @Override
     public String crear(Object obj) {
         Empleo empleo = (Empleo) obj;
-        String consulta = "insert into publicar_empresa (cod_ciudad, cod_jornada, detalle_publicacion, cargo, experiencia_requerida) values (?, ?, ?, ?, ?)";
+        String consulta = "insert into publicar_empresa (cod_p_empresa, cod_empresa, cod_ciudad, cod_jornada, detalle_publicacion, cargo, experiencia_requerida) values (?, ?, ?, ?, ?, ?, ?)";
         String respuesta = "";
         Connection conn = null;
         PreparedStatement pst = null;
         try {
             conn = con.getconexion();
             pst = conn.prepareStatement(consulta);
-            pst.setInt(1, empleo.getIdCiudad());
-            pst.setInt(2, empleo.getIdJornada());
-            pst.setString(3, empleo.getDetalles());
-            pst.setString(4, empleo.getCargo());
-            pst.setString(5, empleo.getExperiencia());
+            pst.setInt(1, empleo.getIdEmpleo());
+            pst.setInt(2, empleo.getIdEmpresa());
+            pst.setInt(3, empleo.getIdCiudad());
+            pst.setInt(4, empleo.getIdJornada());
+            pst.setString(5, empleo.getDetalles());
+            pst.setString(6, empleo.getCargo());
+            pst.setString(7, empleo.getExperiencia());
             int filas = pst.executeUpdate();
             respuesta = "Empleo creado exitosamente";
             conn.close();

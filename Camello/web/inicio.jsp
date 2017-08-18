@@ -16,12 +16,19 @@
     <body>
         <%
             HttpSession sesion = request.getSession();
-            String idEmpresa;
-            String nombreEmpresa;
+            String idEmpresa = null, idPersona = null;
+            String nombreEmpresa = null, nombrePersona = null;
 
-            if (sesion.getAttribute("id") != null && sesion.getAttribute("nombre") != null) {
-                idEmpresa = sesion.getAttribute("id").toString();
-                nombreEmpresa = sesion.getAttribute("nombre").toString();
+            if (sesion.getAttribute("idEmpresa") != null && sesion.getAttribute("nombreEmpresa") != null || sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
+
+                if (sesion.getAttribute("idEmpresa") != null && sesion.getAttribute("nombreEmpresa") != null) {
+                    idEmpresa = sesion.getAttribute("idEmpresa").toString();
+                    nombreEmpresa = sesion.getAttribute("nombreEmpresa").toString();
+                }
+                if (sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
+                    idPersona = sesion.getAttribute("idPersona").toString();
+                    nombrePersona = sesion.getAttribute("nombrePersona").toString();
+                }
         %>
         <div>
             <nav class="navbar-inverse">
@@ -32,9 +39,20 @@
                 </div>
             </nav>
         </div>
+        <%
+            if (sesion.getAttribute("idEmpresa") != null) {
+        %>
         <h1>Bienvenido <%=nombreEmpresa%></h1>
+        <a href="crearEmpleo.jsp"><h5>Crear Empleo </h5></a> 
         <a href='Sesioncerrada'><h5>Cerrar Session </h5></a>  
         <%
+            }
+            if (sesion.getAttribute("idPersona") != null) {
+        %>
+       <h1>Bienvenido <%=nombrePersona%></h1>
+        <a href='Sesioncerrada'><h5>Cerrar Session </h5></a>  
+        <%
+            }
             } else {
                 out.print("<script>location.replace('index.jsp');</script>");
             }

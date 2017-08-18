@@ -21,9 +21,13 @@
         <form action="ServletEmpleo" method="post" id="crearEmpl" name="crearEmpl">
             <label>Formulario Empleo</label>
 
-              <select name="idCiudad" form="crearEmpl">                       
-                <%               
-                     Consultas cons = new Consultas();
+            <select name="idCiudad" form="crearEmpl">                       
+                <%
+                    HttpSession sesion = request.getSession();
+                    int a = 1, b = 999999999;
+                    double idEmpre = Math.round(Math.random()*(b-a)+(a));
+                    int idEmpr =  (int) idEmpre;
+                    Consultas cons = new Consultas();
                     List<Ciudad> ciu = cons.consultarCiudad();
                     for (Ciudad c : ciu) {
                 %>  
@@ -31,13 +35,15 @@
                 <% }%>
             </select>
             <select name="idJornada" form="crearEmpl">                       
-                <%                 
+                <%
                     List<Jornada> jor = cons.consultarJornada();
                     for (Jornada j : jor) {
                 %>  
                 <option value="<%=j.getIdJornada()%>"><%=j.getNombreJornada()%></option>                      
                 <% }%>
             </select>
+            <input type="hidden" name="idEmpleo" value="<%=idEmpr%>"/>
+            <input type="hidden" name="idEmpresa" value="<%=sesion.getAttribute("idEmpresa").toString()%>"/>
             <input type="text" name="detalles" placeholder="detalles" required=""/>
             <input type="text" name="cargo" placeholder="cargo" required=""/>
             <input type="text" name="experiencia" placeholder="experiencia" required=""/>

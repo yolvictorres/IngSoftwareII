@@ -60,15 +60,16 @@ public class ServletConsultas extends HttpServlet {
                     List<Persona> z = cons.validarPersona(persona);
                     if (x.size() > 0) {
                         for (Empresa e : x) {
-                            sesion.setAttribute("nombre", e.getNombreEmpresa());
-                            sesion.setAttribute("id", e.getIdEmpresa());
+                            sesion.setAttribute("nombreEmpresa", e.getNombreEmpresa());
+                            sesion.setAttribute("idEmpresa", e.getIdEmpresa());
                         }
                         response.sendRedirect("inicio.jsp");
                     } 
                     if (z.size() > 0) {
                         for (Persona p : z) {
-                            sesion.setAttribute("nombre", p.getNombresPersona());
-                            sesion.setAttribute("id", p.getIdPersona());
+                            sesion.setAttribute("nombrePersona", p.getNombresPersona());
+                            sesion.setAttribute("idPersona", p.getIdPersona());
+//                            sesion.setAttribute("apellidos", p.getApellidosPersona());
                         }
                         response.sendRedirect("inicio.jsp");
                     } else {

@@ -45,6 +45,8 @@ public class ServletEmpleo extends HttpServlet {
             RequestDispatcher rd = null;
             try {
                 if (request.getParameter("crearEmpleo") != null) {
+                    empleo.setIdEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
+                    empleo.setIdEmpresa(Integer.parseInt(request.getParameter("idEmpresa")));
                     empleo.setIdCiudad(Integer.parseInt(request.getParameter("idCiudad")));
                     empleo.setIdJornada(Integer.parseInt(request.getParameter("idJornada")));
                     empleo.setDetalles(request.getParameter("detalles"));
@@ -52,7 +54,7 @@ public class ServletEmpleo extends HttpServlet {
                     empleo.setExperiencia(request.getParameter("experiencia"));
                     respuesta = dao.crear(empleo);
                     request.setAttribute("respuesta", respuesta);
-                    rd = request.getRequestDispatcher("index.jsp");
+                    rd = request.getRequestDispatcher("inicio.jsp");
                 }
             } catch (NumberFormatException e) {
 

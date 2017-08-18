@@ -17,8 +17,10 @@ public class CerrarSesionServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         HttpSession session = request.getSession();
-        session.removeAttribute("id");
-        session.removeAttribute("nombre");
+        session.removeAttribute("idEmpresa");
+        session.removeAttribute("nombreEmpresa");
+         session.removeAttribute("nombrePersona");
+          session.removeAttribute("idPersona");
         request.getRequestDispatcher("index.jsp").forward(request, response);
         
         
