@@ -6,6 +6,8 @@
 
 <%@page import="java.util.List"%>
 <%@page import="Modelo.Pais"%>
+<%@page import="Modelo.Ciudad"%>
+<%@page import="Modelo.Jornada"%>
 <%@page import="Acceso.Consultas"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -16,24 +18,26 @@
     </head>
     <body>
         <h1>Crear Empleo</h1>
-        <form action="ServletEmpresa" method="post" id="crearEmpleo">
+        <form action="ServletEmpleo" method="post" id="crearEmpl" name="crearEmpl">
             <label>Formulario Empleo</label>
-             <%
-                    Consultas cons = new Consultas();
-                    Pais pais = new Pais();
-                    String nombrePais = (request.getParameter("nombrePais"));
-                    List<Pais> y = cons.consultarNombrePais(nombrePais);
-                    for (Pais p : y) {
-                %>
-            <a>Selecciones Pais: </a><br>
-            <select name="pais" form="crearEmpleo">
-                <% for (int x = 0; x < pos.length; x++) {%>
-                <option value="<%=pos[x]%>"><%=pos[x]%></option>
+
+              <select name="idCiudad" form="crearEmpl">                       
+                <%               
+                     Consultas cons = new Consultas();
+                    List<Ciudad> ciu = cons.consultarCiudad();
+                    for (Ciudad c : ciu) {
+                %>  
+                <option value="<%=c.getIdCiudad()%>"><%=c.getNombreCiudad()%></option>                      
                 <% }%>
-            </select> 
-            <%  }%>
-            <input type="number" name="idCiudad" placeholder="ciudad" required=""/>
-            <input type="number" name="idJornada" placeholder="Jornada" required=""/>
+            </select>
+            <select name="idJornada" form="crearEmpl">                       
+                <%                 
+                    List<Jornada> jor = cons.consultarJornada();
+                    for (Jornada j : jor) {
+                %>  
+                <option value="<%=j.getIdJornada()%>"><%=j.getNombreJornada()%></option>                      
+                <% }%>
+            </select>
             <input type="text" name="detalles" placeholder="detalles" required=""/>
             <input type="text" name="cargo" placeholder="cargo" required=""/>
             <input type="text" name="experiencia" placeholder="experiencia" required=""/>

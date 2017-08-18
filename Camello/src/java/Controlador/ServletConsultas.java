@@ -5,25 +5,26 @@
  */
 package Controlador;
 
-import Acceso.DAOEmpleo;
-import Modelo.Empleo;
+import Acceso.Consultas;
+import Modelo.Empresa;
+import Modelo.Persona;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author usuario
+ * @author IAN
  */
-@WebServlet(name = "ServletEmpleo", urlPatterns = {"/ServletEmpleo"})
-public class ServletEmpleo extends HttpServlet {
+public class ServletConsultas extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,23 +39,45 @@ public class ServletEmpleo extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-           DAOEmpleo dao = new DAOEmpleo();
-            Empleo empleo = new Empleo();
-            List<Empleo> empl = new ArrayList<>();
+            
+            Consultas cons = new Consultas();
+            Empresa empresa = new Empresa();
+            Persona persona = new Persona();
+            List<Persona> per = new ArrayList<>();
+            List<Empresa> empr = new ArrayList<>();
             String respuesta = "";
             RequestDispatcher rd = null;
             try {
-                if (request.getParameter("crearEmpleo") != null) {
-                    empleo.setIdCiudad(Integer.parseInt(request.getParameter("idCiudad")));
-                    empleo.setIdJornada(Integer.parseInt(request.getParameter("idJornada")));
-                    empleo.setDetalles(request.getParameter("detalles"));
-                    empleo.setCargo(request.getParameter("cargo"));
-                    empleo.setExperiencia(request.getParameter("experiencia"));
-                    respuesta = dao.crear(empleo);
-                    request.setAttribute("respuesta", respuesta);
-                    rd = request.getRequestDispatcher("index.jsp");
+                if (request.getParameter("btniniciar") != null) {
+                    HttpSession sesion = request.getSession(true);
+                    String correo = request.getParameter("correo");
+                    String clave = request.getParameter("clave");
+                    empresa.setCorreoEmpresa(correo);
+                    empresa.setClaveEmpresa(clave);
+                    List<Empresa> x = cons.validarEmpresa(empresa);
+                    persona.setCorreoPersona(correo);
+                    persona.setClavePersona(clave);
+                    List<Persona> z = cons.validarPersona(persona);
+                    if (x.size() > 0) {
+                        for (Empresa e : x) {
+                            sesion.setAttribute("nombre", e.getNombreEmpresa());
+                            sesion.setAttribute("id", e.getIdEmpresa());
+                        }
+                        response.sendRedirect("inicio.jsp");
+                    } 
+                    if (z.size() > 0) {
+                        for (Persona p : z) {
+                            sesion.setAttribute("nombre", p.getNombresPersona());
+                            sesion.setAttribute("id", p.getIdPersona());
+                        }
+                        response.sendRedirect("inicio.jsp");
+                    } else {
+                        out.println("<!DOCTYPE html>");
+                        out.println("<script type='text/javascript'>  alert('El usuario no existe. o la contraseña es incorrecta!');</script>");
+                        out.println("<META HTTP-EQUIV='REFRESH' CONTENT='0;URL=http://localhost:8080/Camello/index.jsp'>");
+                    }
                 }
-            } catch (NumberFormatException e) {
+            } catch (IOException | NumberFormatException e) {
 
             }
 

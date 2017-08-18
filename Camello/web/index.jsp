@@ -38,10 +38,10 @@
                 </form>
             </div>
             <h2 class="col-lg-12 registerSection">Inicio de Sesión</h2>            
-            <form action="">
-                <div><input type="text" placeholder="Nombre" class="form-control inputSection"></div>
-                <div><input type="password" placeholder="Contraseña" class="form-control inputSection"></div>
-                <div><input type="submit" value="Ingresar" class="btn btn-success"></div>
+            <form action="ServletConsultas">
+                <div><input type="text" name="correo" placeholder="Correo" class="form-control inputSection"></div>
+                <div><input type="password" name="clave" placeholder="Contraseña" class="form-control inputSection"></div>
+                <div><input type="submit" value="Ingresar" class="btn btn-success" name="btniniciar"></div>
             </form>
         </div>
         <script type="text/javascript" src="js/lib/bootstrap.js"></script>

@@ -11,20 +11,17 @@ public class Persona {
     private int telefono;
     private int edad;
     private String correoPersona;
-    private String direccionPersona;
     private ArrayList<String> interesLaboral;
     private String rutaFoto;
     private String rutaHojadevida;
 
-    public Persona(int idPersona, String nombresPersona, String apellidosPersona, int telefono, int edad, String correoPersona, String direccionPersona, ArrayList<String> interesLaboral) {
+    public Persona(int idPersona, String nombresPersona, String apellidosPersona, int telefono, int edad, String correoPersona) {
         this.idPersona = idPersona;
         this.nombresPersona = nombresPersona;
         this.apellidosPersona = apellidosPersona;
         this.telefono = telefono;
         this.edad = edad;
         this.correoPersona = correoPersona;
-        this.direccionPersona = direccionPersona;
-        this.interesLaboral = interesLaboral;
     }
 
     public Persona() {
@@ -77,14 +74,6 @@ public class Persona {
 
     public void setCorreoPersona(String correoPersona) {
         this.correoPersona = correoPersona;
-    }
-
-    public String getDireccionPersona() {
-        return direccionPersona;
-    }
-
-    public void setDireccionPersona(String direccionPersona) {
-        this.direccionPersona = direccionPersona;
     }
 
     public ArrayList<String> getInteresLaboral() {
