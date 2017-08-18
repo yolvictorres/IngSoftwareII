@@ -39,7 +39,7 @@
                 <div><input name="clave" placeholder="Contraseña" class="form-control inputSection" type="password" required/></div>
                 <div>
                     <input type="submit" value="Registrar" class="btn btn-success" name="crearEmpresa"/>
-                    <input type="submit" value="Cancelar" class="btn btn-danger" formaction="../index.jsp" formnovalidate/>
+                    <input type="submit" value="Cancelar" class="btn btn-danger" formaction="index.jsp" formnovalidate/>
                 </div>
             </form>
         </div>
