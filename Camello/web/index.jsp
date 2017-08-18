@@ -21,10 +21,10 @@
     </head>
     <body>
         <div>
-            <nav class="navbar-inverse">
-                <div class="container" style="position: relative; width: 30%; right: 30%;">
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid" style="position: relative; width: 30%; right: 30%;">
                     <div>
-                        <img src="images/camello.png" style="width: 30%; height: 25%;"/>
+                        <img src="images/camello.png" style="width: 25%; height: 20%;"/>
                     </div>
                 </div>
             </nav>
@@ -38,17 +38,17 @@
                 </form>
             </div>
             <h2 class="col-lg-12 registerSection">Inicio de Sesión</h2>            
-            <form action="">
+            <form action="inicio.jsp">
                 <div><input type="text" placeholder="Nombre" class="form-control inputSection"></div>
                 <div><input type="password" placeholder="Contraseña" class="form-control inputSection"></div>
                 <div><input type="submit" value="Ingresar" class="btn btn-success"></div>
             </form>
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>        
         <script type="text/javascript" src="js/lib/bootstrap.js"></script>
         <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/lib/bootstrap.min_1.js"></script>
         <script type="text/javascript" src="js/lib/bootstrap_1.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>        
         <!--<script type="text/javascript" src="js/lib/angular.js"></script>--->
         <!--<script type="text/javascript" src="js/lib/angular.min.js"></script>--->
     </body>

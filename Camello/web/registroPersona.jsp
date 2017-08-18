@@ -21,10 +21,10 @@
     </head>
     <body>
         <div>
-            <nav class="navbar-inverse">
-                <div class="container" style="position: relative; width: 30%; right: 30%;">
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid" style="position: relative; width: 30%; right: 30%;">
                     <div>
-                        <img src="images/camello.png" style="width: 30%; height: 25%;"/>
+                        <img src="images/camello.png" style="width: 25%; height: 20%;"/>
                     </div>
                 </div>
             </nav>
@@ -41,15 +41,15 @@
                 <div><input name="clave" placeholder="Contraseña" class="form-control inputSection" type="password" required/></div><br>
                 <div>
                     <input type="submit" value="Registrar" class="btn btn-success" name="crearPersona"/>
-                    <input type="submit" value="Cancelar" class="btn btn-danger" formaction="../index.jsp" formnovalidate/>
+                    <input type="submit" value="Cancelar" class="btn btn-danger" formaction="index.jsp" formnovalidate/>
                 </div>
             </form>
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>        
         <script type="text/javascript" src="js/lib/bootstrap.js"></script>
         <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/lib/bootstrap.min_1.js"></script>
         <script type="text/javascript" src="js/lib/bootstrap_1.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>        
         <!--<script type="text/javascript" src="js/lib/angular.js"></script>--->
         <!--<script type="text/javascript" src="js/lib/angular.min.js"></script>--->
     </body>
