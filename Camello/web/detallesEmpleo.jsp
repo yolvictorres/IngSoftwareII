@@ -102,7 +102,7 @@
                 DAOEmpleo daoem = new DAOEmpleo();
                 Empleo empl = new Empleo();
                 empl.setIdEmpleo(Integer.parseInt(request.getParameter("id")));
-                List<Empleo> y = daoem.consultarId(empl.getIdEmpleo());
+                List<Empleo> y = daoem.consultarIdP(empl.getIdEmpleo());
                 for (Empleo empleo : y) {
             %>  
             <table class="table table-bordered">
@@ -143,7 +143,7 @@
                 </thead>
                 <tbody>                
                     <%
-                        List<Jornada> j = cons.consultarJornadaId(empleo.getIdCiudad());
+                        List<Jornada> j = cons.consultarJornadaId(empleo.getIdJornada());
                         for (Jornada jornada : j) {
                     %>
                     <tr><center>      
@@ -201,7 +201,7 @@
                 DAOEmpleo daoem = new DAOEmpleo();
                 Empleo empl = new Empleo();
                 empl.setIdEmpleo(Integer.parseInt(request.getParameter("id")));
-                List<Empleo> y = daoem.consultarId(empl.getIdEmpleo());
+                List<Empleo> y = daoem.consultarIdP(empl.getIdEmpleo());
                 for (Empleo empleo : y) {
             %>  
             <table class="table table-bordered">
@@ -242,7 +242,7 @@
                 </thead>
                 <tbody>                
                     <%
-                        List<Jornada> j = cons.consultarJornadaId(empleo.getIdCiudad());
+                        List<Jornada> j = cons.consultarJornadaId(empleo.getIdJornada());
                         for (Jornada jornada : j) {
                     %>
                     <tr><center>      

@@ -1,3 +1,5 @@
+<%@page import="Modelo.Ciudad"%>
+<%@page import="Acceso.Consultas"%>
 <%@page import="Modelo.Empresa"%>
 <%@page import="Acceso.DAOEmpresa"%>
 <%@page import="Modelo.Empleo"%>
@@ -92,25 +94,26 @@
             <input type="button" name="edit" value="Crear Empleo" class="button" id="button" onclick="location.href='crearEmpleo.jsp'">
                 <%
                     DAOEmpleo daoem = new DAOEmpleo();
-                    List<Empleo> y = daoem.consultar();
+                    int id = Integer.parseInt(idEmpresa);
+                    List<Empleo> y = daoem.consultarIdE(id);
                     for (Empleo empleo : y) {
                 %>
             <table class="table table-bordered">
-                <thead>                
-                <th>Empresa</th>
+                <thead>                               
                 <th>Cargo</th>
+                <th>Ciudad</th>
                 <th>Detalles</th>
                 </thead>
                 <tbody>                
-                    <%
-                        DAOEmpresa daoe = new DAOEmpresa();
-                        List<Empresa> x = daoe.consultarId(empleo.getIdEmpresa());
-                        for (Empresa empresa : x) {
-                    %>
-                    <tr><center>      
-                    <td class="col-md-5"><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>
-                        <%  }%>
+                    <tr><center>                                               
                     <td class="col-md-4"><center><a ><%=empleo.getCargo()%></a></center></td> 
+                    <%
+                    Consultas cons = new Consultas();
+                        List<Ciudad> z = cons.consultarCiudadId(empleo.getIdCiudad());
+                        for (Ciudad ciudad : z) {
+                    %>     
+                    <td class="col-md-4"><center><a ><%=ciudad.getNombreCiudad()%></a></center></td>
+                        <%  }%>
                     <td class="col-md-1"><input type="button" name="edit" value="Ver" class="button" id="button" onclick="location.href='detallesEmpleo.jsp?id='+(<%=empleo.getIdEmpleo()%>);"></td>   
                     </tr>              
 

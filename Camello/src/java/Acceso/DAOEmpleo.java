@@ -79,25 +79,26 @@ public class DAOEmpleo implements CRUD{
             }
         } catch (SQLException e) {
             System.err.println("Error" + e);
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-                if (pst != null) {
-                    pst.close();
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (SQLException e) {
-                System.err.println("Error" + e);
-            }
         }
+//        } finally {
+//            try {
+//                if (conn != null) {
+//                    conn.close();
+//                }
+//                if (pst != null) {
+//                    pst.close();
+//                }
+//                if (rs != null) {
+//                    rs.close();
+//                }
+//            } catch (SQLException e) {
+//                System.err.println("Error" + e);
+//            }
+//        }
         return y;
     }
     
-    public List<Empleo> consultarId(int idEmpleo) {
+    public List<Empleo> consultarIdP(int idEmpleo) {
         List<Empleo> y = new ArrayList<>();
         Connection conn = null;
         ResultSet rs = null;
@@ -107,6 +108,48 @@ public class DAOEmpleo implements CRUD{
             String consulta = "select * from publicar_empresa where cod_p_empresa = ?";
             pst = conn.prepareStatement(consulta);
             pst.setInt(1, idEmpleo);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                  y.add(new Empleo(rs.getInt("cod_p_empresa"),
+                        rs.getInt("cod_empresa"),
+                        rs.getInt("cod_ciudad"),
+                        rs.getInt("cod_jornada"),                        
+                        rs.getString("detalle_publicacion"),
+                        rs.getString("fecha"),
+                        rs.getString("cargo"),
+                        rs.getString("experiencia_requerida")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+//        } finally {
+//            try {
+//                if (conn != null) {
+//                    conn.close();
+//                }
+//                if (pst != null) {
+//                    pst.close();
+//                }
+//                if (rs != null) {
+//                    rs.close();
+//                }
+//            } catch (SQLException e) {
+//                System.err.println("Error" + e);
+//            }
+//        }
+        return y;
+    }
+    
+     public List<Empleo> consultarIdE(int idEmpresa) {
+        List<Empleo> y = new ArrayList<>();
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "select * from publicar_empresa where cod_empresa = ?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idEmpresa);
             rs = pst.executeQuery();
             while (rs.next()) {
                   y.add(new Empleo(rs.getInt("cod_p_empresa"),
