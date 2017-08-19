@@ -1,3 +1,12 @@
+<%-- 
+    Document   : detallesEmpleo
+    Created on : 18-ago-2017, 20:29:04
+    Author     : IAN
+--%>
+
+<%@page import="Modelo.Jornada"%>
+<%@page import="Modelo.Ciudad"%>
+<%@page import="Acceso.Consultas"%>
 <%@page import="Modelo.Empresa"%>
 <%@page import="Acceso.DAOEmpresa"%>
 <%@page import="Modelo.Empleo"%>
@@ -15,14 +24,6 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link href="css/modern-business.css" rel="stylesheet">
-        <script language="javascript">
-            function editRecord(id) {
-                var f = document.form;
-                f.method = "post";
-                f.action = 'detallesEmpleo.jsp?id=' + id;
-                f.submit();
-            }
-        </script>
     </head>
     <body>
         <%
@@ -95,19 +96,18 @@
         <div class="col-md-2">
         </div>
         <div class="col-md-8">
-            <center><h1>Empleos Publicados</h1></center>
-            
-            <input type="button" name="edit" value="Crear Empleo" class="button" id="button" onclick="location.href='crearEmpleo.jsp'">
-                <%
-                    DAOEmpleo daoem = new DAOEmpleo();
-                    List<Empleo> y = daoem.consultar();
-                    for (Empleo empleo : y) {
-                %>
+            <center><h1>Detalles del empleo</h1></center>
+
+            <%
+                DAOEmpleo daoem = new DAOEmpleo();
+                Empleo empl = new Empleo();
+                empl.setIdEmpleo(Integer.parseInt(request.getParameter("id")));
+                List<Empleo> y = daoem.consultarId(empl.getIdEmpleo());
+                for (Empleo empleo : y) {
+            %>  
             <table class="table table-bordered">
                 <thead>                
                 <th>Empresa</th>
-                <th>Cargo</th>
-                <th>Detalles</th>
                 </thead>
                 <tbody>                
                     <%
@@ -116,12 +116,70 @@
                         for (Empresa empresa : x) {
                     %>
                     <tr><center>      
-                    <td class="col-md-5"><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>
+                    <td><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>
                         <%  }%>
-                    <td class="col-md-4"><center><a ><%=empleo.getCargo()%></a></center></td> 
-                    <td class="col-md-1"><input type="button" name="edit" value="Ver" class="button" id="button" onclick="location.href='detallesEmpleo.jsp?id='+(<%=empleo.getIdEmpleo()%>);"></td>   
                     </tr>              
-
+                    </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <thead>                
+                <th>Ciudad</th>
+                </thead>
+                <tbody>                
+                    <%
+                        Consultas cons = new Consultas();
+                        List<Ciudad> z = cons.consultarCiudadId(empleo.getIdCiudad());
+                        for (Ciudad ciudad : z) {
+                    %>
+                    <tr><center>      
+                    <td><center><a ><%=ciudad.getNombreCiudad()%></a></center></td>
+                        <%  }%>
+                    </tr>              
+                    </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <thead>                
+                <th>Jornada</th>
+                </thead>
+                <tbody>                
+                    <%
+                        List<Jornada> j = cons.consultarJornadaId(empleo.getIdCiudad());
+                        for (Jornada jornada : j) {
+                    %>
+                    <tr><center>      
+                    <td><center><a ><%=jornada.getNombreJornada()%></a></center></td>
+                        <%  }%>
+                    </tr>              
+                    </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <thead>                
+                <th>Detalles</th>
+                </thead>
+                <tbody>                
+                    <tr><center>      
+                    <td><center><a ><%=empleo.getDetalles()%></a></center></td>
+                    </tr>              
+                    </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <thead>                
+                <th>Cargo</th>
+                </thead>
+                <tbody>                
+                    <tr><center>      
+                    <td><center><a ><%=empleo.getCargo()%></a></center></td>
+                    </tr>              
+                    </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <thead>                
+                <th>Experiencia Requerida</th>
+                </thead>
+                <tbody>                
+                    <tr><center>      
+                    <td><center><a ><%=empleo.getExperiencia()%></a></center></td>
+                    </tr>              
                     </tbody> 
             </table>
             <%  }%>
@@ -137,17 +195,18 @@
         <div class="col-md-2">
         </div>
         <div class="col-md-8">
-            <center><h1>Encuentra empleo</h1></center>
-                <%
-                    DAOEmpleo daoem = new DAOEmpleo();
-                    List<Empleo> y = daoem.consultar();
-                    for (Empleo empleo : y) {
-                %>
+            <center><h1>Detalles del empleo</h1></center>
+
+            <%
+                DAOEmpleo daoem = new DAOEmpleo();
+                Empleo empl = new Empleo();
+                empl.setIdEmpleo(Integer.parseInt(request.getParameter("id")));
+                List<Empleo> y = daoem.consultarId(empl.getIdEmpleo());
+                for (Empleo empleo : y) {
+            %>  
             <table class="table table-bordered">
                 <thead>                
                 <th>Empresa</th>
-                <th>Cargo</th>
-                <th>Detalles</th>
                 </thead>
                 <tbody>                
                     <%
@@ -156,12 +215,70 @@
                         for (Empresa empresa : x) {
                     %>
                     <tr><center>      
-                    <td class="col-md-5"><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>
+                    <td><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>
                         <%  }%>
-                    <td class="col-md-4"><center><a ><%=empleo.getCargo()%></a></center></td> 
-                    <td class="col-md-1"><input type="button" name="edit" value="Ver" class="button" id="button" onclick="location.href='detallesEmpleo.jsp?id='+(<%=empleo.getIdEmpleo()%>);"></td>  
                     </tr>              
-
+                    </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <thead>                
+                <th>Ciudad</th>
+                </thead>
+                <tbody>                
+                    <%
+                        Consultas cons = new Consultas();
+                        List<Ciudad> z = cons.consultarCiudadId(empleo.getIdCiudad());
+                        for (Ciudad ciudad : z) {
+                    %>
+                    <tr><center>      
+                    <td><center><a ><%=ciudad.getNombreCiudad()%></a></center></td>
+                        <%  }%>
+                    </tr>              
+                    </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <thead>                
+                <th>Jornada</th>
+                </thead>
+                <tbody>                
+                    <%
+                        List<Jornada> j = cons.consultarJornadaId(empleo.getIdCiudad());
+                        for (Jornada jornada : j) {
+                    %>
+                    <tr><center>      
+                    <td><center><a ><%=jornada.getNombreJornada()%></a></center></td>
+                        <%  }%>
+                    </tr>              
+                    </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <thead>                
+                <th>Detalles</th>
+                </thead>
+                <tbody>                
+                    <tr><center>      
+                    <td><center><a ><%=empleo.getDetalles()%></a></center></td>
+                    </tr>              
+                    </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <thead>                
+                <th>Cargo</th>
+                </thead>
+                <tbody>                
+                    <tr><center>      
+                    <td><center><a ><%=empleo.getCargo()%></a></center></td>
+                    </tr>              
+                    </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <thead>                
+                <th>Experiencia Requerida</th>
+                </thead>
+                <tbody>                
+                    <tr><center>      
+                    <td><center><a ><%=empleo.getExperiencia()%></a></center></td>
+                    </tr>              
                     </tbody> 
             </table>
             <%  }%>

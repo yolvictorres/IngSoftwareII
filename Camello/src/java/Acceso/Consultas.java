@@ -69,7 +69,28 @@ public class Consultas {
             System.err.println("Error" + e);
         }
         return y;
+    }
 
+    public List<Ciudad> consultarCiudadId(int idCiudad) {
+        List<Ciudad> y = new ArrayList<>();
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "select * from ciudad where cod_ciudad = ?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idCiudad);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                y.add(new Ciudad(rs.getInt("COD_CIUDAD"),
+                        rs.getInt("COD_PAIS"),
+                        rs.getString("NOM_CIUDAD")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return y;
     }
 
     public List<Ciudad> consultarCiudad() {
@@ -102,6 +123,27 @@ public class Consultas {
             conn = con.getconexion();
             String consulta = "select * from jornada";
             pst = conn.prepareStatement(consulta);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                y.add(new Jornada(rs.getInt("COD_JORNADA"),
+                        rs.getString("NOM_JORNADA")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return y;
+    }
+
+    public List<Jornada> consultarJornadaId(int idJornada) {
+        List<Jornada> y = new ArrayList<>();
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "select * from jornada where cod_jornada= ?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idJornada);
             rs = pst.executeQuery();
             while (rs.next()) {
                 y.add(new Jornada(rs.getInt("COD_JORNADA"),
@@ -173,4 +215,3 @@ public class Consultas {
     }
 
 }
-

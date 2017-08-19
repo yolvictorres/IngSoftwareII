@@ -18,10 +18,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />
         <link rel="stylesheet" type="text/css" href="css/foundation.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+        <link href="css/modern-business.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
     <body>
@@ -45,12 +43,47 @@
             }
         %>
         <div>
-            <nav class="navbar-inverse">
-                <div class="container" style="position: relative; width: 30%; right: 30%;">
-                    <div>
-                        <img src="images/camello.png" style="width: 30%; height: 25%;"/>
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="inicio.jsp"><img  class="navbar-brand" src="images/camello.png" style="width: 11%; height: 11%;"/></a>
                     </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="inicio.jsp">Inicio</a>
+                            </li> 
+                            <li>
+                                <a href="empleos.jsp">Empleos</a>
+                            </li>                                                          
+                            <li class="dropdown">
+                                <% if (sesion.getAttribute("idEmpresa") != null) {%>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=nombreEmpresa%> <b class="caret"></b></a>
+                                    <% } else {%>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=nombrePersona%> <b class="caret"></b></a>
+                                    <% }%>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="#">Ver perfil</a>
+                                    </li>
+                                    <li>
+                                        <a href='Sesioncerrada'>Cerrar Sesion</a>
+                                    </li>
+                                </ul>
+                            </li>                  
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
                 </div>
+                <!-- /.container -->
             </nav>
         </div>
         <div class="jumbotron boxlogin">
@@ -59,7 +92,7 @@
                 <center><label>Formulario Empleo</label></center><br>
                 <div>
                     <select name="idCiudad" form="crearEmpl" class="form-control inputSection">                       
-                        <%                            
+                        <%
                             int a = 1, b = 999999999;
                             double idEmpre = Math.round(Math.random() * (b - a) + (a));
                             int idEmpr = (int) idEmpre;
@@ -88,7 +121,7 @@
                 <div><input name="experiencia" placeholder="Experiencia requerida" class="form-control inputSection" type="text" required=""/></div>
                 <div>
                     <input type="submit" value="Crear" class="btn btn-success" name="crearEmpleo"/>
-                    <input type="submit" value="Cancelar" class="btn btn-danger" formaction="inicio.jsp" formnovalidate/>
+                    <input type="submit" value="Cancelar" class="btn btn-danger" formaction="empleos.jsp" formnovalidate/>
                 </div>
             </form>
         </div>
@@ -96,8 +129,9 @@
         <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/lib/bootstrap.min_1.js"></script>
         <script type="text/javascript" src="js/lib/bootstrap_1.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>   
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> 
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script>
 
     </body>
 </html>
