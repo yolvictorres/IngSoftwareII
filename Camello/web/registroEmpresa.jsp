@@ -38,6 +38,7 @@
             <!-- /.container -->
         </nav>
         <%if (request.getAttribute("respuesta") != null) {%>
+        <br><br><br>
         <div class="alert alert-success">
             <center> El usuario se creó<strong> exitosamente!</strong> </center>
         </div>

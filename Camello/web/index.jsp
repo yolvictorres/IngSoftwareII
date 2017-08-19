@@ -35,7 +35,7 @@
             </div>
             <!-- /.container -->
         </nav>
-        <div class="col-md-2"><br><br><br>
+        <div class="col-md-2"><br><br><br><br><br>
             <div class="alert alert-success">
                 <p> ¿Estás buscando un trabajo perfecto para ti? </p>
                 <p> Estás en el lugar indicado, <strong>Camello es tu mejor solución </strong> regístrate como persona para conocer los mejores empleos.</p>
@@ -59,7 +59,7 @@
                 </form>
             </div>
         </div>
-        <div class="col-md-2"><br><br><br>
+        <div class="col-md-2"><br><br><br><br><br>
             <div class="alert alert-success">
                 <p> ¿Estás buscando los mejores trabajadores para tu empresa? </p>
                 <p> No busqués más, <strong>Camello es la solución  perfecta</strong> regístrate como empresa y publica empleos para encontrar a los mejores y más capacitados.</p>

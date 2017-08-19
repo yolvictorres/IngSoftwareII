@@ -90,14 +90,14 @@
         </div>
         <div class="col-md-8">
             <center><h1>Empleos Publicados</h1></center>
-            
-            <input type="button" name="edit" value="Crear Empleo" class="button" id="button" onclick="location.href='crearEmpleo.jsp'">
-                <%
-                    DAOEmpleo daoem = new DAOEmpleo();
-                    int id = Integer.parseInt(idEmpresa);
-                    List<Empleo> y = daoem.consultarIdE(id);
-                    for (Empleo empleo : y) {
-                %>
+
+            <input type="button" name="edit" value="Crear Empleo" class="button" id="button" onclick="location.href = 'crearEmpleo.jsp'">
+            <%
+                DAOEmpleo daoem = new DAOEmpleo();
+                int id = Integer.parseInt(idEmpresa);
+                List<Empleo> y = daoem.consultarIdE(id);
+                for (Empleo empleo : y) {
+            %>
             <table class="table table-bordered">
                 <thead>                               
                 <th>Cargo</th>
@@ -107,19 +107,26 @@
                 <tbody>                
                     <tr><center>                                               
                     <td class="col-md-4"><center><a ><%=empleo.getCargo()%></a></center></td> 
-                    <%
-                    Consultas cons = new Consultas();
-                        List<Ciudad> z = cons.consultarCiudadId(empleo.getIdCiudad());
-                        for (Ciudad ciudad : z) {
-                    %>     
+                        <%
+                            Consultas cons = new Consultas();
+                            List<Ciudad> z = cons.consultarCiudadId(empleo.getIdCiudad());
+                            for (Ciudad ciudad : z) {
+                        %>     
                     <td class="col-md-4"><center><a ><%=ciudad.getNombreCiudad()%></a></center></td>
                         <%  }%>
-                    <td class="col-md-1"><input type="button" name="edit" value="Ver" class="button" id="button" onclick="location.href='detallesEmpleo.jsp?id='+(<%=empleo.getIdEmpleo()%>);"></td>   
+                    <td class="col-md-1"><input type="button" name="edit" value="Ver" class="button" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>   
                     </tr>              
 
                     </tbody> 
             </table>
             <%  }%>
+             <%
+                if (y.size() == 0) {
+            %>
+            <div class="alert alert-warning">
+                <p> Aún no has publicado empleos, has click en el botón <strong>Crear Empleo</strong> y comienza ahora.</p>            
+            </div>            
+            <% }%>
         </div>
         <div class="col-md-2">
         </div>
@@ -154,12 +161,19 @@
                     <td class="col-md-5"><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>
                         <%  }%>
                     <td class="col-md-4"><center><a ><%=empleo.getCargo()%></a></center></td> 
-                    <td class="col-md-1"><input type="button" name="edit" value="Ver" class="button" id="button" onclick="location.href='detallesEmpleo.jsp?id='+(<%=empleo.getIdEmpleo()%>);"></td>  
+                    <td class="col-md-1"><input type="button" name="edit" value="Ver" class="button" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>  
                     </tr>              
 
                     </tbody> 
             </table>
             <%  }%>
+            <%
+                if (y.size() == 0) {
+            %>
+            <div class="alert alert-warning">
+                <p> Aún no se han publicado empleos, porfavor vuelve más tarde.</p>            
+            </div>            
+            <% }%>
         </div>
         <div class="col-md-2">
         </div>
