@@ -1,11 +1,14 @@
+<%@page import="Modelo.Empleo"%>
+<%@page import="java.util.List"%>
+<%@page import="Acceso.DAOEmpleo"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>        
-        <title>inicio</title>
+        <title>Empleos</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link  rel="stylesheet" type="text/css" href="css/normalize.css" />
+        <link rel="stylesheet" type="text/css" href="css/normalize.css" />
         <link rel="stylesheet" type="text/css" href="css/foundation.min.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -49,7 +52,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li>
                                 <a href="inicio.jsp">Inicio</a>
-                            </li> 
+                            </li>  
                             <li>
                                 <a href="empleos.jsp">Empleos</a>
                             </li>                                                          
@@ -78,14 +81,34 @@
         <%
             if (sesion.getAttribute("idEmpresa") != null) {
         %>
+
         <div class="col-md-2">
         </div>
         <div class="col-md-8">
-            <center><h1>Bienvenido <%=nombreEmpresa%></h1></center>
+            <center><h1>Empleos Publicados</h1></center>
+            <a href="crearEmpleo.jsp"><h5>Crear Empleo </h5></a>
+              <%
+                        DAOEmpleo daoem = new DAOEmpleo();
+                        List<Empleo> y = daoem.consultar();
+                        for (Empleo empleo : y) {
+                    %>  
+            <table class="table table-bordered">
+                <thead>                
+                <th>Nombre empresa</th>
+                <th>Cargo</th>
+                </thead>
+                <tbody>                  
+                    <tr><center>      
+                    <td><center><a ><%=empleo.getIdEmpresa()%></a></center></td>
+                    <td><center><a ><%=empleo.getCargo()%></a></center></td> 
+                    </tr>              
+                    
+                    </tbody> 
+            </table>
+                    <%  }%>
         </div>
         <div class="col-md-2">
         </div>
-
 
 
 
@@ -93,18 +116,36 @@
             }
             if (sesion.getAttribute("idPersona") != null) {
         %>
-         <div class="col-md-2">
+
+        <div class="col-md-2">
         </div>
         <div class="col-md-8">
-        <center><h1>Bienvenido <%=nombrePersona%></h1></center>
+            <center><h1>Encuentra empleo</h1></center>
+            <table class="table table-bordered">
+                <thead>                
+                <th>Nombre empresa</th>
+                <th>Cargo</th>
+                </thead>
+                <tbody>
+                    <%
+                        DAOEmpleo daoem = new DAOEmpleo();
+                        List<Empleo> y = daoem.consultar();
+                        for (Empleo empleo : y) {
+                    %>  
+                    <tr><center>      
+                    <td><center><a ><%=empleo.getIdEmpresa()%></a></center></td>
+                    <td><center><a ><%=empleo.getCargo()%></a></center></td> 
+                    </tr>              
+                    <%  }%>
+                    </tbody> 
+            </table>
         </div>
         <div class="col-md-2">
         </div>
-
-
         <%
             }
         %>
+
         <script src="js/jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>
     </body>

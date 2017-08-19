@@ -3,7 +3,9 @@ package Acceso;
 import Modelo.Empleo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DAOEmpleo implements CRUD{
@@ -55,8 +57,44 @@ public class DAOEmpleo implements CRUD{
     }
 
     @Override
-    public List<?> consultar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Empleo> consultar() {
+        List<Empleo> y = new ArrayList<>();
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "select * from publicar_empresa";
+            pst = conn.prepareStatement(consulta);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                y.add(new Empleo(rs.getInt("cod_p_empresa"),
+                        rs.getInt("cod_empresa"),
+                        rs.getInt("cod_ciudad"),
+                        rs.getInt("cod_jornada"),                        
+                        rs.getString("detalle_publicacion"),
+                        rs.getString("fecha"),
+                        rs.getString("cargo"),
+                        rs.getString("experiencia_requerida")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Error" + e);
+            }
+        }
+        return y;
     }
 
     @Override
