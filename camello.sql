@@ -120,6 +120,7 @@ CREATE TABLE `intereses_laborales` (
   `NOM_I_LABORAL` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
 -- --------------------------------------------------------
 
 --
@@ -130,6 +131,13 @@ CREATE TABLE `jornada` (
   `COD_JORNADA` int(11) NOT NULL,
   `NOM_JORNADA` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+INSERT INTO `jornada` (`COD_JORNADA`, `NOM_JORNADA`) VALUES
+(1,'Jornada a tiempo completo'),
+(2,'Jornada diurna'),
+(3,'Jornada nocturna'),
+(4,'Jornada parcial por horas');
 
 -- --------------------------------------------------------
 
@@ -194,7 +202,7 @@ CREATE TABLE `persona` (
 --
 
 INSERT INTO `persona` (`COD_PERSONA`, `NOMBRES`, `APELLIDOS`, `FECHA_NACIMIENTO`, `FOTO`, `RUTA_FOTO`, `CORREO`, `CLAVE`, `TELEFONO`, `HOJA_DE_VIDA`) VALUES
-(1, '1', '1', NULL, NULL, NULL, 'h@h.co', '25555', NULL, NULL);
+(1, 'ian', 'Mendez', NULL, NULL, NULL, 'ian@ian', '123', NULL, NULL);
 
 -- --------------------------------------------------------
 
