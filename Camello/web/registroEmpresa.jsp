@@ -3,7 +3,7 @@
     Created on : 16/08/2017, 11:24:14 AM
     Author     : diego
 --%>
-
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,6 +18,9 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
+        <% if (request.getAttribute("respuesta") != null) {%>
+        <meta http-equiv="refresh" content="3;URL=index.jsp">
+        <% }%>
     </head>
     <body>
         <div>
@@ -29,9 +32,14 @@
                 </div>
             </nav>
         </div>
-
+        <%if (request.getAttribute("respuesta") != null) {%>
+        <div class="alert alert-success">
+            <center> El usuario se creó<strong> exitosamente!</strong> </center>
+        </div>
+        <b><center>**Espere a que la página se recargue**</center></b> 
+                <% }%>
         <div class="jumbotron boxlogin">
-            <h2 class="col-lg-12 registerSection">Registo Empresa</h2>
+            <h2 class="col-lg-12 registerSection">Registro Empresa</h2>
             <form action="ServletEmpresa" method="post">
                 <div><input name="nit" placeholder="Nit" class="form-control inputSection" type="number" min="1" required/></div>
                 <div><input name="nombre" placeholder="Nombre" class="form-control inputSection" type="text" required/></div>

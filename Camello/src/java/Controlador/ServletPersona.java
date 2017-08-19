@@ -53,7 +53,7 @@ public class ServletPersona extends HttpServlet {
                     persona.setClavePersona(request.getParameter("clave"));
                     respuesta = dao.crear(persona);
                     request.setAttribute("respuesta", respuesta);
-                    rd = request.getRequestDispatcher("index.jsp");
+                    rd = request.getRequestDispatcher("registroPersona.jsp");
                 }
             } catch (NumberFormatException e) {
 

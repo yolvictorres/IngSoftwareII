@@ -9,6 +9,7 @@
 <%@page import="Modelo.Ciudad"%>
 <%@page import="Modelo.Jornada"%>
 <%@page import="Acceso.Consultas"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -21,6 +22,9 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link href="css/modern-business.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="css/style.css">
+        <% if (request.getAttribute("respuesta") != null) {%>
+        <meta http-equiv="refresh" content="3;URL=empleos.jsp">
+        <% }%>
     </head>
     <body>
         <%
@@ -86,6 +90,12 @@
                 <!-- /.container -->
             </nav>
         </div>
+        <%if (request.getAttribute("respuesta") != null) {%>
+        <div class="alert alert-success">
+           <center> El empleo se creó<strong> exitosamente!</strong> </center>
+        </div>
+        <b><center>**Espere a que la página se recargue**</center></b> 
+                <% }%>
         <div class="jumbotron boxlogin">
             <h2 class="col-lg-12 registerSection">Crear Empleo</h2>
             <form action="ServletEmpleo" method="post" id="crearEmpl" name="crearEmpl">
@@ -125,6 +135,7 @@
                 </div>
             </form>
         </div>
+
         <script type="text/javascript" src="js/lib/bootstrap.js"></script>
         <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/lib/bootstrap.min_1.js"></script>
@@ -132,6 +143,5 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> 
         <script src="js/jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>
-
     </body>
 </html>

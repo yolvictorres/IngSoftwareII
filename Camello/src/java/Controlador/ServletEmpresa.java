@@ -52,7 +52,7 @@ public class ServletEmpresa extends HttpServlet {
                     empresa.setClaveEmpresa(request.getParameter("clave"));
                     respuesta = dao.crear(empresa);
                     request.setAttribute("respuesta", respuesta);
-                    rd = request.getRequestDispatcher("index.jsp");
+                    rd = request.getRequestDispatcher("registroEmpresa.jsp");
                 }
             } catch (NumberFormatException e) {
 

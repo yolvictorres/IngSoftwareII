@@ -54,7 +54,7 @@ public class ServletEmpleo extends HttpServlet {
                     empleo.setExperiencia(request.getParameter("experiencia"));
                     respuesta = dao.crear(empleo);
                     request.setAttribute("respuesta", respuesta);
-                    rd = request.getRequestDispatcher("empleos.jsp");
+                    rd = request.getRequestDispatcher("crearEmpleo.jsp");
                 }
             } catch (NumberFormatException e) {
 

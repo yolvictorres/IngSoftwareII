@@ -15,14 +15,6 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link href="css/modern-business.css" rel="stylesheet">
-        <script language="javascript">
-            function editRecord(id) {
-                var f = document.form;
-                f.method = "post";
-                f.action = 'detallesEmpleo.jsp?id=' + id;
-                f.submit();
-            }
-        </script>
     </head>
     <body>
         <%
