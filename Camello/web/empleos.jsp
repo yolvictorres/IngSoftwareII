@@ -5,6 +5,7 @@
 <%@page import="Modelo.Empleo"%>
 <%@page import="java.util.List"%>
 <%@page import="Acceso.DAOEmpleo"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,6 +18,9 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link href="css/modern-business.css" rel="stylesheet">
+        <% if (request.getAttribute("respuesta") != null) {%>
+        <meta http-equiv="refresh" content="3;URL=empleos.jsp">
+        <% }%>
     </head>
     <body>
         <%
@@ -90,7 +94,13 @@
         </div>
         <div class="col-md-8">
             <center><h1>Empleos Publicados</h1></center>
+                <%if (request.getAttribute("respuesta") != null) {%>
+            <div class="alert alert-success">
+                <center> El empleo se editó<strong> correctamente!</strong> </center>
+            </div>
+            <b><center>**Espere a que la página se recargue**</center></b> 
 
+            <% }%>
             <input type="button" name="edit" value="Crear Empleo" class="button" id="button" onclick="location.href = 'crearEmpleo.jsp'">
             <%
                 DAOEmpleo daoem = new DAOEmpleo();
@@ -103,6 +113,7 @@
                 <th>Cargo</th>
                 <th>Ciudad</th>
                 <th>Detalles</th>
+                <th>Editar</th>
                 </thead>
                 <tbody>                
                     <tr><center>                                               
@@ -114,13 +125,14 @@
                         %>     
                     <td class="col-md-4"><center><a ><%=ciudad.getNombreCiudad()%></a></center></td>
                         <%  }%>
-                    <td class="col-md-1"><input type="button" name="edit" value="Ver" class="button" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>   
+                    <td class="col-md-1"><input type="button" name="edit" value="Ver" class="button" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>
+                    <td class="col-md-1"><input type="button" name="edit" value="Editar" class="button" id="button" onclick="location.href = 'editarEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>
                     </tr>              
 
                     </tbody> 
             </table>
             <%  }%>
-             <%
+            <%
                 if (y.size() == 0) {
             %>
             <div class="alert alert-warning">
@@ -140,11 +152,27 @@
         </div>
         <div class="col-md-8">
             <center><h1>Encuentra empleo</h1></center>
-                <%
-                    DAOEmpleo daoem = new DAOEmpleo();
-                    List<Empleo> y = daoem.consultar();
-                    for (Empleo empleo : y) {
-                %>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="custom-search-input">
+                            <div class="input-group col-md-12">
+                                <input type="text" class="form-control input-lg" placeholder="Buscar" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info btn-sm" type="button">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%
+                DAOEmpleo daoem = new DAOEmpleo();
+                List<Empleo> y = daoem.consultar();
+                for (Empleo empleo : y) {
+            %>
             <table class="table table-bordered">
                 <thead>                
                 <th>Empresa</th>
@@ -174,14 +202,30 @@
                 <p> Aún no se han publicado empleos, porfavor vuelve más tarde.</p>            
             </div>            
             <% }%>
+
+            <div class="center-block"> 
+                <center>
+                    <ul class="pagination pagination-lg">
+                        <li><a href="#">&laquo;</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">&raquo;</a></li>
+                    </ul>
+                </center>
+            </div>
+
         </div>
+
         <div class="col-md-2">
         </div>
         <%
             }
         %>
 
-        <script src="js/jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     </body>
 </html>

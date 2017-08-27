@@ -38,7 +38,7 @@ public class ServletEmpleo extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-           DAOEmpleo dao = new DAOEmpleo();
+            DAOEmpleo dao = new DAOEmpleo();
             Empleo empleo = new Empleo();
             List<Empleo> empl = new ArrayList<>();
             String respuesta = "";
@@ -55,6 +55,17 @@ public class ServletEmpleo extends HttpServlet {
                     respuesta = dao.crear(empleo);
                     request.setAttribute("respuesta", respuesta);
                     rd = request.getRequestDispatcher("crearEmpleo.jsp");
+                } else if (request.getParameter("editarEmpleo") != null) {
+                    empleo.setIdEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
+                    empleo.setIdEmpresa(Integer.parseInt(request.getParameter("idEmpresa")));
+                    empleo.setIdCiudad(Integer.parseInt(request.getParameter("idCiudad")));
+                    empleo.setIdJornada(Integer.parseInt(request.getParameter("idJornada")));
+                    empleo.setDetalles(request.getParameter("detalles"));
+                    empleo.setCargo(request.getParameter("cargo"));
+                    empleo.setExperiencia(request.getParameter("experiencia"));
+                    respuesta = dao.editar(empleo);
+                    request.setAttribute("respuesta", respuesta);
+                    rd = request.getRequestDispatcher("empleos.jsp");
                 }
             } catch (NumberFormatException e) {
 

@@ -1,8 +1,3 @@
-<%-- 
-    Document   : crearEmpleo
-    Created on : 16/08/2017, 03:59:55 PM
-    Author     : usuario
---%>
 
 <%@page import="java.util.List"%>
 <%@page import="Modelo.Pais"%>

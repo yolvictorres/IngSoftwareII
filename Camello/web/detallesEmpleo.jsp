@@ -1,8 +1,3 @@
-<%-- 
-    Document   : detallesEmpleo
-    Created on : 18-ago-2017, 20:29:04
-    Author     : IAN
---%>
 
 <%@page import="Modelo.Jornada"%>
 <%@page import="Modelo.Ciudad"%>
