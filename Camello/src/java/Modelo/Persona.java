@@ -1,31 +1,53 @@
 package Modelo;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 
 public class Persona {
-    
+
     private int idPersona;
     private String clavePersona;
     private String nombresPersona;
     private String apellidosPersona;
     private int telefono;
-    private int edad;
+    Date edad = new Date();
     private String correoPersona;
     private ArrayList<String> interesLaboral;
     private String rutaFoto;
     private String rutaHojadevida;
 
-    public Persona(int idPersona, String nombresPersona, String apellidosPersona, int telefono, int edad, String correoPersona) {
+    public Persona(int idPersona, String nombresPersona, String apellidosPersona, int telefono, String correoPersona, Date edad) {
+        this.idPersona = idPersona;
+        this.nombresPersona = nombresPersona;
+        this.apellidosPersona = apellidosPersona;
+        this.telefono = telefono;
+        this.correoPersona = correoPersona;
+        this.edad = edad;
+    }
+
+    public Persona(int idPersona, String rutaFoto) {
+        this.idPersona = idPersona;
+        this.rutaFoto = rutaFoto;
+    }
+
+
+
+    
+    
+    public Persona(int idPersona, String nombresPersona, String apellidosPersona, int telefono, Date edad, String correoPersona, String rutaFoto, String rutaHojadevida) {
         this.idPersona = idPersona;
         this.nombresPersona = nombresPersona;
         this.apellidosPersona = apellidosPersona;
         this.telefono = telefono;
         this.edad = edad;
         this.correoPersona = correoPersona;
+        this.rutaFoto = rutaFoto;
+        this.rutaHojadevida = rutaHojadevida;
     }
 
     public Persona() {
-        
+
     }
 
     public int getIdPersona() {
@@ -60,11 +82,11 @@ public class Persona {
         this.telefono = telefono;
     }
 
-    public int getEdad() {
+    public Date getEdad() {
         return edad;
     }
 
-    public void setEdad(int edad) {
+    public void setEdad(Date edad) {
         this.edad = edad;
     }
 
@@ -108,7 +130,4 @@ public class Persona {
         this.clavePersona = contraseñaPersona;
     }
 
-   
-    
 }
-

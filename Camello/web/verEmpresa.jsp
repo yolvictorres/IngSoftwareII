@@ -1,10 +1,8 @@
+<%@page import="Acceso.DAOEmpresa"%>
 <%@page import="Modelo.Ciudad"%>
 <%@page import="Acceso.Consultas"%>
 <%@page import="Modelo.Empresa"%>
-<%@page import="Acceso.DAOEmpresa"%>
-<%@page import="Modelo.Empleo"%>
 <%@page import="java.util.List"%>
-<%@page import="Acceso.DAOEmpleo"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -117,141 +115,146 @@
         <%
             if (sesion.getAttribute("idEmpresa") != null) {
         %>
-
         <div class="col-md-2">
         </div>
         <div class="col-md-8">
-            <center><h1>Empleos Publicados</h1></center>
-                <%if (request.getAttribute("respuesta") != null) {%>
-            <div class="alert alert-success">
-                <center> El empleo se editó<strong> correctamente!</strong> </center>
-            </div>
-            <b><center>**Espere a que la página se recargue**</center></b> 
 
-            <% }%>
-            <input type="button" name="edit" value="Crear Empleo" class="button" id="button" onclick="location.href = 'crearEmpleo.jsp'">
             <%
-                DAOEmpleo daoem = new DAOEmpleo();
-                int id = Integer.parseInt(idEmpresa);
-                List<Empleo> y = daoem.consultarIdE(id);
-                for (Empleo empleo : y) {
-            %>
-            <table class="table table-bordered">
-                <thead>                               
-                <th>Cargo</th>
-                <th>Ciudad</th>
-                <th>Detalles</th>
-                <th>Editar</th>
-                </thead>
-                <tbody>                
-                    <tr><center>                                               
-                    <td class="col-md-4"><center><a ><%=empleo.getCargo()%></a></center></td> 
-                        <%
-                            Consultas cons = new Consultas();
-                            List<Ciudad> z = cons.consultarCiudadId(empleo.getIdCiudad());
-                            for (Ciudad ciudad : z) {
-                        %>     
-                    <td class="col-md-4"><center><a ><%=ciudad.getNombreCiudad()%></a></center></td>
-                        <%  }%>
-                    <td class="col-md-1"><input type="button" name="edit" value="Ver" class="button" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>
-                    <td class="col-md-1"><input type="button" name="edit" value="Editar" class="button" id="button" onclick="location.href = 'editarEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>
-                    </tr>              
-
-                    </tbody> 
-            </table>
-            <%  }%>
-            <%
-                if (y.size() == 0) {
-            %>
-            <div class="alert alert-warning">
-                <p> Aún no has publicado empleos, has click en el botón <strong>Crear Empleo</strong> y comienza ahora.</p>            
-            </div>            
-            <% }%>
-        </div>
-        <div class="col-md-2">
-        </div>
-
-        <%
-            }
-            if (sesion.getAttribute("idPersona") != null) {
-        %>
-
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-8">
-            <center><h1>Encuentra empleo</h1></center>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div id="custom-search-input">
-                            <div class="input-group col-md-12">
-                                <input type="text" class="form-control input-lg" placeholder="Buscar" />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-info btn-sm" type="button">
-                                        <i class="glyphicon glyphicon-search"></i>
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                DAOEmpresa daoe = new DAOEmpresa();
+                Empresa persona = new Empresa();
+                persona.setIdEmpresa(Integer.parseInt(request.getParameter("id")));
+                List<Empresa> y = daoe.consultarXID(persona.getIdEmpresa());
+                for (Empresa empresa : y) {
+                    if (empresa.getRutaLogo() == null) {
+            %>           
+            <div class="row">
+                <div class="col-md-3">
                 </div>
+                <div class="col-md-6">
+                    <center><img src="images/empresa.png" alt="usuarioempresa" class="img-circle"></center>
+                </div>
+                <div class="col-md-3">
+                </div>                
             </div>
-            <%
-                DAOEmpleo daoem = new DAOEmpleo();
-                List<Empleo> y = daoem.consultar();
-                for (Empleo empleo : y) {
-            %>
-            <table class="table table-bordered">
-                <thead>                
-                <th>Empresa</th>
-                <th>Cargo</th>
-                <th>Detalles</th>
-                </thead>
-                <tbody>  
-                    <tr><center>   
-                    <%
-                        DAOEmpresa daoe = new DAOEmpresa();
-                        List<Empresa> x = daoe.consultarXID(empleo.getIdEmpresa());
-                        for (Empresa empresa : x) {
-                    %>
-                    <td class="col-md-5"><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>   
-                        <%  }%>
-                    <td class="col-md-5"><center><a ><%=empleo.getCargo()%></a></center></td> 
-                    <td class="col-md-1"><input type="button" name="edit" value="Ver" class="button" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>  
-                    </tr>                                 
-                    </tbody> 
-            </table>
-            <%  }%>
-            <%
-                if (y.size() == 0) {
-            %>
-            <div class="alert alert-warning">
-                <p> Aún no se han publicado empleos, porfavor vuelve más tarde.</p>            
-            </div>            
+            <% } else {%>
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <center><img src="<%=empresa.getRutaLogo()%>" alt="usuariopersona" class="img-circle"></center>
+                </div>
+                <div class="col-md-3">
+                </div>                
+            </div>
             <% }%>
 
-            <div class="center-block"> 
-                <center>
-                    <ul class="pagination pagination-lg">
-                        <li><a href="#">&laquo;</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">&raquo;</a></li>
-                    </ul>
-                </center>
-            </div>
-
+            <table class="table table-bordered">
+                <tbody>                
+                    <tr>
+                        <td class="col-md-2"><center><a >Nombre:</a></center></td> 
+                <td class="col-md-4"><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>                              
+                </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <tbody>                
+                    <tr>
+                        <td class="col-md-2"><center><a >Descripcion:</a></center></td> 
+                <td class="col-md-4"><center><a ><%=empresa.getDescripcionEmpresa()%></a></center></td>                              
+                </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <tbody>                
+                    <tr>
+                        <td class="col-md-2"><center><a >Correo Electronico:</a></center></td> 
+                <td class="col-md-4"><center><a ><%=empresa.getCorreoEmpresa()%></a></center></td>                              
+                </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <tbody>                
+                    <tr>
+                        <td class="col-md-2"><center><a >Telefono:</a></center></td> 
+                <td class="col-md-4"><center><a ><%=empresa.getTelefonoEmpresa()%></a></center></td>                              
+                </tbody> 
+            </table>
+            <%
+                }
+            %>
         </div>
+        <div class="col-md-2">
+        </div>
+        <%
+        } else if (sesion.getAttribute("idPersona") != null) {
+        %>
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
 
+            <%
+                DAOEmpresa daoe = new DAOEmpresa();
+                Empresa persona = new Empresa();
+                persona.setIdEmpresa(Integer.parseInt(request.getParameter("id")));
+                List<Empresa> y = daoe.consultarXID(persona.getIdEmpresa());
+                for (Empresa empresa : y) {
+                    if (empresa.getRutaLogo() == null) {
+            %>           
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <center><img src="images/empresa.png" alt="usuarioempresa" class="img-circle"></center>
+                </div>
+                <div class="col-md-3">
+                </div>                
+            </div>
+            <% } else {%>
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <center><img src="<%=empresa.getRutaLogo()%>" alt="usuariopersona" class="img-circle"></center>
+                </div>
+                <div class="col-md-3">
+                </div>                
+            </div>
+            <% }%>
+
+            <table class="table table-bordered">
+                <tbody>                
+                    <tr>
+                        <td class="col-md-2"><center><a >Nombre:</a></center></td> 
+                <td class="col-md-4"><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>                              
+                </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <tbody>                
+                    <tr>
+                        <td class="col-md-2"><center><a >Descripcion:</a></center></td> 
+                <td class="col-md-4"><center><a ><%=empresa.getDescripcionEmpresa()%></a></center></td>                              
+                </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <tbody>                
+                    <tr>
+                        <td class="col-md-2"><center><a >Correo Electronico:</a></center></td> 
+                <td class="col-md-4"><center><a ><%=empresa.getCorreoEmpresa()%></a></center></td>                              
+                </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <tbody>                
+                    <tr>
+                        <td class="col-md-2"><center><a >Telefono:</a></center></td> 
+                <td class="col-md-4"><center><a ><%=empresa.getTelefonoEmpresa()%></a></center></td>                              
+                </tbody> 
+            </table>
+            <%
+                }
+            %>
+        </div>
         <div class="col-md-2">
         </div>
         <%
             }
         %>
-
         <script src="js/jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>
     </body>

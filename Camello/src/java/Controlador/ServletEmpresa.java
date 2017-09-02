@@ -53,7 +53,17 @@ public class ServletEmpresa extends HttpServlet {
                     respuesta = dao.crear(empresa);
                     request.setAttribute("respuesta", respuesta);
                     rd = request.getRequestDispatcher("registroEmpresa.jsp");
+                } else if (request.getParameter("editarEmpresa") != null){
+                    empresa.setIdEmpresa(Integer.parseInt(request.getParameter("idEmpresa")));
+                    empresa.setNombreEmpresa(request.getParameter("nombre"));
+                    empresa.setDescripcionEmpresa(request.getParameter("descripcion"));
+                    empresa.setCorreoEmpresa(request.getParameter("correo"));
+                    empresa.setTelefonoEmpresa(Integer.parseInt(request.getParameter("telefono")));
+                    respuesta = dao.editar(empresa);
+                    request.setAttribute("respuesta", respuesta);
+                    rd = request.getRequestDispatcher("inicio.jsp");
                 }
+                
             } catch (NumberFormatException e) {
 
             }

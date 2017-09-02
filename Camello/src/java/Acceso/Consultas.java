@@ -175,7 +175,8 @@ public class Consultas {
                         rs.getString("nom_empresa"),
                         rs.getString("correo"),
                         rs.getInt("telefono"),
-                        rs.getString("descripcion")));
+                        rs.getString("descripcion"),
+                        rs.getString("ruta_logo")));
             }
 
         } catch (SQLException e) {
@@ -198,12 +199,15 @@ public class Consultas {
             pst.setString(2, persona.getClavePersona());
             rs = pst.executeQuery();
             if (rs.next()) {
+
                 y.add(new Persona(rs.getInt("cod_persona"),
                         rs.getString("nombres"),
                         rs.getString("apellidos"),
                         rs.getInt("telefono"),
-                        rs.getInt("fecha_nacimiento"),
-                        rs.getString("correo")));
+                        rs.getDate("fecha_nacimiento"),
+                        rs.getString("correo"),
+                        rs.getString("ruta_foto"),
+                        rs.getString("hoja_de_vida")));
             }
 
         } catch (SQLException e) {

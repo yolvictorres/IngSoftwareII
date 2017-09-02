@@ -9,8 +9,12 @@ import Acceso.DAOPersona;
 import Modelo.Persona;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -54,6 +58,17 @@ public class ServletPersona extends HttpServlet {
                     respuesta = dao.crear(persona);
                     request.setAttribute("respuesta", respuesta);
                     rd = request.getRequestDispatcher("registroPersona.jsp");
+                } else if (request.getParameter("editarPersona") != null) {
+                    persona.setIdPersona(Integer.parseInt(request.getParameter("idPersona")));
+                    persona.setNombresPersona(request.getParameter("nombres"));
+                    persona.setApellidosPersona(request.getParameter("apellidos"));
+                    persona.setCorreoPersona(request.getParameter("correo"));
+                    persona.setTelefono(Integer.parseInt(request.getParameter("telefono")));
+//                    SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy");
+//                    persona.setEdad(format.parse(request.getParameter("edad")));
+                    respuesta = dao.editar(persona);
+                    request.setAttribute("respuesta", respuesta);
+                    rd = request.getRequestDispatcher("inicio.jsp");
                 }
             } catch (NumberFormatException e) {
 
@@ -66,18 +81,17 @@ public class ServletPersona extends HttpServlet {
         }
     }
 
-
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-/**
- * Handles the HTTP <code>GET</code> method.
- *
- * @param request servlet request
- * @param response servlet response
- * @throws ServletException if a servlet-specific error occurs
- * @throws IOException if an I/O error occurs
- */
-@Override
-        protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -91,7 +105,7 @@ public class ServletPersona extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-        protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -102,7 +116,7 @@ public class ServletPersona extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-        public String getServletInfo() {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

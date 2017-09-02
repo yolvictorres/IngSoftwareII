@@ -58,10 +58,20 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li>
                                 <a href="inicio.jsp">Inicio</a>
-                            </li>  
+                            </li> 
                             <li>
                                 <a href="empleos.jsp">Empleos</a>
-                            </li>                                                          
+                            </li>   
+                            <%
+                                if (sesion.getAttribute("idPersona") != null) {
+                            %>
+                            <li>
+                                <a href="mired.jsp">Mired</a>
+                            </li> 
+                            <%
+                                }
+                            %>
+
                             <li class="dropdown">
                                 <% if (sesion.getAttribute("idEmpresa") != null) {%>
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=nombreEmpresa%> <b class="caret"></b></a>
@@ -69,9 +79,27 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=nombrePersona%> <b class="caret"></b></a>
                                     <% }%>
                                 <ul class="dropdown-menu">
+                                    <%
+                                        if (sesion.getAttribute("idPersona") != null) {
+                                    %>
                                     <li>
-                                        <a href="#">Ver perfil</a>
+                                        <a onclick="location.href = 'verPersona.jsp?id=' + (<%=idPersona%>);">Ver perfil</a>
                                     </li>
+                                    <li>
+                                        <a onclick="location.href = 'editarPersona.jsp?id=' + (<%=idPersona%>);">Editar perfil</a>
+                                    </li>
+                                    <%
+                                    } else {
+                                    %>
+                                    <li>
+                                        <a onclick="location.href = 'verEmpresa.jsp?id=' + (<%=idEmpresa%>);">Ver perfil</a>
+                                    </li>
+                                    <li>
+                                        <a onclick="location.href = 'editarEmpresa.jsp?id=' + (<%=idEmpresa%>);">Editar perfil</a>
+                                    </li>
+                                    <%
+                                        }
+                                    %>
                                     <li>
                                         <a href='Sesioncerrada'>Cerrar Sesion</a>
                                     </li>
@@ -107,7 +135,7 @@
                 <tbody>                
                     <%
                         DAOEmpresa daoe = new DAOEmpresa();
-                        List<Empresa> x = daoe.consultarId(empleo.getIdEmpresa());
+                        List<Empresa> x = daoe.consultarXID(empleo.getIdEmpresa());
                         for (Empresa empresa : x) {
                     %>
                     <tr><center>      
@@ -204,13 +232,13 @@
                 <th>Empresa</th>
                 </thead>
                 <tbody>                
+                    <tr><center>      
                     <%
                         DAOEmpresa daoe = new DAOEmpresa();
-                        List<Empresa> x = daoe.consultarId(empleo.getIdEmpresa());
+                        List<Empresa> x = daoe.consultarXID(empleo.getIdEmpresa());
                         for (Empresa empresa : x) {
                     %>
-                    <tr><center>      
-                    <td><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>
+                    <td class="col-md-5"><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>   
                         <%  }%>
                     </tr>              
                     </tbody> 
