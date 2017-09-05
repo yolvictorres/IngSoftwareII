@@ -6,6 +6,7 @@
 <%@page import="java.util.List"%>
 <%@page import="Acceso.DAOEmpleo"%>
 <%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,6 +19,7 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link href="css/modern-business.css" rel="stylesheet">
+        <script src="js/BuscadorTabla.js" type="text/javascript"></script>
         <% if (request.getAttribute("respuesta") != null) {%>
         <meta http-equiv="refresh" content="3;URL=empleos.jsp">      
         <% }%>
@@ -118,30 +120,34 @@
         </div>
         <div class="col-md-7">
             <center><h1>Mired</h1></center>
-
-            <%
-                DAOPersona daop = new DAOPersona();
-                List<Persona> y = daop.consultar();
-                int id = Integer.parseInt(idPersona);
-                for (Persona persona : y) {
-                    if (id != persona.getIdPersona()) {
-            %>          
-            <table id="example" class="table table-striped table-bordered" cellspacing="0" width="45%">
-                <tbody>  
-                    <tr> 
-                    <% if (persona.getRutaFoto() != null) {%>
-                    <td class="col-md-1"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=persona.getIdPersona()%>);"><img src="<%=persona.getRutaFoto()%>" alt="..." class="img-thumbnail"></a></center></td>   
-                            <% } else {%>
-                    <td class="col-md-1"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=persona.getIdPersona()%>);"><img src="images/persona.png" alt="..." class="img-thumbnail"></a></center></td>   
+            <input id="searchTerm" type="text" onkeyup="doSearch()" placeholder="Buscar"/>
+            <br>
+            <br>
+        <table id="datos">
+            <thead>
+            <th>Foto</th>
+            <th>Nombres</th>        
+            </thead>
+            <tbody>
+                <jsp:useBean id="cn" class="Acceso.DAOPersona" scope="page"></jsp:useBean>
+                    <%
+                    ResultSet rs = cn.listar();
+                    while(rs.next()){
+                    %>
+                <tr>
+                    <% if (rs.getString("ruta_foto") != null) {%>
+                    <td class="col-md-1"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><img src="<%=rs.getString("ruta_foto")%>" alt="..." class="img-thumbnail"></a></center></td>
+                    <% } else {%>
+                    <td class="col-md-1"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><img src="images/persona.png" alt="..." class="img-thumbnail"></a></center></td>   
                             <% }%>
-                    <td class="col-md-5"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=persona.getIdPersona()%>);"><%=persona.getNombresPersona()%> <%=persona.getApellidosPersona()%></a></center></td>                   
-                    </tr>                                 
-                    </tbody> 
-            </table>
-            <%  }
-                }%>
-    
-
+                    <td class="col-md-5"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><%=rs.getString("nombres")%> <%=rs.getString("apellidos")%></a></center></td>
+                </tr>
+                
+                <%
+                }
+                %>
+            </tbody>
+        </table>
         </div>
 
         <div class="col-md-2">

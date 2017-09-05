@@ -192,7 +192,20 @@ public class DAOPersona implements CRUDyBuscar {
 //        }
         return y;
     }
-
+    
+       public ResultSet listar(){
+       Conexion con = new Conexion();
+       String com = "select * from persona";
+       ResultSet rs = con.getDatos(com);
+       return rs;
+   }
+   
+   public ResultSet mostrar(){
+       Conexion con = new  Conexion();
+       String com = "Select cod_persona, nombre from persona";
+       ResultSet rs = con.getDatos(com);
+       return rs;
+   }
     @Override
     public List<?> filtrar(String tabla, String dato) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

@@ -2,13 +2,6 @@
     Document   : newjsp
     Created on : 16/08/2017, 11:06:41 AM
     Author     : diego
-<<<<<<< HEAD
-=======
-    Document   : index
-    Created on : 16-ago-2017, 9:46:31
-    Author     : IAN
-=======
->>>>>>> c1d9be625725b07affb9fb3905e116b78593e41a
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -81,15 +74,5 @@
         <script src="js/bootstrap.min.js"></script>
         <!--<script type="text/javascript" src="js/lib/angular.js"></script>--->
         <!--<script type="text/javascript" src="js/lib/angular.min.js"></script>--->
-<<<<<<< HEAD
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Home</title>
-    </head>
-    <body>
-        <h1>Menu:</h1>
-        <a href='registroPersona.jsp' class='active'><h5>Crear Persona</h5></a>
-        <a href='registroEmpresa.jsp' class='active'><h5>Crear Empresa</h5></a>
-=======
->>>>>>> c1d9be625725b07affb9fb3905e116b78593e41a
     </body>
 </html>
