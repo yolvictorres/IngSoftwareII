@@ -2,9 +2,9 @@
     text-align: right;
     border-radius: 4px;
     box-shadow: 1px 2px 10px #5cb85c;
-    margin: 100px auto;
+    margin: 105px auto;
     top: 10%;
-    width: 65%;
+    width: 80%;
     height: auto;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -16,6 +16,7 @@
     text-align: left;
 }
 .inputSection{    
+    margin: 10px;
     text-align: center;
 }
 .registerSection{

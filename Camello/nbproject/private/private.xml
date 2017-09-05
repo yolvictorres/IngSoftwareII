@@ -3,11 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/ingesoftwareII/Camello/web/registroPersona.jsp</file>
             <file>file:/C:/ingesoftwareII/Camello/src/java/Controlador/ServletMensaje.java</file>
             <file>file:/C:/ingesoftwareII/Camello/web/registroEmpresa.jsp</file>
             <file>file:/C:/ingesoftwareII/Camello/src/java/Controlador/ServletEmpresa.java</file>
             <file>file:/C:/ingesoftwareII/Camello/web/index.jsp</file>
+=======
+            <file>file:/C:/Users/IAN/Documents/IngSoftwareIIS/Camello/web/completarPersona.jsp</file>
+>>>>>>> c1d9be625725b07affb9fb3905e116b78593e41a
         </group>
     </open-files>
 </project-private>

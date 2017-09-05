@@ -3,22 +3,26 @@ package Modelo;
 public class Empresa {
 
     private int idEmpresa;
+    private int idCampoLaboral;
     private String nombreEmpresa;
-    private String detallesEmpresa;
-    private String correoEmpresa;
-    private String campoLaboral;
-    private String rutaLogo;
+    private String correoEmpresa;   
     private String claveEmpresa;
+    private int telefonoEmpresa;
+    private String descripcionEmpresa;
+    private String rutaLogo;
+    
 
     public Empresa() {
     }
 
-    public Empresa(int idEmpresa, String nombreEmpresa, String detallesEmpresa, String correoEmpresa, String campoLaboral) {
+    public Empresa(int idEmpresa, int idCampoLaboral, String nombreEmpresa, String correoEmpresa, int telefonoEmpresa, String descripcionEmpresa, String rutaLogo) {
         this.idEmpresa = idEmpresa;
+        this.idCampoLaboral = idCampoLaboral;
         this.nombreEmpresa = nombreEmpresa;
-        this.detallesEmpresa = detallesEmpresa;
         this.correoEmpresa = correoEmpresa;
-        this.campoLaboral = campoLaboral;
+        this.telefonoEmpresa = telefonoEmpresa;
+        this.descripcionEmpresa = descripcionEmpresa;
+        this.rutaLogo = rutaLogo;
     }
 
     public int getIdEmpresa() {
@@ -29,20 +33,20 @@ public class Empresa {
         this.idEmpresa = idEmpresa;
     }
 
+    public int getIdCampoLaboral() {
+        return idCampoLaboral;
+    }
+
+    public void setIdCampoLaboral(int idCampoLaboral) {
+        this.idCampoLaboral = idCampoLaboral;
+    }
+
     public String getNombreEmpresa() {
         return nombreEmpresa;
     }
 
     public void setNombreEmpresa(String nombreEmpresa) {
         this.nombreEmpresa = nombreEmpresa;
-    }
-
-    public String getDetallesEmpresa() {
-        return detallesEmpresa;
-    }
-
-    public void setDetallesEmpresa(String detallesEmpresa) {
-        this.detallesEmpresa = detallesEmpresa;
     }
 
     public String getCorreoEmpresa() {
@@ -53,12 +57,28 @@ public class Empresa {
         this.correoEmpresa = correoEmpresa;
     }
 
-    public String getCampoLaboral() {
-        return campoLaboral;
+    public String getClaveEmpresa() {
+        return claveEmpresa;
     }
 
-    public void setCampoLaboral(String campoLaboral) {
-        this.campoLaboral = campoLaboral;
+    public void setClaveEmpresa(String claveEmpresa) {
+        this.claveEmpresa = claveEmpresa;
+    }
+
+    public int getTelefonoEmpresa() {
+        return telefonoEmpresa;
+    }
+
+    public void setTelefonoEmpresa(int telefonoEmpresa) {
+        this.telefonoEmpresa = telefonoEmpresa;
+    }
+
+    public String getDescripcionEmpresa() {
+        return descripcionEmpresa;
+    }
+
+    public void setDescripcionEmpresa(String descripcionEmpresa) {
+        this.descripcionEmpresa = descripcionEmpresa;
     }
 
     public String getRutaLogo() {
@@ -69,14 +89,7 @@ public class Empresa {
         this.rutaLogo = rutaLogo;
     }
 
-    public String getClaveEmpresa() {
-        return claveEmpresa;
-    }
-
-    public void setClaveEmpresa(String claveEmpresa) {
-        this.claveEmpresa = claveEmpresa;
-    }
-
+    
 
 
 }

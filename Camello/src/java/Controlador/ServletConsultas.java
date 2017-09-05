@@ -5,25 +5,26 @@
  */
 package Controlador;
 
-import Acceso.DAOEmpresa;
+import Acceso.Consultas;
 import Modelo.Empresa;
+import Modelo.Persona;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author IAN
  */
-@WebServlet(name = "ServletEmpresa", urlPatterns = {"/ServletEmpresa"})
-public class ServletEmpresa extends HttpServlet {
+public class ServletConsultas extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,33 +39,46 @@ public class ServletEmpresa extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-
-            DAOEmpresa dao = new DAOEmpresa();
+            
+            Consultas cons = new Consultas();
             Empresa empresa = new Empresa();
-            List<Empresa> per = new ArrayList<>();
+            Persona persona = new Persona();
+            List<Persona> per = new ArrayList<>();
+            List<Empresa> empr = new ArrayList<>();
             String respuesta = "";
             RequestDispatcher rd = null;
             try {
-                if (request.getParameter("crearEmpresa") != null) {
-                    empresa.setIdEmpresa(Integer.parseInt(request.getParameter("nit")));
-                    empresa.setNombreEmpresa(request.getParameter("nombre"));
-                    empresa.setCorreoEmpresa(request.getParameter("correo"));
-                    empresa.setClaveEmpresa(request.getParameter("clave"));
-                    respuesta = dao.crear(empresa);
-                    request.setAttribute("respuesta", respuesta);
-                    rd = request.getRequestDispatcher("registroEmpresa.jsp");
-                } else if (request.getParameter("editarEmpresa") != null){
-                    empresa.setIdEmpresa(Integer.parseInt(request.getParameter("idEmpresa")));
-                    empresa.setNombreEmpresa(request.getParameter("nombre"));
-                    empresa.setDescripcionEmpresa(request.getParameter("descripcion"));
-                    empresa.setCorreoEmpresa(request.getParameter("correo"));
-                    empresa.setTelefonoEmpresa(Integer.parseInt(request.getParameter("telefono")));
-                    respuesta = dao.editar(empresa);
-                    request.setAttribute("respuesta", respuesta);
-                    rd = request.getRequestDispatcher("inicio.jsp");
+                if (request.getParameter("btniniciar") != null) {
+                    HttpSession sesion = request.getSession(true);
+                    String correo = request.getParameter("correo");
+                    String clave = request.getParameter("clave");
+                    empresa.setCorreoEmpresa(correo);
+                    empresa.setClaveEmpresa(clave);
+                    List<Empresa> x = cons.validarEmpresa(empresa);
+                    persona.setCorreoPersona(correo);
+                    persona.setClavePersona(clave);
+                    List<Persona> z = cons.validarPersona(persona);
+                    if (x.size() > 0) {
+                        for (Empresa e : x) {
+                            sesion.setAttribute("nombreEmpresa", e.getNombreEmpresa());
+                            sesion.setAttribute("idEmpresa", e.getIdEmpresa());
+                        }
+                        response.sendRedirect("inicio.jsp");
+                    } 
+                    if (z.size() > 0) {
+                        for (Persona p : z) {
+                            sesion.setAttribute("nombrePersona", p.getNombresPersona());
+                            sesion.setAttribute("idPersona", p.getIdPersona());
+//                            sesion.setAttribute("apellidos", p.getApellidosPersona());
+                        }
+                        response.sendRedirect("inicio.jsp");
+                    } else {
+                        out.println("<!DOCTYPE html>");
+                        out.println("<script type='text/javascript'>  alert('El usuario no existe. o la contraseña es incorrecta!');</script>");
+                        out.println("<META HTTP-EQUIV='REFRESH' CONTENT='0;URL=http://localhost:8080/Camello/index.jsp'>");
+                    }
                 }
-                
-            } catch (NumberFormatException e) {
+            } catch (IOException | NumberFormatException e) {
 
             }
 

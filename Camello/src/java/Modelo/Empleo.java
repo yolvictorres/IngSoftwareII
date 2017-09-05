@@ -21,6 +21,10 @@ public class Empleo {
         this.cargo = cargo;
         this.experiencia = experiencia;
     }
+
+    public Empleo() {
+       
+    }
     
 
     public int getIdEmpleo() {
@@ -35,7 +39,7 @@ public class Empleo {
         return idEmpresa;
     }
 
-    public void setIdPublicador(int idPublicador) {
+    public void setIdEmpresa(int idPublicador) {
         this.idEmpresa = idPublicador;
     }
 
