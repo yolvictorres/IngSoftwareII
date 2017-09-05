@@ -114,13 +114,6 @@ CREATE TABLE `empresa` (
 -- Estructura de tabla para la tabla `intereses_laborales`
 --
 
-CREATE TABLE `intereses_laborales` (
-  `COD_I_LABORAL` int(11) NOT NULL,
-  `COD_PERSONA` int(11) DEFAULT NULL,
-  `NOM_I_LABORAL` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
 -- --------------------------------------------------------
 
 --
@@ -215,8 +208,8 @@ CREATE TABLE `publicar_empresa` (
   `COD_EMPRESA` int(11) DEFAULT NULL,
   `COD_CIUDAD` int(11) DEFAULT NULL,
   `COD_JORNADA` int(11) DEFAULT NULL,
+  `COD_CARGO` int(11) DEFAULT NULL,
   `DETALLE_PUBLICACION` text,
-  `CARGO` text,
   `EXPERIENCIA_REQUERIDA` text,
   `FECHA` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -235,6 +228,17 @@ CREATE TABLE `publicar_persona` (
   `FECHA` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `cargo` (
+  `COD_CARGO` int(11) NOT NULL,
+  `NOM_CARGO` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `cargo` (`COD_CARGO`, `NOM_CARGO`) VALUES
+(1, 'secretaria'),
+(2, 'Administrador'),
+(3, 'cajero'),
+(4, 'profesor'),
+(5, 'arquitecto');
 --
 -- Índices para tablas volcadas
 --
@@ -275,9 +279,8 @@ ALTER TABLE `empresa`
 --
 -- Indices de la tabla `intereses_laborales`
 --
-ALTER TABLE `intereses_laborales`
-  ADD PRIMARY KEY (`COD_I_LABORAL`),
-  ADD KEY `INTERESES_LABORALES_PERSONA_FK` (`COD_PERSONA`);
+ALTER TABLE `cargo`
+  ADD PRIMARY KEY (`COD_CARGO`);
 
 --
 -- Indices de la tabla `jornada`
@@ -311,7 +314,8 @@ ALTER TABLE `publicar_empresa`
   ADD PRIMARY KEY (`COD_P_EMPRESA`),
   ADD KEY `PUBLICAR_EMPRESA_EMPRESA_FK` (`COD_EMPRESA`),
   ADD KEY `PUBLICAR_EMPRESA_CIUDAD_FK` (`COD_CIUDAD`),
-  ADD KEY `PUBLICAR_EMPRESA_JORNADA_FK` (`COD_JORNADA`);
+  ADD KEY `PUBLICAR_EMPRESA_JORNADA_FK` (`COD_JORNADA`),
+  ADD KEY `PUBLICAR_EMPRESA_CARGO_FK`(`COD_CARGO`);
 
 --
 -- Indices de la tabla `publicar_persona`
@@ -351,12 +355,6 @@ ALTER TABLE `empresa`
   ADD CONSTRAINT `EMPRESA_CAMPO_LABORAL_FK` FOREIGN KEY (`COD_C_LABORAL`) REFERENCES `campo_laboral` (`COD_C_LABORAL`);
 
 --
--- Filtros para la tabla `intereses_laborales`
---
-ALTER TABLE `intereses_laborales`
-  ADD CONSTRAINT `INTERESES_LABORALES_PERSONA_FK` FOREIGN KEY (`COD_PERSONA`) REFERENCES `persona` (`COD_PERSONA`);
-
---
 -- Filtros para la tabla `mensaje`
 --
 ALTER TABLE `mensaje`
@@ -368,7 +366,8 @@ ALTER TABLE `mensaje`
 ALTER TABLE `publicar_empresa`
   ADD CONSTRAINT `PUBLICAR_EMPRESA_CIUDAD_FK` FOREIGN KEY (`COD_CIUDAD`) REFERENCES `ciudad` (`COD_CIUDAD`),
   ADD CONSTRAINT `PUBLICAR_EMPRESA_EMPRESA_FK` FOREIGN KEY (`COD_EMPRESA`) REFERENCES `empresa` (`COD_EMPRESA`),
-  ADD CONSTRAINT `PUBLICAR_EMPRESA_JORNADA_FK` FOREIGN KEY (`COD_JORNADA`) REFERENCES `jornada` (`COD_JORNADA`);
+  ADD CONSTRAINT `PUBLICAR_EMPRESA_JORNADA_FK` FOREIGN KEY (`COD_JORNADA`) REFERENCES `jornada` (`COD_JORNADA`),
+  ADD CONSTRAINT `PUBLICAR_EMPRESA_CARGO_FK` FOREIGN KEY (`COD_CARGO`) REFERENCES `cargo` (`COD_CARGO`);
 
 --
 -- Filtros para la tabla `publicar_persona`
