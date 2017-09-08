@@ -181,7 +181,7 @@ CREATE TABLE `persona` (
   `COD_PERSONA` int(11) NOT NULL,
   `NOMBRES` text,
   `APELLIDOS` text,
-  `FECHA_NACIMIENTO` date DEFAULT NULL,
+  `FECHA_NACIMIENTO` text DEFAULT NULL,
   `FOTO` blob,
   `RUTA_FOTO` text,
   `CORREO` text,
