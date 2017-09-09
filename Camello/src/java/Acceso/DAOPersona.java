@@ -47,7 +47,7 @@ public class DAOPersona implements CRUDyBuscar {
 
     public String subirImagen(Object obj) {
         Persona persona = (Persona) obj;
-        String consulta = "insert into persona (ruta_foto) values (?)";
+        String consulta = "update persona set ruta_foto=? where cod_persona=?";
         String respuesta = "";
         Connection conn = null;
         PreparedStatement pst = null;
@@ -55,6 +55,7 @@ public class DAOPersona implements CRUDyBuscar {
             conn = con.getconexion();
             pst = conn.prepareStatement(consulta);
             pst.setString(1, persona.getRutaFoto());
+            pst.setInt(2, persona.getIdPersona());
             int filas = pst.executeUpdate();
             respuesta = "Foto subida con éxito";
             conn.close();
@@ -192,7 +193,20 @@ public class DAOPersona implements CRUDyBuscar {
 //        }
         return y;
     }
-
+    
+       public ResultSet listar(){
+       Conexion con = new Conexion();
+       String com = "select * from persona";
+       ResultSet rs = con.getDatos(com);
+       return rs;
+   }
+   
+   public ResultSet mostrar(){
+       Conexion con = new  Conexion();
+       String com = "Select cod_persona, nombre from persona";
+       ResultSet rs = con.getDatos(com);
+       return rs;
+   }
     @Override
     public List<?> filtrar(String tabla, String dato) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

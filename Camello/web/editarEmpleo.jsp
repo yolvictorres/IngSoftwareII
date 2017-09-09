@@ -1,4 +1,5 @@
 
+<%@page import="Modelo.Cargo"%>
 <%@page import="Modelo.Jornada"%>
 <%@page import="Modelo.Ciudad"%>
 <%@page import="Acceso.Consultas"%>
@@ -207,7 +208,23 @@
                     </thead>
                     <tbody>                
                         <tr><center>      
-                        <td><center> <div><input name="cargo" value="<%=empleo.getCargo()%>" class="form-control inputSection" type="text" /></div></center></td>
+                        <td> <select name="idCargo" form="editarEmpl" class="form-control inputSection">
+                                <%
+                                    List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
+                                    for (Cargo cargo : c) {
+                                        List<Cargo> car = cons.consultarCargo();
+                                        for (Cargo ca : car) {
+                                            if (ca.getIdCargo() == cargo.getIdCargo()) {
+                                %>
+                                <option value="<%=ca.getIdCargo()%>" selected><%=ca.getNombreCargo()%></option>
+                                <%
+                                } else {
+                                %>
+                                <option value="<%=ca.getIdCargo()%>"><%=ca.getNombreCargo()%></option>                     
+                                <%  }
+                                        }%>
+                            </select></td>                 
+                            <%  }%>
                         </tr>              
                         </tbody> 
                 </table>

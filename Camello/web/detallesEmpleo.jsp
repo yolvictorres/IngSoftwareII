@@ -1,4 +1,5 @@
 
+<%@page import="Modelo.Cargo"%>
 <%@page import="Modelo.Jornada"%>
 <%@page import="Modelo.Ciudad"%>
 <%@page import="Acceso.Consultas"%>
@@ -190,8 +191,13 @@
                 <th>Cargo</th>
                 </thead>
                 <tbody>                
+                    <%
+                        List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
+                        for (Cargo cargo : c) {
+                    %>
                     <tr><center>      
-                    <td><center><a ><%=empleo.getCargo()%></a></center></td>
+                    <td><center><a ><%=cargo.getNombreCargo()%></a></center></td>
+                        <%  }%>
                     </tr>              
                     </tbody> 
             </table>
@@ -289,8 +295,13 @@
                 <th>Cargo</th>
                 </thead>
                 <tbody>                
+                    <%
+                        List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
+                        for (Cargo cargo : c) {
+                    %>
                     <tr><center>      
-                    <td><center><a ><%=empleo.getCargo()%></a></center></td>
+                    <td><center><a ><%=cargo.getNombreCargo()%></a></center></td>
+                        <%  }%>
                     </tr>              
                     </tbody> 
             </table>

@@ -1,20 +1,24 @@
-<%@page import="Modelo.Empresa"%>
-<%@page import="Acceso.DAOEmpresa"%>
+
+<%@page import="Modelo.Jornada"%>
+<%@page import="Modelo.Ciudad"%>
+<%@page import="Acceso.Consultas"%>
 <%@page import="Modelo.Persona"%>
-<%@page import="java.util.List"%>
 <%@page import="Acceso.DAOPersona"%>
+<%@page import="Modelo.Empleo"%>
+<%@page import="java.util.List"%>
+<%@page import="Acceso.DAOEmpleo"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>        
-        <title>inicio</title>
+        <title>Completar perfil</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link  rel="stylesheet" type="text/css" href="css/normalize.css" />
+        <link rel="stylesheet" type="text/css" href="css/normalize.css" />
         <link rel="stylesheet" type="text/css" href="css/foundation.min.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
-        <link href="css/modern-business.css" rel="stylesheet">
+        <link href="css/modern-business.css" rel="stylesheet">  
     </head>
     <body>
         <%
@@ -24,14 +28,11 @@
 
             if (sesion.getAttribute("idEmpresa") != null && sesion.getAttribute("nombreEmpresa") != null || sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
 
-                if (sesion.getAttribute("idEmpresa") != null && sesion.getAttribute("nombreEmpresa") != null) {
-                    idEmpresa = sesion.getAttribute("idEmpresa").toString();
-                    nombreEmpresa = sesion.getAttribute("nombreEmpresa").toString();
-                }
                 if (sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
                     idPersona = sesion.getAttribute("idPersona").toString();
                     nombrePersona = sesion.getAttribute("nombrePersona").toString();
                 }
+
             } else {
                 out.print("<script>location.replace('index.jsp');</script>");
             }
@@ -108,62 +109,24 @@
                 <!-- /.container -->
             </nav>
         </div>
-        <%
-            if (sesion.getAttribute("idEmpresa") != null) {
-                DAOEmpresa empresa = new DAOEmpresa();
-                List<Empresa> empr = empresa.consultarXID(Integer.parseInt(idEmpresa));
-        %>
         <div class="col-md-2">
-            <%
-                for (Empresa e : empr) {
-                    if (e.getRutaLogo() == null) {
-            %>
-            <input type="button" name="edit" value="Completa  tu Información" class="btn btn-primary active" id="button" onclick="location.href = 'completarEmpresa.jsp?id=' + (<%=idEmpresa%>);">                     
-            <% } else {
-            %>
-            <input type="button" name="edit" value="Información completada" class="btn btn-primary disabled" id="button" onclick="location.href = ">
-            <%
-                    }
-                }%>
         </div>
         <div class="col-md-8">
-            <center><h1>Bienvenido <%=nombreEmpresa%></h1></center>
+            <center><h1>Completar perfil</h1></center>
+
+            <form  enctype="multipart/form-data" action="ServletSubirImagen" method="post" id="completarEmpl" name="completarEmp">   
+                <label>Seleccione una imagen: </label><br>
+                <input type="file" name="fileName"> 
+                <input name="idEmpresa" value="<%=Integer.parseInt(request.getParameter("id"))%>" type="hidden" />
+                <div>
+                    <input type="submit" value="Guardar logo" class="btn btn-success" name="SubirFoto"/>
+                    <input type="submit" value="Cancelar" class="btn btn-danger" formaction="inicio.jsp" formnovalidate/>
+                </div>
+            </form>
         </div>
         <div class="col-md-2">
         </div>
 
-
-
-
-        <%
-            }
-            if (sesion.getAttribute("idPersona") != null) {
-                DAOPersona persona = new DAOPersona();
-                List<Persona> per = persona.consultarXID(Integer.parseInt(idPersona));
-        %>
-        <div class="col-md-2">   
-            <%
-                for (Persona p : per) {
-                    if (p.getRutaFoto() == null) {
-            %>
-            <input type="button" name="edit" value="Completa  tu Información" class="btn btn-primary active" id="button" onclick="location.href = 'completarPersona.jsp?id=' + (<%=idPersona%>);">                     
-            <% } else {
-            %>
-            <input type="button" name="edit" value="Información completada" class="btn btn-primary disabled" id="button" onclick="location.href = ">
-            <%
-                    }
-                }%>
-        </div>
-        <div class="col-md-8">
-            <center><h1>Bienvenido <%=nombrePersona%></h1></center>
-        </div>
-        <div class="col-md-2">
-        </div>
-
-
-        <%
-            }
-        %>
         <script src="js/jquery.js"></script>
         <script src="js/bootstrap.min.js"></script>
     </body>

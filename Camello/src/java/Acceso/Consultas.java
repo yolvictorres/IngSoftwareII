@@ -1,5 +1,6 @@
 package Acceso;
 
+import Modelo.Cargo;
 import Modelo.Pais;
 import Modelo.Ciudad;
 import Modelo.Empresa;
@@ -148,6 +149,47 @@ public class Consultas {
             while (rs.next()) {
                 y.add(new Jornada(rs.getInt("COD_JORNADA"),
                         rs.getString("NOM_JORNADA")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return y;
+    }
+
+    public List<Cargo> consultarCargo() {
+        List<Cargo> y = new ArrayList<>();
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "select * from cargo";
+            pst = conn.prepareStatement(consulta);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                y.add(new Cargo(rs.getInt("COD_CARGO"),
+                        rs.getString("NOM_CARGO")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return y;
+    }
+
+    public List<Cargo> consultarCargoId(int idCargo) {
+        List<Cargo> y = new ArrayList<>();
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "select * from cargo where cod_cargo= ?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idCargo);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                y.add(new Cargo(rs.getInt("COD_CARGO"),
+                        rs.getString("NOM_CARGO")));
             }
         } catch (SQLException e) {
             System.err.println("Error" + e);

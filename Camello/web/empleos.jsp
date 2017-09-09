@@ -1,3 +1,4 @@
+<%@page import="Modelo.Cargo"%>
 <%@page import="Modelo.Ciudad"%>
 <%@page import="Acceso.Consultas"%>
 <%@page import="Modelo.Empresa"%>
@@ -145,9 +146,14 @@
                 </thead>
                 <tbody>                
                     <tr><center>                                               
-                    <td class="col-md-4"><center><a ><%=empleo.getCargo()%></a></center></td> 
+                    <%
+                        Consultas cons = new Consultas();
+                        List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
+                        for (Cargo cargo : c) {
+                    %>     
+                    <td class="col-md-4"><center><a ><%=cargo.getIdCargo()%></a></center></td>
+                        <%  }%>
                         <%
-                            Consultas cons = new Consultas();
                             List<Ciudad> z = cons.consultarCiudadId(empleo.getIdCiudad());
                             for (Ciudad ciudad : z) {
                         %>     
@@ -216,7 +222,13 @@
                     %>
                     <td class="col-md-5"><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>   
                         <%  }%>
-                    <td class="col-md-5"><center><a ><%=empleo.getCargo()%></a></center></td> 
+                        <%
+                            Consultas cons = new Consultas();
+                            List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
+                            for (Cargo cargo : c) {
+                        %>     
+                    <td class="col-md-4"><center><a ><%=cargo.getNombreCargo()%></a></center></td>
+                        <%  }%>
                     <td class="col-md-1"><input type="button" name="edit" value="Ver" class="button" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>  
                     </tr>                                 
                     </tbody> 

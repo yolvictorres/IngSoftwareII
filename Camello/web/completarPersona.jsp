@@ -114,15 +114,14 @@
         <div class="col-md-8">
             <center><h1>Completar perfil</h1></center>
 
-            <form action="ServletPersona" method="post" id="editarEmpl" name="editarPer">   
-
-                <%
-                    DAOPersona daop = new DAOPersona();
-                    Persona persona = new Persona();
-                    List<Persona> y = daop.consultarXID(Integer.parseInt(request.getParameter("id")));
-                    for (Persona person : y) {
-                %>          
-                <% }%>
+            <form  enctype="multipart/form-data" action="ServletSubirImagen" method="post" id="completarEmpl" name="completarPer">   
+                <label>Seleccione una imagen: </label><br>
+                <input type="file" name="fileName"> 
+                <input name="idPersona" value="<%=Integer.parseInt(request.getParameter("id"))%>" type="hidden" />
+                <div>
+                    <input type="submit" value="Guardar imagen" class="btn btn-success" name="SubirFoto"/>
+                    <input type="submit" value="Cancelar" class="btn btn-danger" formaction="inicio.jsp" formnovalidate/>
+                </div>
             </form>
         </div>
         <div class="col-md-2">

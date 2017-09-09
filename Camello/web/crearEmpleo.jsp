@@ -1,4 +1,5 @@
 
+<%@page import="Modelo.Cargo"%>
 <%@page import="java.util.List"%>
 <%@page import="Modelo.Pais"%>
 <%@page import="Modelo.Ciudad"%>
@@ -151,7 +152,16 @@
             <div><input type="hidden" name="idEmpleo" value="<%=idEmpr%>" class="form-control inputSection"/></div>
             <div><input type="hidden" name="idEmpresa" value="<%=sesion.getAttribute("idEmpresa").toString()%>" class="form-control inputSection"/></div>
             <div><input name="detalles" placeholder="Detalles" class="form-control inputSection" type="text" required=""/></div>
-            <div><input name="cargo" placeholder="Cargo" class="form-control inputSection" type="text" required=""/></div>
+            <div>
+                <select name="idCargo" form="crearEmpl" class="form-control inputSection">                       
+                    <%
+                        List<Cargo> car = cons.consultarCargo();
+                        for (Cargo c : car) {
+                    %>  
+                    <option value="<%=c.getIdCargo()%>"><%=c.getNombreCargo()%></option>                      
+                    <% }%>
+                </select>
+            </div>
             <div><input name="experiencia" placeholder="Experiencia requerida" class="form-control inputSection" type="text" required=""/></div>
             <div>
                 <input type="submit" value="Crear" class="btn btn-success" name="crearEmpleo"/>

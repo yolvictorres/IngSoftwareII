@@ -59,9 +59,11 @@ public class ServletSubirImagen extends HttpServlet {
         }
         if (idEmpresa != null) {
             empresa.setRutaLogo(UPLOAD_DIR + "\\" + fileName);
+            empresa.setIdEmpresa(Integer.parseInt(idEmpresa));
             daoe.subirImagen(empresa);
         } else {
             persona.setRutaFoto(UPLOAD_DIR + "\\" + fileName);
+            persona.setIdPersona(Integer.parseInt(idPersona));
             daop.subirImagen(persona);
         }
         request.setAttribute("message", fileName + " File uploaded successfully!");
