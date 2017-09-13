@@ -209,6 +209,7 @@ CREATE TABLE `publicar_empresa` (
   `COD_CIUDAD` int(11) DEFAULT NULL,
   `COD_JORNADA` int(11) DEFAULT NULL,
   `COD_CARGO` int(11) DEFAULT NULL,
+  `COD_SALARIO` int(11) DEFAULT NULL,
   `DETALLE_PUBLICACION` text,
   `EXPERIENCIA_REQUERIDA` text,
   `FECHA` date DEFAULT NULL
@@ -239,6 +240,18 @@ INSERT INTO `cargo` (`COD_CARGO`, `NOM_CARGO`) VALUES
 (3, 'cajero'),
 (4, 'profesor'),
 (5, 'arquitecto');
+
+CREATE TABLE `salario` (
+  `COD_SALARIO` int(11) NOT NULL,
+  `SALARIO` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `salario` (`COD_SALARIO`, `SALARIO`) VALUES
+(1, 'a convenir'),
+(2, 'minimo a 1 millon'),
+(3, '1 millon a 1 millon quinientos'),
+(4, '1 millon quinientos a 2 millones');
+
 --
 -- Índices para tablas volcadas
 --
@@ -277,11 +290,17 @@ ALTER TABLE `empresa`
   ADD KEY `EMPRESA_CAMPO_LABORAL_FK` (`COD_C_LABORAL`);
 
 --
--- Indices de la tabla `intereses_laborales`
+-- Indices de la tabla `cargo`
 --
 ALTER TABLE `cargo`
   ADD PRIMARY KEY (`COD_CARGO`);
 
+--
+-- Indices de la tabla `salario`
+--
+ALTER TABLE `salario`
+  ADD PRIMARY KEY (`COD_SALARIO`);
+  
 --
 -- Indices de la tabla `jornada`
 --
@@ -315,8 +334,9 @@ ALTER TABLE `publicar_empresa`
   ADD KEY `PUBLICAR_EMPRESA_EMPRESA_FK` (`COD_EMPRESA`),
   ADD KEY `PUBLICAR_EMPRESA_CIUDAD_FK` (`COD_CIUDAD`),
   ADD KEY `PUBLICAR_EMPRESA_JORNADA_FK` (`COD_JORNADA`),
-  ADD KEY `PUBLICAR_EMPRESA_CARGO_FK`(`COD_CARGO`);
-
+  ADD KEY `PUBLICAR_EMPRESA_CARGO_FK`(`COD_CARGO`),
+  ADD KEY `PUBLICAR_EMPRESA_SALRIO_FK`(`COD_SALARIO`);
+  
 --
 -- Indices de la tabla `publicar_persona`
 --
@@ -367,7 +387,8 @@ ALTER TABLE `publicar_empresa`
   ADD CONSTRAINT `PUBLICAR_EMPRESA_CIUDAD_FK` FOREIGN KEY (`COD_CIUDAD`) REFERENCES `ciudad` (`COD_CIUDAD`),
   ADD CONSTRAINT `PUBLICAR_EMPRESA_EMPRESA_FK` FOREIGN KEY (`COD_EMPRESA`) REFERENCES `empresa` (`COD_EMPRESA`),
   ADD CONSTRAINT `PUBLICAR_EMPRESA_JORNADA_FK` FOREIGN KEY (`COD_JORNADA`) REFERENCES `jornada` (`COD_JORNADA`),
-  ADD CONSTRAINT `PUBLICAR_EMPRESA_CARGO_FK` FOREIGN KEY (`COD_CARGO`) REFERENCES `cargo` (`COD_CARGO`);
+  ADD CONSTRAINT `PUBLICAR_EMPRESA_CARGO_FK` FOREIGN KEY (`COD_CARGO`) REFERENCES `cargo` (`COD_CARGO`),
+  ADD CONSTRAINT `PUBLICAR_EMPRESA_SALRIO_FK` FOREIGN KEY (`COD_SALARIO`) REFERENCES `salario` (`COD_SALARIO`);
 
 --
 -- Filtros para la tabla `publicar_persona`
