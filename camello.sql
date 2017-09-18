@@ -85,9 +85,11 @@ INSERT INTO `ciudad` (`COD_CIUDAD`, `COD_PAIS`, `NOM_CIUDAD`) VALUES
 -- Estructura de tabla para la tabla `empleados`
 --
 
-CREATE TABLE `empleados` (
-  `COD_EMPRESA` int(11) NOT NULL,
-  `COD_PERSONA` int(11) NOT NULL
+CREATE TABLE `postulados` (
+  `COD_P_EMPRESA` int(11) NOT NULL,
+  `COD_PERSONA` int(11) NOT NULL,
+  `ESTADO_POSTULADO` int(11) NOT NULL,
+  `ESTADO_ENVIO` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -248,9 +250,15 @@ CREATE TABLE `salario` (
 
 INSERT INTO `salario` (`COD_SALARIO`, `SALARIO`) VALUES
 (1, 'a convenir'),
-(2, 'minimo a 1 millon'),
-(3, '1 millon a 1 millon quinientos'),
-(4, '1 millon quinientos a 2 millones');
+(2, 'Menos de $ 700.000'),
+(3, 'Mas de $ 700.000'),
+(4, 'Mas de $ 1.000.000'),
+(5,'Mas de $ 1.500.000'),
+(6,'Mas de $ 2.000.000'),
+(7,'Mas de $ 2.500.000'),
+(8,'Mas de $ 3.000.000'),
+(9,'Mas de $ 3.500.000'),
+(10,'Mas de $ 4.000.000');
 
 --
 -- Índices para tablas volcadas
@@ -278,9 +286,10 @@ ALTER TABLE `ciudad`
 --
 -- Indices de la tabla `empleados`
 --
-ALTER TABLE `empleados`
-  ADD PRIMARY KEY (`COD_EMPRESA`,`COD_PERSONA`),
-  ADD KEY `EMPLEADOS_PERSONA_FK` (`COD_PERSONA`);
+ALTER TABLE `postulados`
+  ADD PRIMARY KEY (`COD_P_EMPRESA`,`COD_PERSONA`),
+  ADD KEY `POSTULADOS_PERSONA_FK` (`COD_PERSONA`),
+  ADD KEY `POSTULADOS_PIBLICAR_EMPRESA_FK` (`COD_P_EMPRESA`);
 
 --
 -- Indices de la tabla `empresa`
@@ -364,9 +373,9 @@ ALTER TABLE `ciudad`
 --
 -- Filtros para la tabla `empleados`
 --
-ALTER TABLE `empleados`
-  ADD CONSTRAINT `EMPLEADOS_EMPRESA_FK` FOREIGN KEY (`COD_EMPRESA`) REFERENCES `empresa` (`COD_EMPRESA`),
-  ADD CONSTRAINT `EMPLEADOS_PERSONA_FK` FOREIGN KEY (`COD_PERSONA`) REFERENCES `persona` (`COD_PERSONA`);
+ALTER TABLE `postulados`
+  ADD CONSTRAINT `POSTULADOS_EMPRESA_FK` FOREIGN KEY (`COD_P_EMPRESA`) REFERENCES `publicar_empresa` (`COD_P_EMPRESA`),
+  ADD CONSTRAINT `POSTULADOS_PERSONA_FK` FOREIGN KEY (`COD_PERSONA`) REFERENCES `persona` (`COD_PERSONA`);
 
 --
 -- Filtros para la tabla `empresa`
