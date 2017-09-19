@@ -1,4 +1,5 @@
 
+<%@page import="Modelo.Salario"%>
 <%@page import="Modelo.Cargo"%>
 <%@page import="java.util.List"%>
 <%@page import="Modelo.Pais"%>
@@ -159,6 +160,16 @@
                         for (Cargo c : car) {
                     %>  
                     <option value="<%=c.getIdCargo()%>"><%=c.getNombreCargo()%></option>                      
+                    <% }%>
+                </select>
+            </div>
+            <div>
+                <select name="idSalario" form="crearEmpl" class="form-control inputSection">                       
+                    <%
+                        List<Salario> sal = cons.consultarSalario();
+                        for (Salario s : sal) {
+                    %>  
+                    <option value="<%=s.getIdSalario()%>"><%=s.getSalario()%></option>                      
                     <% }%>
                 </select>
             </div>

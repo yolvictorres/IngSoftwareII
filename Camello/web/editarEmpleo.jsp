@@ -1,4 +1,5 @@
 
+<%@page import="Modelo.Salario"%>
 <%@page import="Modelo.Cargo"%>
 <%@page import="Modelo.Jornada"%>
 <%@page import="Modelo.Ciudad"%>
@@ -222,7 +223,33 @@
                                 %>
                                 <option value="<%=ca.getIdCargo()%>"><%=ca.getNombreCargo()%></option>                     
                                 <%  }
-                                        }%>
+                                    }%>
+                            </select></td>                 
+                            <%  }%>
+                        </tr>              
+                        </tbody> 
+                </table>
+                <table class="table table-bordered">
+                    <thead>                
+                    <th>Salario</th>
+                    </thead>
+                    <tbody>                
+                        <tr><center>      
+                        <td> <select name="idSalario" form="editarEmpl" class="form-control inputSection">
+                                <%
+                                    List<Salario> s = cons.consultarSalarioId(empleo.getIdSalario());
+                                    for (Salario salario : s) {
+                                        List<Salario> sal = cons.consultarSalario();
+                                        for (Salario sa : sal) {
+                                            if (sa.getIdSalario() == salario.getIdSalario()) {
+                                %>
+                                <option value="<%=sa.getIdSalario()%>" selected><%=sa.getSalario()%></option>
+                                <%
+                                } else {
+                                %>
+                                <option value="<%=sa.getIdSalario()%>"><%=sa.getSalario()%></option>                     
+                                <%  }
+                                    }%>
                             </select></td>                 
                             <%  }%>
                         </tr>              

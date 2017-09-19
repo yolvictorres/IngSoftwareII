@@ -51,6 +51,7 @@ public class ServletEmpleo extends HttpServlet {
                     empleo.setIdJornada(Integer.parseInt(request.getParameter("idJornada")));
                     empleo.setDetalles(request.getParameter("detalles"));
                     empleo.setIdCargo(Integer.parseInt(request.getParameter("idCargo")));
+                    empleo.setIdSalario(Integer.parseInt(request.getParameter("idSalario")));
                     empleo.setExperiencia(request.getParameter("experiencia"));
                     respuesta = dao.crear(empleo);
                     request.setAttribute("respuesta", respuesta);
@@ -62,6 +63,7 @@ public class ServletEmpleo extends HttpServlet {
                     empleo.setIdJornada(Integer.parseInt(request.getParameter("idJornada")));
                     empleo.setDetalles(request.getParameter("detalles"));
                     empleo.setIdCargo(Integer.parseInt(request.getParameter("idCargo")));
+                    empleo.setIdSalario(Integer.parseInt(request.getParameter("idSalario")));
                     empleo.setExperiencia(request.getParameter("experiencia"));
                     respuesta = dao.editar(empleo);
                     request.setAttribute("respuesta", respuesta);

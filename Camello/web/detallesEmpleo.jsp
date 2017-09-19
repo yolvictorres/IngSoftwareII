@@ -1,4 +1,5 @@
 
+<%@page import="Modelo.Salario"%>
 <%@page import="Modelo.Cargo"%>
 <%@page import="Modelo.Jornada"%>
 <%@page import="Modelo.Ciudad"%>
@@ -203,6 +204,21 @@
             </table>
             <table class="table table-bordered">
                 <thead>                
+                <th>Salario</th>
+                </thead>
+                <tbody>                
+                    <%
+                        List<Salario> s = cons.consultarSalarioId(empleo.getIdSalario());
+                        for (Salario salario : s) {
+                    %>
+                    <tr><center>      
+                    <td><center><a ><%=salario.getSalario()%></a></center></td>
+                        <%  }%>
+                    </tr>              
+                    </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <thead>                
                 <th>Experiencia Requerida</th>
                 </thead>
                 <tbody>                
@@ -301,6 +317,21 @@
                     %>
                     <tr><center>      
                     <td><center><a ><%=cargo.getNombreCargo()%></a></center></td>
+                        <%  }%>
+                    </tr>              
+                    </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <thead>                
+                <th>Salario</th>
+                </thead>
+                <tbody>                
+                    <%
+                        List<Salario> s = cons.consultarSalarioId(empleo.getIdSalario());
+                        for (Salario salario : s) {
+                    %>
+                    <tr><center>      
+                    <td><center><a ><%=salario.getSalario()%></a></center></td>
                         <%  }%>
                     </tr>              
                     </tbody> 

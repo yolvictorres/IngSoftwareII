@@ -15,7 +15,7 @@ public class DAOEmpleo implements CRUD {
     @Override
     public String crear(Object obj) {
         Empleo empleo = (Empleo) obj;
-        String consulta = "insert into publicar_empresa (cod_p_empresa, cod_empresa, cod_ciudad, cod_jornada, detalle_publicacion, cod_cargo, experiencia_requerida) values (?, ?, ?, ?, ?, ?, ?)";
+        String consulta = "insert into publicar_empresa (cod_p_empresa, cod_empresa, cod_ciudad, cod_jornada, detalle_publicacion, cod_cargo, cod_salario, experiencia_requerida) values (?, ?, ?, ?, ?, ?, ?, ?)";
         String respuesta = "";
         Connection conn = null;
         PreparedStatement pst = null;
@@ -28,7 +28,8 @@ public class DAOEmpleo implements CRUD {
             pst.setInt(4, empleo.getIdJornada());
             pst.setString(5, empleo.getDetalles());
             pst.setInt(6, empleo.getIdCargo());
-            pst.setString(7, empleo.getExperiencia());
+            pst.setInt(7, empleo.getIdSalario());
+            pst.setString(8, empleo.getExperiencia());
             int filas = pst.executeUpdate();
             respuesta = "Empleo creado exitosamente";
             conn.close();
@@ -49,7 +50,7 @@ public class DAOEmpleo implements CRUD {
     @Override
     public String editar(Object obj) {
         Empleo empleo = (Empleo) obj;
-        String consulta = "update publicar_empresa set  cod_empresa=?, cod_ciudad=?, cod_jornada=?, detalle_publicacion=?, cod_cargo=?, experiencia_requerida=? where cod_p_empresa=?";
+        String consulta = "update publicar_empresa set  cod_empresa=?, cod_ciudad=?, cod_jornada=?, detalle_publicacion=?, cod_cargo=?, cod_salario=?, experiencia_requerida=? where cod_p_empresa=?";
         String respuesta = "";
         Connection conn = null;
         PreparedStatement pst = null;
@@ -61,8 +62,9 @@ public class DAOEmpleo implements CRUD {
             pst.setInt(3, empleo.getIdJornada());
             pst.setString(4, empleo.getDetalles());
             pst.setInt(5, empleo.getIdCargo());
-            pst.setString(6, empleo.getExperiencia());
-            pst.setInt(7, empleo.getIdEmpleo());
+            pst.setInt(6, empleo.getIdSalario());
+            pst.setString(7, empleo.getExperiencia());
+            pst.setInt(8, empleo.getIdEmpleo());
             int filas = pst.executeUpdate();
             respuesta = "Empleo fué editado con éxito";
             conn.close();
@@ -102,6 +104,7 @@ public class DAOEmpleo implements CRUD {
                         rs.getInt("cod_ciudad"),
                         rs.getInt("cod_jornada"),
                         rs.getInt("cod_cargo"),
+                        rs.getInt("cod_salario"),
                         rs.getString("detalle_publicacion"),
                         rs.getString("fecha"),
                         rs.getString("experiencia_requerida")));
@@ -143,7 +146,8 @@ public class DAOEmpleo implements CRUD {
                         rs.getInt("cod_empresa"),
                         rs.getInt("cod_ciudad"),
                         rs.getInt("cod_jornada"),
-                        rs.getInt("cod_Cargo"),
+                        rs.getInt("cod_cargo"),
+                        rs.getInt("cod_salario"),
                         rs.getString("detalle_publicacion"),
                         rs.getString("fecha"),
                         rs.getString("experiencia_requerida")));
@@ -185,7 +189,8 @@ public class DAOEmpleo implements CRUD {
                         rs.getInt("cod_empresa"),
                         rs.getInt("cod_ciudad"),
                         rs.getInt("cod_jornada"),
-                        rs.getInt("cod_Cargo"),
+                        rs.getInt("cod_cargo"),
+                        rs.getInt("cod_salario"),
                         rs.getString("detalle_publicacion"),
                         rs.getString("fecha"),
                         rs.getString("experiencia_requerida")));
