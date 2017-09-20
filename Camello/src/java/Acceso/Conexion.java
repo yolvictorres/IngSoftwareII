@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,12 +20,17 @@ public class Conexion {
     private String DATABASE = "camello";
     private String CLASSNAME = "com.mysql.jdbc.Driver";
     private String URL = "jdbc:mysql://" + HOST + "/" + DATABASE;
-    private Connection con;
+    Connection con;
+    String sql = "";
+    PreparedStatement pstm = null;
+    ResultSet rs = null;
+    
 
     public Conexion() {
         try {
             Class.forName(CLASSNAME);
             con = DriverManager.getConnection(URL, USERNAME, CONTRASENA);
+            pstm=con.prepareStatement(sql);
         } catch (ClassNotFoundException e) {
             System.out.println("ERROR" + e);
         } catch (SQLException e) {
@@ -34,6 +40,15 @@ public class Conexion {
 
     public Connection getconexion() {
         return con;
+    }
+        public ResultSet getDatos(String com){
+        try {
+            this.getconexion();
+            rs = pstm.executeQuery(com);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Error: "+e);
+        }
+        return rs;
     }
 
 //    public boolean Autenticacion(String correo, String contraseña) {

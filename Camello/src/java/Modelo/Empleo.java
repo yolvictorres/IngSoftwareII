@@ -6,26 +6,25 @@ public class Empleo {
     private int idEmpresa;
     private int idCiudad;
     private int idJornada;
+    private int idCargo;
     private String detalles;
-    private String fecha;    
-    private String cargo;
+    private String fecha;
     private String experiencia;
 
-    public Empleo(int idEmpleo, int idEmpresa, int idCiudad, int idJornada, String detalles, String fecha, String cargo, String experiencia) {
+    public Empleo() {
+
+    }
+
+    public Empleo(int idEmpleo, int idEmpresa, int idCiudad, int idJornada, int idCargo, String detalles, String fecha, String experiencia) {
         this.idEmpleo = idEmpleo;
         this.idEmpresa = idEmpresa;
         this.idCiudad = idCiudad;
         this.idJornada = idJornada;
+        this.idCargo = idCargo;
         this.detalles = detalles;
         this.fecha = fecha;
-        this.cargo = cargo;
         this.experiencia = experiencia;
     }
-
-    public Empleo() {
-       
-    }
-    
 
     public int getIdEmpleo() {
         return idEmpleo;
@@ -59,12 +58,12 @@ public class Empleo {
         this.fecha = fecha;
     }
 
-    public String getCargo() {
-        return cargo;
+    public int getIdCargo() {
+        return idCargo;
     }
 
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
+    public void setIdCargo(int idCargo) {
+        this.idCargo = idCargo;
     }
 
     public String getExperiencia() {
@@ -90,6 +89,5 @@ public class Empleo {
     public void setIdJornada(int jornada) {
         this.idJornada = jornada;
     }
-    
-    
+
 }

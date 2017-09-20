@@ -15,13 +15,14 @@ public class Empresa {
     public Empresa() {
     }
 
-    public Empresa(int idEmpresa, int idCampoLaboral, String nombreEmpresa, String correoEmpresa, int telefonoEmpresa, String descripcionEmpresa) {
+    public Empresa(int idEmpresa, int idCampoLaboral, String nombreEmpresa, String correoEmpresa, int telefonoEmpresa, String descripcionEmpresa, String rutaLogo) {
         this.idEmpresa = idEmpresa;
         this.idCampoLaboral = idCampoLaboral;
         this.nombreEmpresa = nombreEmpresa;
         this.correoEmpresa = correoEmpresa;
         this.telefonoEmpresa = telefonoEmpresa;
         this.descripcionEmpresa = descripcionEmpresa;
+        this.rutaLogo = rutaLogo;
     }
 
     public int getIdEmpresa() {
