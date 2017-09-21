@@ -22,7 +22,7 @@ import Modelo.Persona;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 10, // 10 MB 
         maxFileSize = 1024 * 1024 * 50, // 50 MB
         maxRequestSize = 1024 * 1024 * 100,// 100 MB
-        location = "C:\\Users\\IAN\\Documents\\IngSoftwareIIS\\Camello\\web\\images"
+        location = "C:\\Users\\usuario\\Documents\\IngSoftwareII\\Camello\\web\\images"
 )
 
 public class ServletSubirImagen extends HttpServlet {

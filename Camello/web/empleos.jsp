@@ -151,7 +151,7 @@
                         List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
                         for (Cargo cargo : c) {
                     %>     
-                    <td class="col-md-4"><center><a ><%=cargo.getIdCargo()%></a></center></td>
+                    <td class="col-md-4"><center><a ><%=cargo.getNombreCargo()%></a></center></td>
                         <%  }%>
                         <%
                             List<Ciudad> z = cons.consultarCiudadId(empleo.getIdCiudad());

@@ -257,10 +257,14 @@
             <table class="table table-bordered">
                 <tbody>                
                     <tr>
-                        <td class="col-md-2"><center><a >Fecha de nacimiento:</a></center></td> 
+                        <td class="col-md-2"><center><a >Fecha de nácimiento:</a></center></td> 
                 <td class="col-md-4"><center><a ><%=person.getEdad()%></a></center></td>                              
                 </tbody> 
             </table>
+            <center>
+               
+                <a href="javascript:void(0);" onclick="javascipt:window.open('images/h.pdf');" class="popup">Clic to open.</a>
+            </center>
             <%
                 }
             %>
