@@ -22,10 +22,10 @@ import Modelo.Persona;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 10, // 10 MB 
         maxFileSize = 1024 * 1024 * 50, // 50 MB
         maxRequestSize = 1024 * 1024 * 100,// 100 MB
-        location = "C:\\Users\\IAN\\Documents\\IngSoftwareIIS\\Camello\\web\\images"
+        location = "C:\\Users\\IAN\\Documents\\IngSoftwareIIS\\Camello\\web\\documentos"
 )
 
-public class ServletSubirImagen extends HttpServlet {
+public class ServletSubirDocumento extends HttpServlet {
 
     private static final long serialVersionUID = 205242440643911308L;
 
@@ -33,12 +33,11 @@ public class ServletSubirImagen extends HttpServlet {
      * Directory where uploaded files will be saved, its relative to the web
      * application directory.
      */
-    private static final String UPLOAD_DIR = "images";
+    private static final String UPLOAD_DIR = "documentos";
 
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         DAOPersona daop = new DAOPersona();
-        DAOEmpresa daoe = new DAOEmpresa();
         String uploadFilePath = "C:\\Users\\IAN\\Documents\\IngSoftwareIIS\\Camello\\web" + File.separator + UPLOAD_DIR;
         File fileSaveDir = new File(uploadFilePath);
         if (!fileSaveDir.exists()) {
@@ -46,30 +45,20 @@ public class ServletSubirImagen extends HttpServlet {
         }
         System.out.println("Upload File Directory=" + fileSaveDir.getAbsolutePath());
         Persona persona = new Persona();
-        Empresa empresa = new Empresa();
         String fileName = null;
-        String idEmpresa = (request.getParameter("idEmpresa"));
         String idPersona = (request.getParameter("idPersona"));
 
         for (Part part : request.getParts()) {
             if (fileName == null) {
                 fileName = getFileName(part);
-                part.write(fileName);
+                part.write(idPersona+fileName);
             }
         }
-        if (idEmpresa != null) {
-            empresa.setRutaLogo(UPLOAD_DIR + "\\" + fileName);
-            empresa.setIdEmpresa(Integer.parseInt(idEmpresa));
-            daoe.subirImagen(empresa);
-            request.setAttribute("message", fileName + " File uploaded successfully!");
-            getServletContext().getRequestDispatcher("/completarEmpresa.jsp?id=" + idEmpresa).forward(request, response);
-        } else {
-            persona.setRutaFoto(UPLOAD_DIR + "\\" + fileName);
+            persona.setRutaHojadevida(UPLOAD_DIR + "/" + idPersona+fileName);
             persona.setIdPersona(Integer.parseInt(idPersona));
-            daop.subirImagen(persona);
+            daop.subirDocumento(persona);
             request.setAttribute("message", fileName + " File uploaded successfully!");
             getServletContext().getRequestDispatcher("/completarPersona.jsp?id=" + idPersona).forward(request, response);
-        }
 
     }
 

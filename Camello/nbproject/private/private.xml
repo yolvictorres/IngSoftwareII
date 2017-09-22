@@ -3,7 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/usuario/Documents/IngSoftwareII/Camello/web/verPersona.jsp</file>
+            <file>file:/C:/Users/IAN/Documents/IngSoftwareIIS/Camello/src/java/Acceso/DAOPersona.java</file>
+            <file>file:/C:/Users/IAN/Documents/IngSoftwareIIS/Camello/src/java/Controlador/ServletSubirDocumento.java</file>
+            <file>file:/C:/Users/IAN/Documents/IngSoftwareIIS/Camello/web/completarPersona.jsp</file>
+            <file>file:/C:/Users/IAN/Documents/IngSoftwareIIS/Camello/web/inicio.jsp</file>
+            <file>file:/C:/Users/IAN/Documents/IngSoftwareIIS/Camello/web/mired.jsp</file>
+            <file>file:/C:/Users/IAN/Documents/IngSoftwareIIS/Camello/web/verPersona.jsp</file>
+            <file>file:/C:/Users/IAN/Documents/IngSoftwareIIS/Camello/src/java/Controlador/ServletSubirImagen.java</file>
         </group>
     </open-files>
 </project-private>

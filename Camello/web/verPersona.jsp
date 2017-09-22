@@ -261,9 +261,8 @@
                 <td class="col-md-4"><center><a ><%=person.getEdad()%></a></center></td>                              
                 </tbody> 
             </table>
-            <center>
-               
-                <a href="javascript:void(0);" onclick="javascipt:window.open('images/h.pdf');" class="popup">Clic to open.</a>
+            <center>                         
+                <input type="button" name="edit" value="Hoja de vida" class="btn btn-primary active" id="button" onclick="javascipt:window.open('<%=person.getRutaHojadevida()%>');">
             </center>
             <%
                 }

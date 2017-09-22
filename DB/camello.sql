@@ -52,8 +52,8 @@ CREATE TABLE `campo_laboral` (
 CREATE TABLE `ciudad` (
   `COD_CIUDAD` int(11) NOT NULL,
   `COD_PAIS` int(11) DEFAULT NULL,
-  `NOM_CIUDAD` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `NOM_CIUDAD` text CHARACTER SET utf8 COLLATE utf8_spanish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `ciudad`
@@ -90,7 +90,7 @@ CREATE TABLE `postulados` (
   `COD_PERSONA` int(11) NOT NULL,
   `ESTADO_POSTULADO` int(11) NOT NULL,
   `ESTADO_ENVIO` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -184,23 +184,22 @@ INSERT INTO `pais` (`COD_PAIS`, `NOM_PAIS`) VALUES
 
 CREATE TABLE `persona` (
   `COD_PERSONA` int(11) NOT NULL,
-  `NOMBRES` text,
-  `APELLIDOS` text,
-  `FECHA_NACIMIENTO` text,
-  `FOTO` blob,
-  `RUTA_FOTO` text,
-  `CORREO` text,
-  `CLAVE` text,
-  `TELEFONO` text,
-  `HOJA_DE_VIDA` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `NOMBRES` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `APELLIDOS` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `FECHA_NACIMIENTO` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `RUTA_FOTO` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `CORREO` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `CLAVE` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `TELEFONO` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+  `HOJA_DE_VIDA` text CHARACTER SET utf8 COLLATE utf8_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `persona`
 --
 
-INSERT INTO `persona` (`COD_PERSONA`, `NOMBRES`, `APELLIDOS`, `FECHA_NACIMIENTO`, `FOTO`, `RUTA_FOTO`, `CORREO`, `CLAVE`, `TELEFONO`, `HOJA_DE_VIDA`) VALUES
-(1, 'ian', 'Mendez', NULL, NULL, NULL, 'ian@ian', '123', NULL, NULL);
+INSERT INTO `persona` (`COD_PERSONA`, `NOMBRES`, `APELLIDOS`, `FECHA_NACIMIENTO`, `RUTA_FOTO`, `CORREO`, `CLAVE`, `TELEFONO`, `HOJA_DE_VIDA`) VALUES
+(1, 'ian', 'Mendez', NULL, NULL, 'ian@ian', '123', NULL, NULL);
 
 -- --------------------------------------------------------
 

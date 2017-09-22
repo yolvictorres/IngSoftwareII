@@ -144,7 +144,7 @@
         <div class="col-md-2">   
             <%
                 for (Persona p : per) {
-                    if (p.getRutaFoto() == null) {
+                    if (p.getRutaFoto() == null | p.getRutaHojadevida() == null) {
             %>
             <input type="button" name="edit" value="Completa  tu Información" class="btn btn-primary active" id="button" onclick="location.href = 'completarPersona.jsp?id=' + (<%=idPersona%>);">                     
             <% } else {
