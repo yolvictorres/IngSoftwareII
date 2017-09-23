@@ -73,6 +73,34 @@ public class DAOPersona implements CRUDyBuscar {
         return respuesta;
     }
 
+    public String subirDocumento(Object obj) {
+        Persona persona = (Persona) obj;
+        String consulta = "update persona set hoja_de_vida=? where cod_persona=?";
+        String respuesta = "";
+        Connection conn = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            pst = conn.prepareStatement(consulta);
+            pst.setString(1, persona.getRutaHojadevida());
+            pst.setInt(2, persona.getIdPersona());
+            int filas = pst.executeUpdate();
+            respuesta = "Documento guardado con éxito";
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Error" + e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                System.out.println("Error" + e);
+            }
+        }
+        return respuesta;
+    }
+
     @Override
     public String editar(Object obj) {
         Persona persona = (Persona) obj;
@@ -193,20 +221,21 @@ public class DAOPersona implements CRUDyBuscar {
 //        }
         return y;
     }
-    
-       public ResultSet listar(){
-       Conexion con = new Conexion();
-       String com = "select * from persona";
-       ResultSet rs = con.getDatos(com);
-       return rs;
-   }
-   
-   public ResultSet mostrar(){
-       Conexion con = new  Conexion();
-       String com = "Select cod_persona, nombre from persona";
-       ResultSet rs = con.getDatos(com);
-       return rs;
-   }
+
+    public ResultSet listar() {
+        Conexion con = new Conexion();
+        String com = "select * from persona";
+        ResultSet rs = con.getDatos(com);
+        return rs;
+    }
+
+    public ResultSet mostrar() {
+        Conexion con = new Conexion();
+        String com = "Select cod_persona, nombre from persona";
+        ResultSet rs = con.getDatos(com);
+        return rs;
+    }
+
     @Override
     public List<?> filtrar(String tabla, String dato) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

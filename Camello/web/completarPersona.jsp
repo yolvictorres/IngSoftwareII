@@ -113,9 +113,16 @@
         </div>
         <div class="col-md-8">
             <center><h1>Completar perfil</h1></center>
-
+                <%
+                    DAOPersona daop = new DAOPersona();
+                    Persona persona = new Persona();
+                    persona.setIdPersona(Integer.parseInt(request.getParameter("id")));
+                    List<Persona> y = daop.consultarXID(persona.getIdPersona());
+                    for (Persona person : y) {
+                        if (person.getRutaFoto() == null) {
+                %>
             <form  enctype="multipart/form-data" action="ServletSubirImagen" method="post" id="completarEmpl" name="completarPer">   
-                <label>Seleccione una imagen: </label><br>
+                <label>Seleccione una imagen de perfil: </label><br>
                 <input type="file" name="fileName"> 
                 <input name="idPersona" value="<%=Integer.parseInt(request.getParameter("id"))%>" type="hidden" />
                 <div>
@@ -123,6 +130,32 @@
                     <input type="submit" value="Cancelar" class="btn btn-danger" formaction="inicio.jsp" formnovalidate/>
                 </div>
             </form>
+            <%
+            } else {
+            %>
+            <input type="button" name="edit" value="Imagen guardada" class="btn btn-primary disabled" id="button" onclick="location.href = ">
+            <%
+                }
+                if (person.getRutaHojadevida() == null) {
+            %>
+            <form  enctype="multipart/form-data" action="ServletSubirDocumento" method="post" >   
+                <label>Seleccione el documento de su hoja de vida en pdf: </label><br>
+                <input type="file" name="fileName"> 
+                <input name="idPersona" value="<%=Integer.parseInt(request.getParameter("id"))%>" type="hidden" />
+                <div>
+                    <input type="submit" value="Guardar" class="btn btn-success" name="SubirDocumento"/>
+                    <input type="submit" value="Cancelar" class="btn btn-danger" formaction="inicio.jsp" formnovalidate/>
+                </div>
+            </form>
+            <% } else {
+
+            %>
+            <br>
+            <input type="button" name="edit" value="Documento guardado" class="btn btn-primary disabled" id="button" onclick="location.href = ">
+            <%        }
+                }
+            %>
+
         </div>
         <div class="col-md-2">
         </div>

@@ -7,6 +7,7 @@ public class Empleo {
     private int idCiudad;
     private int idJornada;
     private int idCargo;
+    private int idSalario;
     private String detalles;
     private String fecha;
     private String experiencia;
@@ -15,12 +16,13 @@ public class Empleo {
 
     }
 
-    public Empleo(int idEmpleo, int idEmpresa, int idCiudad, int idJornada, int idCargo, String detalles, String fecha, String experiencia) {
+    public Empleo(int idEmpleo, int idEmpresa, int idCiudad, int idJornada, int idCargo, int idSalario, String detalles, String fecha, String experiencia) {
         this.idEmpleo = idEmpleo;
         this.idEmpresa = idEmpresa;
         this.idCiudad = idCiudad;
         this.idJornada = idJornada;
         this.idCargo = idCargo;
+        this.idSalario = idSalario;
         this.detalles = detalles;
         this.fecha = fecha;
         this.experiencia = experiencia;
@@ -88,6 +90,14 @@ public class Empleo {
 
     public void setIdJornada(int jornada) {
         this.idJornada = jornada;
+    }
+
+    public int getIdSalario() {
+        return idSalario;
+    }
+
+    public void setIdSalario(int idSalario) {
+        this.idSalario = idSalario;
     }
 
 }

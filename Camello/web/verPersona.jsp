@@ -257,10 +257,13 @@
             <table class="table table-bordered">
                 <tbody>                
                     <tr>
-                        <td class="col-md-2"><center><a >Fecha de nacimiento:</a></center></td> 
+                        <td class="col-md-2"><center><a >Fecha de nácimiento:</a></center></td> 
                 <td class="col-md-4"><center><a ><%=person.getEdad()%></a></center></td>                              
                 </tbody> 
             </table>
+            <center>                         
+                <input type="button" name="edit" value="Hoja de vida" class="btn btn-primary active" id="button" onclick="javascipt:window.open('<%=person.getRutaHojadevida()%>');">
+            </center>
             <%
                 }
             %>

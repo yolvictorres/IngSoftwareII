@@ -6,6 +6,7 @@ import Modelo.Ciudad;
 import Modelo.Empresa;
 import Modelo.Jornada;
 import Modelo.Persona;
+import Modelo.Salario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -190,6 +191,47 @@ public class Consultas {
             while (rs.next()) {
                 y.add(new Cargo(rs.getInt("COD_CARGO"),
                         rs.getString("NOM_CARGO")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return y;
+    }
+
+    public List<Salario> consultarSalario() {
+        List<Salario> y = new ArrayList<>();
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "select * from salario";
+            pst = conn.prepareStatement(consulta);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                y.add(new Salario(rs.getInt("COD_SALARIO"),
+                        rs.getString("SALARIO")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return y;
+    }
+
+    public List<Salario> consultarSalarioId(int idSalario) {
+        List<Salario> y = new ArrayList<>();
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "select * from salario where cod_salario= ?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idSalario);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                y.add(new Salario(rs.getInt("COD_SALARIO"),
+                        rs.getString("SALARIO")));
             }
         } catch (SQLException e) {
             System.err.println("Error" + e);

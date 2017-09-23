@@ -16,17 +16,25 @@
         <servlet-name>ServletConsultas</servlet-name>
         <servlet-class>Controlador.ServletConsultas</servlet-class>
     </servlet>
-     <servlet>
+    <servlet>
         <servlet-name>ServletSubirImagen</servlet-name>
         <servlet-class>Controlador.ServletSubirImagen</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletSubirDocumento</servlet-name>
+        <servlet-class>Controlador.ServletSubirDocumento</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ServletConsultas</servlet-name>
         <url-pattern>/ServletConsultas</url-pattern>
     </servlet-mapping>
-        <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ServletSubirImagen</servlet-name>
         <url-pattern>/ServletSubirImagen</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletSubirDocumento</servlet-name>
+        <url-pattern>/ServletSubirDocumento</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
