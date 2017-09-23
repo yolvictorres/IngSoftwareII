@@ -1,3 +1,5 @@
+<%@page import="Modelo.Jornada"%>
+<%@page import="Modelo.Salario"%>
 <%@page import="Modelo.Cargo"%>
 <%@page import="Modelo.Ciudad"%>
 <%@page import="Acceso.Consultas"%>
@@ -119,9 +121,28 @@
             if (sesion.getAttribute("idEmpresa") != null) {
         %>
 
-        <div class="col-md-2">
+
+        <div class="col-md-3 left panel-info">
+            <div class="panel-heading">
+                <b>Filtro por salario</b>
+            </div>
+            <div class="panel-body">
+                <form action="ServletEmpleo" method="post" id="filtrarEmpl" name="filtrarEmpl">
+                    <select name="idCiudad" form="crearEmpl" class="form-control inputSection">                       
+                        <%
+                            Consultas cons = new Consultas();
+                            List<Salario> sal = cons.consultarSalario();
+                            for (Salario s : sal) {
+                        %>  
+                        <option value="<%=s.getIdSalario()%>"><%=s.getSalario()%></option>                      
+                        <% }%>
+                    </select>
+                    <input type="submit" value="Filtrar" class="btn btn-success" name="crearEmpleo"/>
+                </form>
+            </div>
         </div>
-        <div class="col-md-8">
+
+        <div class="col-md-7">
             <center><h1>Empleos Publicados</h1></center>
                 <%if (request.getAttribute("respuesta") != null) {%>
             <div class="alert alert-success">
@@ -147,7 +168,6 @@
                 <tbody>                
                     <tr><center>                                               
                     <%
-                        Consultas cons = new Consultas();
                         List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
                         for (Cargo cargo : c) {
                     %>     
@@ -182,9 +202,46 @@
             if (sesion.getAttribute("idPersona") != null) {
         %>
 
-        <div class="col-md-2">
+
+        <div class="col-md-3 left panel-info">
+            <div class="panel-heading">
+                <b>Filtro empleos</b>
+            </div>
+            <div class="panel-body">
+                <form action="ServletEmpleo" method="post" id="filtrarEmpl" name="filtrarEmpl">
+                    <select name="idSalario" form="filtrarEmpl" class="form-control inputSection">                       
+                        <%
+                            Consultas cons = new Consultas();
+                            List<Salario> sal = cons.consultarSalario();
+                            for (Salario s : sal) {
+                        %>  
+                        <option value="<%=s.getIdSalario()%>"><%=s.getSalario()%></option>                      
+                        <% }%>
+                    </select>
+                    <select name="idCiudad" form="filtrarEmpl" class="form-control inputSection">                       
+                        <%
+                            List<Ciudad> ciu = cons.consultarCiudad();
+                            for (Ciudad c : ciu) {
+                        %>  
+                        <option value="<%=c.getIdCiudad()%>"><%=c.getNombreCiudad()%></option>                      
+                        <% }%>
+                    </select>
+                    <select name="idJornada" form="filtrarEmpl" class="form-control inputSection">                       
+                        <%
+                            List<Jornada> jor = cons.consultarJornada();
+                            for (Jornada j : jor) {
+                        %>  
+                        <option value="<%=j.getIdJornada()%>"><%=j.getNombreJornada()%></option>                      
+                        <% }%>
+                    </select>
+                    <center>
+                        <input type="submit" value="Filtrar" class="btn btn-success" name="crearEmpleo"/>
+                    </center>
+                </form>
+            </div>
         </div>
-        <div class="col-md-8">
+
+        <div class="col-md-7">
             <center><h1>Encuentra empleo</h1></center>
             <div class="container">
                 <div class="row">
@@ -223,7 +280,7 @@
                     <td class="col-md-5"><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>   
                         <%  }%>
                         <%
-                            Consultas cons = new Consultas();
+
                             List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
                             for (Cargo cargo : c) {
                         %>     
