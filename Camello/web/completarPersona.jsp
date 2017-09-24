@@ -133,7 +133,10 @@
             <%
             } else {
             %>
-            <input type="button" name="edit" value="Imagen guardada" class="btn btn-primary disabled" id="button" onclick="location.href = ">
+            <div class="panel-heading">
+               <input type="button" name="edit" value="Imagen guardada" class="btn btn-primary disabled" id="button" onclick="location.href = ">
+            </div>
+            
             <%
                 }
                 if (person.getRutaHojadevida() == null) {
@@ -151,7 +154,10 @@
 
             %>
             <br>
-            <input type="button" name="edit" value="Documento guardado" class="btn btn-primary disabled" id="button" onclick="location.href = ">
+            
+             <div>
+                <input type="button" name="edit" value="Documento guardado" class="btn btn-primary disabled" id="button" onclick="location.href = ">
+            </div>          
             <%        }
                 }
             %>

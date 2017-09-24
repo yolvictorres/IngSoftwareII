@@ -124,7 +124,7 @@
 
         <div class="col-md-3 left panel-info">
             <div class="panel-heading">
-                <b>Filtro por salario</b>
+                <b>Filtrar empleos</b>
             </div>
             <div class="panel-body">
                 <form action="ServletEmpleo" method="post" id="filtrarEmpl" name="filtrarEmpl">
@@ -205,7 +205,7 @@
 
         <div class="col-md-3 left panel-info">
             <div class="panel-heading">
-                <b>Filtro empleos</b>
+                <b>Filtrar empleos</b>
             </div>
             <div class="panel-body">
                 <form action="ServletEmpleo" method="post" id="filtrarEmpl" name="filtrarEmpl">
