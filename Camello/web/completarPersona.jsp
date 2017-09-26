@@ -113,17 +113,55 @@
         </div>
         <div class="col-md-8">
             <center><h1>Completar perfil</h1></center>
-
-            <form action="ServletPersona" method="post" id="editarEmpl" name="editarPer">   
-
                 <%
                     DAOPersona daop = new DAOPersona();
                     Persona persona = new Persona();
-                    List<Persona> y = daop.consultarXID(Integer.parseInt(request.getParameter("id")));
+                    persona.setIdPersona(Integer.parseInt(request.getParameter("id")));
+                    List<Persona> y = daop.consultarXID(persona.getIdPersona());
                     for (Persona person : y) {
-                %>          
-                <% }%>
+                        if (person.getRutaFoto() == null) {
+                %>
+            <form  enctype="multipart/form-data" action="ServletSubirImagen" method="post" id="completarEmpl" name="completarPer">   
+                <label>Seleccione una imagen de perfil: </label><br>
+                <input type="file" name="fileName"> 
+                <input name="idPersona" value="<%=Integer.parseInt(request.getParameter("id"))%>" type="hidden" />
+                <div>
+                    <input type="submit" value="Guardar imagen" class="btn btn-success" name="SubirFoto"/>
+                    <input type="submit" value="Cancelar" class="btn btn-danger" formaction="inicio.jsp" formnovalidate/>
+                </div>
             </form>
+            <%
+            } else {
+            %>
+            <div class="panel-heading">
+               <input type="button" name="edit" value="Imagen guardada" class="btn btn-primary disabled" id="button" onclick="location.href = ">
+            </div>
+            
+            <%
+                }
+                if (person.getRutaHojadevida() == null) {
+            %>
+            <form  enctype="multipart/form-data" action="ServletSubirDocumento" method="post" >   
+                <label>Seleccione el documento de su hoja de vida en pdf: </label><br>
+                <input type="file" name="fileName"> 
+                <input name="idPersona" value="<%=Integer.parseInt(request.getParameter("id"))%>" type="hidden" />
+                <div>
+                    <input type="submit" value="Guardar" class="btn btn-success" name="SubirDocumento"/>
+                    <input type="submit" value="Cancelar" class="btn btn-danger" formaction="inicio.jsp" formnovalidate/>
+                </div>
+            </form>
+            <% } else {
+
+            %>
+            <br>
+            
+             <div>
+                <input type="button" name="edit" value="Documento guardado" class="btn btn-primary disabled" id="button" onclick="location.href = ">
+            </div>          
+            <%        }
+                }
+            %>
+
         </div>
         <div class="col-md-2">
         </div>

@@ -22,7 +22,7 @@ import Modelo.Persona;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 10, // 10 MB 
         maxFileSize = 1024 * 1024 * 50, // 50 MB
         maxRequestSize = 1024 * 1024 * 100,// 100 MB
-        location = "C:\\Users\\IAN\\Documents\\IngSoftwareIIS\\Camello\\web\\images"
+        location = "C:\\Users\\usuario\\Documents\\IngSoftwareII\\Camello\\web\\images"
 )
 
 public class ServletSubirImagen extends HttpServlet {
@@ -39,7 +39,7 @@ public class ServletSubirImagen extends HttpServlet {
             HttpServletResponse response) throws ServletException, IOException {
         DAOPersona daop = new DAOPersona();
         DAOEmpresa daoe = new DAOEmpresa();
-        String uploadFilePath = "C:\\Users\\IAN\\Documents\\IngSoftwareIIS\\Camello\\web" + File.separator + UPLOAD_DIR;
+        String uploadFilePath = "C:\\Users\\usuario\\Documents\\IngSoftwareII\\Camello\\web" + File.separator + UPLOAD_DIR;
         File fileSaveDir = new File(uploadFilePath);
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdirs();
@@ -50,23 +50,43 @@ public class ServletSubirImagen extends HttpServlet {
         String fileName = null;
         String idEmpresa = (request.getParameter("idEmpresa"));
         String idPersona = (request.getParameter("idPersona"));
-
-        for (Part part : request.getParts()) {
+        String f = "";
+      
+        if (idEmpresa != null) {
+             for (Part part : request.getParts()) {
             if (fileName == null) {
                 fileName = getFileName(part);
-                part.write(fileName);
+                char[] ar = fileName.toCharArray();
+                int n = ar.length - 4;
+                for (int i = n; i < ar.length; i++) {
+                    f = f + Character.toString(ar[i]);
+                }
+                part.write("img" + idEmpresa + f);
             }
         }
-        if (idEmpresa != null) {
-            empresa.setRutaLogo(UPLOAD_DIR + "\\" + fileName);
+            empresa.setRutaLogo(UPLOAD_DIR + "\\" + "img" + idEmpresa + f);
+            empresa.setIdEmpresa(Integer.parseInt(idEmpresa));
             daoe.subirImagen(empresa);
+            request.setAttribute("message", fileName + " File uploaded successfully!");
+            getServletContext().getRequestDispatcher("/completarEmpresa.jsp?id=" + idEmpresa).forward(request, response);
         } else {
-            persona.setRutaFoto(UPLOAD_DIR + "\\" + fileName);
-            daop.subirImagen(persona);
+             for (Part part : request.getParts()) {
+            if (fileName == null) {
+                fileName = getFileName(part);
+                char[] ar = fileName.toCharArray();
+                int n = ar.length - 4;
+                for (int i = n; i < ar.length; i++) {
+                    f = f + Character.toString(ar[i]);
+                }
+                part.write("img" + idPersona + f);
+            }
         }
-        request.setAttribute("message", fileName + " File uploaded successfully!");
-        getServletContext().getRequestDispatcher("/inicio.jsp").forward(
-                request, response);
+            persona.setRutaFoto(UPLOAD_DIR + "\\" + "img" + idPersona + f);
+            persona.setIdPersona(Integer.parseInt(idPersona));
+            daop.subirImagen(persona);
+            request.setAttribute("message", fileName + " File uploaded successfully!");
+            getServletContext().getRequestDispatcher("/completarPersona.jsp?id=" + idPersona).forward(request, response);
+        }
 
     }
 

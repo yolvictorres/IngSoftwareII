@@ -1,3 +1,6 @@
+<%@page import="Modelo.Jornada"%>
+<%@page import="Modelo.Salario"%>
+<%@page import="Modelo.Cargo"%>
 <%@page import="Modelo.Ciudad"%>
 <%@page import="Acceso.Consultas"%>
 <%@page import="Modelo.Empresa"%>
@@ -8,6 +11,13 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    String dis=null;
+    if(request.getParameter("idCargo")!=null){
+        dis=request.getParameter("idCargo");
+        }
+            
+%>
 <html>
     <head>        
         <title>Empleos</title>
@@ -21,6 +31,11 @@
         <% if (request.getAttribute("respuesta") != null) {%>
         <meta http-equiv="refresh" content="3;URL=empleos.jsp">
         <% }%>
+        <script>
+            function pasar(){
+                document.filtrarEmpl.submit();
+            }
+        </script>
     </head>
     <body>
         <%
@@ -118,9 +133,28 @@
             if (sesion.getAttribute("idEmpresa") != null) {
         %>
 
-        <div class="col-md-2">
+
+        <div class="col-md-3 left panel-info">
+            <div class="panel-heading">
+                <b>Filtrar empleos</b>
+            </div>
+            <div class="panel-body">
+                <form action="ServletEmpleo" method="post" id="filtrarEmpl" name="filtrarEmpl">
+                    <select name="idCiudad" form="crearEmpl" class="form-control inputSection">                       
+                        <%
+                            Consultas cons = new Consultas();
+                            List<Salario> sal = cons.consultarSalario();
+                            for (Salario s : sal) {
+                        %>  
+                        <option value="<%=s.getIdSalario()%>"><%=s.getSalario()%></option>                      
+                        <% }%>
+                    </select>
+                    <input type="submit" value="Filtrar" class="btn btn-success" name="crearEmpleo"/>
+                </form>
+            </div>
         </div>
-        <div class="col-md-8">
+
+        <div class="col-md-7">
             <center><h1>Empleos Publicados</h1></center>
                 <%if (request.getAttribute("respuesta") != null) {%>
             <div class="alert alert-success">
@@ -145,9 +179,13 @@
                 </thead>
                 <tbody>                
                     <tr><center>                                               
-                    <td class="col-md-4"><center><a ><%=empleo.getCargo()%></a></center></td> 
+                    <%
+                        List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
+                        for (Cargo cargo : c) {
+                    %>     
+                    <td class="col-md-4"><center><a ><%=cargo.getNombreCargo()%></a></center></td>
+                        <%  }%>
                         <%
-                            Consultas cons = new Consultas();
                             List<Ciudad> z = cons.consultarCiudadId(empleo.getIdCiudad());
                             for (Ciudad ciudad : z) {
                         %>     
@@ -176,27 +214,40 @@
             if (sesion.getAttribute("idPersona") != null) {
         %>
 
-        <div class="col-md-2">
+
+        <div class="col-md-3 left panel-info">
+            <div class="panel-heading">
+                <b>Filtrar empleos</b>
+            </div>
+            <div class="panel-body">
+                <form action="empleos.jsp" method="post" id="filtrarEmpl" name="filtrarEmpl">
+                    <select name="idCargo" form="filtrarEmpl" class="form-control inputSection">                       
+                        <%
+                            Consultas cons = new Consultas();
+                            List<Cargo> car = cons.consultarCargo();
+                            for (Cargo ca : car) {
+                        %>  
+                        <option value="<%=ca.getIdCargo()%>"><%=ca.getNombreCargo()%></option>                      
+                        <% }%>
+                    </select>
+                    <center>
+                        <input type="submit" value="Filtrar" class="btn btn-success" name="crearEmpleo"/>
+                    </center>
+                </form>
+            </div>
         </div>
-        <div class="col-md-8">
+
+        <div class="col-md-7">
             <center><h1>Encuentra empleo</h1></center>
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <div id="custom-search-input">
-                            <div class="input-group col-md-12">
-                                <input type="text" class="form-control input-lg" placeholder="Buscar" />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-info btn-sm" type="button">
-                                        <i class="glyphicon glyphicon-search"></i>
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
             <%
+                if(dis==null){
                 DAOEmpleo daoem = new DAOEmpleo();
                 List<Empleo> y = daoem.consultar();
                 for (Empleo empleo : y) {
@@ -216,7 +267,13 @@
                     %>
                     <td class="col-md-5"><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>   
                         <%  }%>
-                    <td class="col-md-5"><center><a ><%=empleo.getCargo()%></a></center></td> 
+                        <%
+
+                            List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
+                            for (Cargo cargo : c) {
+                        %>     
+                    <td class="col-md-4"><center><a ><%=cargo.getNombreCargo()%></a></center></td>
+                        <%  }%>
                     <td class="col-md-1"><input type="button" name="edit" value="Ver" class="button" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>  
                     </tr>                                 
                     </tbody> 
@@ -228,7 +285,48 @@
             <div class="alert alert-warning">
                 <p> Aún no se han publicado empleos, porfavor vuelve más tarde.</p>            
             </div>            
-            <% }%>
+            <% }
+                }else if(dis!=null){
+                    DAOEmpleo daoem = new DAOEmpleo();
+                    List<Empleo> y = daoem.consultarIdC(dis);
+                    for (Empleo empleo : y) {
+            %>
+            <table class="table table-bordered">
+                <thead>                
+                <th>Empresa</th>
+                <th>Cargo</th>
+                <th>Detalles</th>
+                </thead>
+                <tbody>  
+                    <tr><center>   
+                    <%
+                        DAOEmpresa daoe = new DAOEmpresa();
+                        List<Empresa> x = daoe.consultarXID(empleo.getIdEmpresa());
+                        for (Empresa empresa : x) {
+                    %>
+                    <td class="col-md-5"><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>   
+                        <%  }%>
+                        <%
+
+                            List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
+                            for (Cargo cargo : c) {
+                        %>     
+                    <td class="col-md-4"><center><a ><%=cargo.getNombreCargo()%></a></center></td>
+                        <%  }%>
+                    <td class="col-md-1"><input type="button" name="edit" value="Ver" class="button" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>  
+                    </tr>                                 
+                    </tbody> 
+            </table>
+            <%  }%>
+            <%
+                if (y.size() == 0) {
+            %>
+            <div class="alert alert-warning">
+                <p> Aún no se han publicado empleos, porfavor vuelve más tarde.</p>            
+            </div>            
+            <% }
+                    }
+            %>
 
             <div class="center-block"> 
                 <center>

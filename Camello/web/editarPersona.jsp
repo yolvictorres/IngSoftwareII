@@ -114,7 +114,7 @@
         <div class="col-md-8">
             <center><h1>Editar perfil</h1></center>
 
-            <form action="ServletPersona" method="post" id="editarEmpl" name="editarPer">   
+            <form action="ServletPersona" method="post" id="editarEmpl" name="editarPer" accept-charset="utf-8">   
 
                 <%
                     DAOPersona daop = new DAOPersona();

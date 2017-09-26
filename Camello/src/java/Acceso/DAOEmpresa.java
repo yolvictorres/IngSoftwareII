@@ -33,7 +33,7 @@ public class DAOEmpresa implements CRUDyBuscar {
         } catch (SQLException e) {
             System.out.println("Error" + e);
         } finally {
-            try {
+            try {   
                 if (conn != null) {
                     conn.close();
                 }

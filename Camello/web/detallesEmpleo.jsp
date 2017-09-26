@@ -1,4 +1,6 @@
 
+<%@page import="Modelo.Salario"%>
+<%@page import="Modelo.Cargo"%>
 <%@page import="Modelo.Jornada"%>
 <%@page import="Modelo.Ciudad"%>
 <%@page import="Acceso.Consultas"%>
@@ -190,8 +192,28 @@
                 <th>Cargo</th>
                 </thead>
                 <tbody>                
+                    <%
+                        List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
+                        for (Cargo cargo : c) {
+                    %>
                     <tr><center>      
-                    <td><center><a ><%=empleo.getCargo()%></a></center></td>
+                    <td><center><a ><%=cargo.getNombreCargo()%></a></center></td>
+                        <%  }%>
+                    </tr>              
+                    </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <thead>                
+                <th>Salario</th>
+                </thead>
+                <tbody>                
+                    <%
+                        List<Salario> s = cons.consultarSalarioId(empleo.getIdSalario());
+                        for (Salario salario : s) {
+                    %>
+                    <tr><center>      
+                    <td><center><a ><%=salario.getSalario()%></a></center></td>
+                        <%  }%>
                     </tr>              
                     </tbody> 
             </table>
@@ -289,8 +311,28 @@
                 <th>Cargo</th>
                 </thead>
                 <tbody>                
+                    <%
+                        List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
+                        for (Cargo cargo : c) {
+                    %>
                     <tr><center>      
-                    <td><center><a ><%=empleo.getCargo()%></a></center></td>
+                    <td><center><a ><%=cargo.getNombreCargo()%></a></center></td>
+                        <%  }%>
+                    </tr>              
+                    </tbody> 
+            </table>
+            <table class="table table-bordered">
+                <thead>                
+                <th>Salario</th>
+                </thead>
+                <tbody>                
+                    <%
+                        List<Salario> s = cons.consultarSalarioId(empleo.getIdSalario());
+                        for (Salario salario : s) {
+                    %>
+                    <tr><center>      
+                    <td><center><a ><%=salario.getSalario()%></a></center></td>
+                        <%  }%>
                     </tr>              
                     </tbody> 
             </table>

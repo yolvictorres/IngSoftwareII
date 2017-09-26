@@ -19,7 +19,9 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `camello`
 --
-create schema camello;
+create schema camello
+default char set utf8
+default collate utf8_spanish_ci;
 use camello;
 -- --------------------------------------------------------
 
@@ -30,7 +32,7 @@ use camello;
 CREATE TABLE `amigos` (
   `COD_PERSONA` int(11) NOT NULL,
   `COD_AMIGO` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -40,8 +42,8 @@ CREATE TABLE `amigos` (
 
 CREATE TABLE `campo_laboral` (
   `COD_C_LABORAL` int(11) NOT NULL,
-  `NOM_C_LABORAL` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `NOM_C_LABORAL` text CHARACTER SET utf8 COLLATE utf8_spanish_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -102,13 +104,16 @@ CREATE TABLE `empresa` (
   `COD_EMPRESA` int(11) NOT NULL,
   `COD_C_LABORAL` int(11) DEFAULT NULL,
   `NOM_EMPRESA` text,
-  `LOGO` blob,
   `RUTA_LOGO` text,
   `CORREO` text,
   `CLAVE` text,
   `TELEFONO` text,
   `DESCRIPCION` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `empresa` (`COD_EMPRESA`, `COD_C_LABORAL`, `NOM_EMPRESA`, `RUTA_LOGO`, `CORREO`, `CLAVE`, `TELEFONO`, `DESCRIPCION`) VALUES
+(444, NULL, 'Konrad Lorenz', NULL, 'k@k', '123', NULL, NULL);
+
 
 -- --------------------------------------------------------
 
@@ -181,23 +186,23 @@ INSERT INTO `pais` (`COD_PAIS`, `NOM_PAIS`) VALUES
 
 CREATE TABLE `persona` (
   `COD_PERSONA` int(11) NOT NULL,
-  `NOMBRES` text,
+  `NOMBRES` varchar(55) CHARACTER SET utf8 collate utf8_spanish_ci,
   `APELLIDOS` text,
-  `FECHA_NACIMIENTO` text DEFAULT NULL,
+  `FECHA_NACIMIENTO` text,
   `FOTO` blob,
   `RUTA_FOTO` text,
   `CORREO` text,
   `CLAVE` text,
   `TELEFONO` text,
   `HOJA_DE_VIDA` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET= utf8 collate utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `persona`
 --
 
 INSERT INTO `persona` (`COD_PERSONA`, `NOMBRES`, `APELLIDOS`, `FECHA_NACIMIENTO`, `FOTO`, `RUTA_FOTO`, `CORREO`, `CLAVE`, `TELEFONO`, `HOJA_DE_VIDA`) VALUES
-(1, 'ian', 'Mendez', NULL, NULL, NULL, 'ian@ian', '123', NULL, NULL);
+(1, 'ian ían', 'Mendez', NULL, NULL, NULL, 'ian@ian', '123', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -249,7 +254,7 @@ CREATE TABLE `salario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `salario` (`COD_SALARIO`, `SALARIO`) VALUES
-(1, 'a convenir'),
+(1, 'A convenir'),
 (2, 'Menos de $ 700.000'),
 (3, 'Mas de $ 700.000'),
 (4, 'Mas de $ 1.000.000'),
