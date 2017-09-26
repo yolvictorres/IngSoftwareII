@@ -20,23 +20,25 @@
         <% }%>
     </head>
     <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a href="index.jsp"><img  class="navbar-brand" src="images/camello.png" style="width: 11%; height: 11%;"></a>
+       <div>
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="index.jsp">Camello</a>
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <!-- /.navbar-collapse -->
                 </div>
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <!-- /.navbar-collapse -->
-            </div>
-            <!-- /.container -->
-        </nav>
+                <!-- /.container -->
+            </nav>
+        </div>
         <%if (request.getAttribute("respuesta") != null) {%>
         <br><br><br>
         <div class="alert alert-success">
@@ -54,10 +56,10 @@
                     <div><input name="nit" placeholder="Nit" class="form-control inputSection" type="number" min="1" required/></div>
                     <div><input name="nombre" placeholder="Nombre" class="form-control inputSection" type="text" required/></div>
                     <div><input name="correo" placeholder="Correo" class="form-control inputSection" type="email" required/></div>
-                    <div><input name="clave" placeholder="Contraseña" class="form-control inputSection" type="password" required/></div>
+                    <div><input name="clave" placeholder="Contraseña" class="form-control inputSection" type="password" required/></div><br>
                     <div>
-                        <input type="submit" value="Registrar" class="btn btn-success" name="crearEmpresa"/>
-                        <input type="submit" value="Cancelar" class="btn btn-danger" formaction="index.jsp" formnovalidate/>
+                        <center><input type="submit" value="Registrar" class="btn btn-success" name="crearEmpresa"/></center>
+                        <center><input type="submit" value="Cancelar" class="btn btn-danger" formaction="index.jsp" formnovalidate/></center>
                     </div>
                 </form>
             </div>

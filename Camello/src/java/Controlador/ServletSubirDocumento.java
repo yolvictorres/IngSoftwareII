@@ -22,7 +22,7 @@ import Modelo.Persona;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 10, // 10 MB 
         maxFileSize = 1024 * 1024 * 50, // 50 MB
         maxRequestSize = 1024 * 1024 * 100,// 100 MB
-        location = "C:\\Users\\usuario\\Documents\\IngSoftwareII\\Camello\\web\\documentos"
+        location = "E:\\IngSoftwareIIS\\Camello\\web\\documentos"
 )
 
 public class ServletSubirDocumento extends HttpServlet {
@@ -38,7 +38,7 @@ public class ServletSubirDocumento extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         DAOPersona daop = new DAOPersona();
-        String uploadFilePath = "C:\\Users\\usuario\\Documents\\IngSoftwareII\\Camello\\web" + File.separator + UPLOAD_DIR;
+        String uploadFilePath = "E:\\IngSoftwareIIS\\Camello\\web\\documentos" + File.separator + UPLOAD_DIR;
         File fileSaveDir = new File(uploadFilePath);
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdirs();

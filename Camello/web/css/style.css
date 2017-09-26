@@ -1,3 +1,4 @@
+
 .boxlogin{
     text-align: right;
     border-radius: 4px;
@@ -9,6 +10,20 @@
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
 }
+.boxlogin input {
+    width: 65%;
+    margin: 1px auto;
+}
+
+.boxlogin select {
+    width: 65%;
+    margin: 1px auto;
+}
+.table table-bordered tbody tr td select option{
+    width: 75%;
+    margin: 1px auto;
+}
+
 .boxlogin.form.div{
     width: 50%;
 }
