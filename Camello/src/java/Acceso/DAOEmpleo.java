@@ -268,16 +268,18 @@ public class DAOEmpleo implements CRUD {
         List<Empleo> y = new ArrayList<>();
         Connection conn = null;
         ResultSet rs = null;
+
         PreparedStatement pst = null;
         try {
             conn = con.getconexion();
             String consulta = "select * from publicar_empresa where ";
             if (Ciudad != 0) {
-                consulta = consulta + "cod_ciudad = ?";
+                consulta += "cod_ciudad = ?";
             }
-            
+
             pst = conn.prepareStatement(consulta);
-pst.setInt(1, Ciudad);
+            pst.setInt(1, Ciudad);
+
             rs = pst.executeQuery();
             while (rs.next()) {
                 y.add(new Empleo(rs.getInt("cod_p_empresa"),
