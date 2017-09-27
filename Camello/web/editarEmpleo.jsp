@@ -279,7 +279,7 @@
                 <%  }%>
                 <div>
                     <input type="submit" value="Guardar" class="btn btn-success" name="editarEmpleo"/>
-                    <input type="submit" value="Cancelar" class="btn btn-danger" formaction="empleos.jsp" formnovalidate/>
+                    <input type="submit" value="Cancelar" class="btn btn-default" formaction="empleos.jsp" formnovalidate/>
                 </div>
             </form>
         </div>

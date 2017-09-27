@@ -68,6 +68,13 @@ public class ServletEmpleo extends HttpServlet {
                     respuesta = dao.editar(empleo);
                     request.setAttribute("respuesta", respuesta);
                     rd = request.getRequestDispatcher("empleos.jsp");
+                } else if (request.getParameter("Filtrar") != null) {
+                    empleo.setIdCiudad(Integer.parseInt(request.getParameter("idCiudad")));
+                    empleo.setIdCargo(Integer.parseInt(request.getParameter("idCargo")));
+                    empleo.setIdSalario(Integer.parseInt(request.getParameter("idSalario")));
+                    respuesta = dao.editar(empleo);
+                    request.setAttribute("respuesta", respuesta);
+                    rd = request.getRequestDispatcher("empleos.jsp");
                 }
             } catch (NumberFormatException e) {
 

@@ -43,7 +43,7 @@
                 out.print("<script>location.replace('index.jsp');</script>");
             }
         %>
-       <div>
+        <div>
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -130,74 +130,75 @@
         <div class="col-md-2">
         </div>
         <div class="col-md-8">
+            <div class="panel panel-default">
+                <%
+                    DAOPersona daop = new DAOPersona();
+                    Persona persona = new Persona();
+                    persona.setIdPersona(Integer.parseInt(request.getParameter("id")));
+                    List<Persona> y = daop.consultarXID(persona.getIdPersona());
+                    for (Persona person : y) {
+                        if (person.getRutaFoto() == null) {
+                %>           
+                <div class="row">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-6">
+                        <center><img src="images/persona.png" alt="usuariopersona" class="img-circle"></center>
+                    </div>
+                    <div class="col-md-3">
+                    </div>                
+                </div>
+                <% } else {%>
+                <div class="row">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-6">
+                        <center><img src="<%=person.getRutaFoto()%>" alt="usuariopersona" class="img-circle"></center>
+                    </div>
+                    <div class="col-md-3">
+                    </div>                
+                </div>
+                <% }%>
 
-            <%
-                DAOPersona daop = new DAOPersona();
-                Persona persona = new Persona();
-                persona.setIdPersona(Integer.parseInt(request.getParameter("id")));
-                List<Persona> y = daop.consultarXID(persona.getIdPersona());
-                for (Persona person : y) {
-                    if (person.getRutaFoto() == null) {
-            %>           
-            <div class="row">
-                <div class="col-md-3">
-                </div>
-                <div class="col-md-6">
-                    <center><img src="images/persona.png" alt="usuariopersona" class="img-circle"></center>
-                </div>
-                <div class="col-md-3">
-                </div>                
+                <table class="table table-bordered">
+                    <tbody>                
+                        <tr>
+                            <td class="col-md-2"><center><a >Nombres:</a></center></td> 
+                    <td class="col-md-4"><center><a ><%=person.getNombresPersona()%></a></center></td>                              
+                    </tbody> 
+                </table>
+                <table class="table table-bordered">
+                    <tbody>                
+                        <tr>
+                            <td class="col-md-2"><center><a >Apellidos:</a></center></td> 
+                    <td class="col-md-4"><center><a ><%=person.getApellidosPersona()%></a></center></td>                              
+                    </tbody> 
+                </table>
+                <table class="table table-bordered">
+                    <tbody>                
+                        <tr>
+                            <td class="col-md-2"><center><a >Correo Electronico:</a></center></td> 
+                    <td class="col-md-4"><center><a ><%=person.getCorreoPersona()%></a></center></td>                              
+                    </tbody> 
+                </table>
+                <table class="table table-bordered">
+                    <tbody>                
+                        <tr>
+                            <td class="col-md-2"><center><a >Telefono:</a></center></td> 
+                    <td class="col-md-4"><center><a ><%=person.getTelefono()%></a></center></td>                              
+                    </tbody> 
+                </table>
+                <table class="table table-bordered">
+                    <tbody>                
+                        <tr>
+                            <td class="col-md-2"><center><a >Fecha de nacimiento:</a></center></td> 
+                    <td class="col-md-4"><center><a ><%=person.getEdad()%></a></center></td>                              
+                    </tbody> 
+                </table>
+                <%
+                    }
+                %>
             </div>
-            <% } else {%>
-            <div class="row">
-                <div class="col-md-3">
-                </div>
-                <div class="col-md-6">
-                    <center><img src="<%=person.getRutaFoto()%>" alt="usuariopersona" class="img-circle"></center>
-                </div>
-                <div class="col-md-3">
-                </div>                
-            </div>
-            <% }%>
-
-            <table class="table table-bordered">
-                <tbody>                
-                    <tr>
-                        <td class="col-md-2"><center><a >Nombres:</a></center></td> 
-                <td class="col-md-4"><center><a ><%=person.getNombresPersona()%></a></center></td>                              
-                </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <tbody>                
-                    <tr>
-                        <td class="col-md-2"><center><a >Apellidos:</a></center></td> 
-                <td class="col-md-4"><center><a ><%=person.getApellidosPersona()%></a></center></td>                              
-                </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <tbody>                
-                    <tr>
-                        <td class="col-md-2"><center><a >Correo Electronico:</a></center></td> 
-                <td class="col-md-4"><center><a ><%=person.getCorreoPersona()%></a></center></td>                              
-                </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <tbody>                
-                    <tr>
-                        <td class="col-md-2"><center><a >Telefono:</a></center></td> 
-                <td class="col-md-4"><center><a ><%=person.getTelefono()%></a></center></td>                              
-                </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <tbody>                
-                    <tr>
-                        <td class="col-md-2"><center><a >Fecha de nacimiento:</a></center></td> 
-                <td class="col-md-4"><center><a ><%=person.getEdad()%></a></center></td>                              
-                </tbody> 
-            </table>
-            <%
-                }
-            %>
         </div>
         <div class="col-md-2">
         </div>
@@ -207,7 +208,8 @@
 
         <div class="col-md-2">
         </div>
-        <div class="col-md-8">                                      
+        <div class="col-md-8">            
+
             <%
                 DAOPersona daop = new DAOPersona();
                 Persona persona = new Persona();
@@ -215,7 +217,7 @@
                 List<Persona> y = daop.consultarXID(persona.getIdPersona());
                 for (Persona person : y) {
                     if (person.getRutaFoto() == null) {
-            %>           
+            %>                
             <div class="row">
                 <div class="col-md-3">
                 </div>
@@ -224,7 +226,7 @@
                 </div>
                 <div class="col-md-3">
                 </div>                
-            </div>
+            </div><br>                
             <% } else {%>
             <div class="row">
                 <div class="col-md-3">
@@ -234,50 +236,43 @@
                 </div>
                 <div class="col-md-3">
                 </div>                
-            </div>
+            </div><br>
             <% }%>
-
-            <table class="table table-bordered">
-                <tbody>                
+            <div class="panel panel-default">
+                <table class="table table-bordered table-striped">
+                    <tbody>                
+                        <tr>
+                            <td class="col-md-2"><center><p>Nombres:</p></center></td> 
+                    <td class="col-md-4"><center><p ><%=person.getNombresPersona()%></p></center></td>                              
+                    </tr>               
                     <tr>
-                        <td class="col-md-2"><center><a >Nombres:</a></center></td> 
-                <td class="col-md-4"><center><a ><%=person.getNombresPersona()%></a></center></td>                              
-                </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <tbody>                
+                        <td class="col-md-2"><center><p >Apellidos:</p></center></td> 
+                    <td class="col-md-4"><center><p><%=person.getApellidosPersona()%></p></center></td>                              
+                    </tr>                
                     <tr>
-                        <td class="col-md-2"><center><a >Apellidos:</a></center></td> 
-                <td class="col-md-4"><center><a ><%=person.getApellidosPersona()%></a></center></td>                              
-                </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <tbody>                
+                        <td class="col-md-2"><center><p >Correo Electronico:</p></center></td> 
+                    <td class="col-md-4"><center><p ><%=person.getCorreoPersona()%></p></center></td>                              
+                    </tr>                
                     <tr>
-                        <td class="col-md-2"><center><a >Correo Electronico:</a></center></td> 
-                <td class="col-md-4"><center><a ><%=person.getCorreoPersona()%></a></center></td>                              
-                </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <tbody>                
+                        <td class="col-md-2"><center><p>Telefono:</p></center></td> 
+                    <td class="col-md-4"><center><p ><%=person.getTelefono()%></p></center></td>                              
+                    </tr>                 
                     <tr>
-                        <td class="col-md-2"><center><a >Telefono:</a></center></td> 
-                <td class="col-md-4"><center><a ><%=person.getTelefono()%></a></center></td>                              
-                </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <tbody>                
+                        <td class="col-md-2"><center><p>Fecha de nácimiento:</p></center></td> 
+                    <td class="col-md-4"><center><p ><%=person.getEdad()%></p></center></td>                              
+                    </tbody> 
                     <tr>
-                        <td class="col-md-2"><center><a >Fecha de nácimiento:</a></center></td> 
-                <td class="col-md-4"><center><a ><%=person.getEdad()%></a></center></td>                              
-                </tbody> 
-            </table>
-            <center>                         
-                <input type="button" name="edit" value="Hoja de vida" class="btn btn-primary active" id="button" onclick="javascipt:window.open('<%=person.getRutaHojadevida()%>');">
-            </center>
+                        <td class="col-md-2"><center><p>Hoja de vida:</p></center></td> 
+                    <td class="col-md-4"><center><input type="button" name="edit" value="Ver" class="btn btn-primary btn-sm" id="button" onclick="javascipt:window.open('<%=person.getRutaHojadevida()%>');"></center>
+                    </td>                              
+                    </tbody> 
+                </table>
+            </div>            
+            <br>
             <%
                 }
             %>
+
         </div>
         <div class="col-md-2">
         </div>

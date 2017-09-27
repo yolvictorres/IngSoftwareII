@@ -123,7 +123,8 @@
         <div class="col-md-2">
         </div>
         <div class="col-md-8">
-            <center><h1>Editar perfil</h1></center>
+
+            <center><h1>Editar perfil</h1></center><br>
 
             <form action="ServletEmpresa" method="post" id="editarEmpl" name="editarPer">   
 
@@ -137,43 +138,37 @@
                 <table class="table table-bordered">
                     <tbody>                
                         <tr>
-                            <td class="col-md-2"><center><a >Nombre:</a></center></td> 
+                            <td class="col-md-2"><center><p >Nombre:</p></center></td> 
                     <td class="col-md-4"><center><div><input name="nombre" value="<%=empr.getNombreEmpresa()%>" class="form-control inputSection" type="text" /></div></center></td>                              
-                    </tbody> 
-                </table>
-                <table class="table table-bordered">
-                    <tbody>                
-                        <tr>
-                            <td class="col-md-2"><center><a >Descripcion:</a></center></td> 
-                <td class="col-md-4"><center><div><input name="descripcion" value="<%=empr.getDescripcionEmpresa()%>" class="form-control inputSection" type="text" /></div></center></td>                              
-                    </tbody> 
-                </table>
-                <table class="table table-bordered">
-                    <tbody>                
-                        <tr>
-                            <td class="col-md-2"><center><a >Correo Electronico:</a></center></td> 
+                    </tr>              
+                    <tr>
+                        <td class="col-md-2"><center><p >Descripcion:</p></center></td> 
+                    <td class="col-md-4"><center><div><input name="descripcion" value="<%=empr.getDescripcionEmpresa()%>" class="form-control inputSection" type="text" /></div></center></td>                              
+                    </tr>              
+                    <tr>
+                        <td class="col-md-2"><center><p >Correo Electronico:</p></center></td> 
                     <td class="col-md-4"><center><div><input name="correo" value="<%=empr.getCorreoEmpresa()%>" class="form-control inputSection" type="email" /></div></center></td>                              
-                    </tbody> 
-                </table>
-                <table class="table table-bordered">
-                    <tbody>                
-                        <tr>
-                            <td class="col-md-2"><center><a >Telefono:</a></center></td> 
-                    <td class="col-md-4"><center><div><input name="telefono" value="<%=empr.getTelefonoEmpresa()%>" class="form-control inputSection" type="number" /></div></center></td>                              
+                    </tr>             
+                    <tr>
+                        <td class="col-md-2"><center><p>Telefono:</p></center></td> 
+                    <td class="col-md-4"><div><input name="telefono" value="<%=empr.getTelefonoEmpresa()%>" class="form-control inputSection" type="number" /></div></td>                              
+                    </tr>
                     </tbody> 
                 </table>
 
-                <div>
+                <center>
                     <input type="submit" value="Guardar" class="btn btn-success" name="editarEmpresa"/>
-                    <input type="submit" value="Cancelar" class="btn btn-danger" formaction="inicio.jsp" formnovalidate/>
-                </div>
-                <% }%>
-            </form>
+                    <input type="submit" value="Cancelar" class="btn btn-default" formaction="inicio.jsp" formnovalidate/>
+                </center>
         </div>
-        <div class="col-md-2">
-        </div>
+        <% }%>
+    </form>
+</div>
+</div>
+<div class="col-md-2">
+</div>
 
-        <script src="js/jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-    </body>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+</body>
 </html>

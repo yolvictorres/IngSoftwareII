@@ -123,7 +123,7 @@
         <div class="col-md-2">
         </div>
         <div class="col-md-8">
-            <center><h1>Editar perfil</h1></center>
+            <center><h1>Editar perfil</h1></center><br>
 
             <form action="ServletPersona" method="post" id="editarEmpl" name="editarPer">   
 
@@ -137,35 +137,27 @@
                 <table class="table table-bordered">
                     <tbody>                
                         <tr>
-                            <td class="col-md-2"><center><a >Nombres:</a></center></td> 
+                            <td class="col-md-2"><center><p >Nombres:</p></center></td> 
                     <td class="col-md-4"><center><div><input name="nombres" value="<%=person.getNombresPersona()%>" class="form-control inputSection" type="text" /></div></center></td>                              
-                    </tbody> 
-                </table>
-                <table class="table table-bordered">
-                    <tbody>                
-                        <tr>
-                            <td class="col-md-2"><center><a >Apellidos:</a></center></td> 
+                    </tr>                
+                    <tr>
+                        <td class="col-md-2"><center><p >Apellidos:</p></center></td> 
                     <td class="col-md-4"><center><div><input name="apellidos" value="<%=person.getApellidosPersona()%>" class="form-control inputSection" type="text" /></div></center></td>                              
-                    </tbody> 
-                </table>
-                <table class="table table-bordered">
-                    <tbody>                
-                        <tr>
-                            <td class="col-md-2"><center><a >Correo Electronico:</a></center></td> 
+                    </tr>                
+                    <tr>
+                        <td class="col-md-2"><center><p >Correo Electronico:</p></center></td> 
                     <td class="col-md-4"><center><div><input name="correo" value="<%=person.getCorreoPersona()%>" class="form-control inputSection" type="email" /></div></center></td>                              
-                    </tbody> 
-                </table>
-                <table class="table table-bordered">
-                    <tbody>                
-                        <tr>
-                            <td class="col-md-2"><center><a >Telefono:</a></center></td> 
+                    </tr>                 
+                    <tr>
+                        <td class="col-md-2"><center><p >Teléfono:</p></center></td> 
                     <td class="col-md-4"><center><div><input name="telefono" value="<%=person.getTelefono()%>" class="form-control inputSection" type="number" /></div></center></td>                              
                     </tbody> 
                 </table>
-
                 <div>
-                    <input type="submit" value="Guardar" class="btn btn-success" name="editarPersona"/>
-                    <input type="submit" value="Cancelar" class="btn btn-danger" formaction="inicio.jsp" formnovalidate/>
+                    <center>
+                        <input type="submit" value="Guardar" class="btn btn-success" name="editarPersona"/>
+                        <input type="submit" value="Cancelar" class="btn btn-default" formaction="inicio.jsp" formnovalidate/>
+                    </center>                
                 </div>
                 <% }%>
             </form>

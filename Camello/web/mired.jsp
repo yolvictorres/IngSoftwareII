@@ -134,10 +134,10 @@
             <input id="searchTerm" type="text" onkeyup="doSearch()" placeholder="Buscar"/>
             <br>
             <br>
-        <table id="datos">
+            <table id="datos" class="table table-condensed table-striped table-hover">
             <thead>
             <th>Foto</th>
-            <th>Nombres</th>        
+            <th><center>Nombres</center></th>     
             </thead>
             <tbody>
                 <jsp:useBean id="cn" class="Acceso.DAOPersona" scope="page"></jsp:useBean>
@@ -151,7 +151,7 @@
                     <% } else {%>
                     <td class="col-md-1"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><img src="images/persona.png" alt="..." class="img-thumbnail"></a></center></td>   
                             <% }%>
-                    <td class="col-md-5"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><%=rs.getString("nombres")%> <%=rs.getString("apellidos")%></a></center></td>
+                    <td class="col-md-5"><center><p onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><%=rs.getString("nombres")%> <%=rs.getString("apellidos")%></p></center></td>
                 </tr>
                 
                 <%

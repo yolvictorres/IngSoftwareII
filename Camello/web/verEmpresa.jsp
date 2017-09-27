@@ -42,7 +42,7 @@
                 out.print("<script>location.replace('index.jsp');</script>");
             }
         %>
-         <div>
+        <div>
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -146,7 +146,7 @@
                 </div>
                 <div class="col-md-3">
                 </div>                
-            </div>
+            </div><br>
             <% } else {%>
             <div class="row">
                 <div class="col-md-3">
@@ -156,37 +156,29 @@
                 </div>
                 <div class="col-md-3">
                 </div>                
-            </div>
+            </div><br>
             <% }%>
-
-            <table class="table table-bordered">
-                <tbody>                
+            <div class="panel panel-default">
+                <table class="table table-bordered ">
+                    <tbody>                
+                        <tr>
+                            <td class="col-md-2"><center><p>Nombre:</p></center></td> 
+                    <td class="col-md-4"><center><p><%=empresa.getNombreEmpresa()%></p></center></td>                              
+                    </tr>               
                     <tr>
-                        <td class="col-md-2"><center><a >Nombre:</a></center></td> 
-                <td class="col-md-4"><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>                              
-                </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <tbody>                
+                        <td class="col-md-2"><center><p>Descripcion:</p></center></td> 
+                    <td class="col-md-4"><center><p><%=empresa.getDescripcionEmpresa()%></p></center></td>                              
+                    </tr>                
                     <tr>
-                        <td class="col-md-2"><center><a >Descripcion:</a></center></td> 
-                <td class="col-md-4"><center><a ><%=empresa.getDescripcionEmpresa()%></a></center></td>                              
-                </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <tbody>                
+                        <td class="col-md-2"><center><p>Correo Electronico:</p></center></td> 
+                    <td class="col-md-4"><center><p><%=empresa.getCorreoEmpresa()%></p></center></td>                              
+                    </tr>                
                     <tr>
-                        <td class="col-md-2"><center><a >Correo Electronico:</a></center></td> 
-                <td class="col-md-4"><center><a ><%=empresa.getCorreoEmpresa()%></a></center></td>                              
-                </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <tbody>                
-                    <tr>
-                        <td class="col-md-2"><center><a >Telefono:</a></center></td> 
-                <td class="col-md-4"><center><a ><%=empresa.getTelefonoEmpresa()%></a></center></td>                              
-                </tbody> 
-            </table>
+                        <td class="col-md-2"><center><p>Telefono:</p></center></td> 
+                    <td class="col-md-4"><center><p><%=empresa.getTelefonoEmpresa()%></p></center></td>                              
+                    </tbody> 
+                </table>
+            </div>
             <%
                 }
             %>

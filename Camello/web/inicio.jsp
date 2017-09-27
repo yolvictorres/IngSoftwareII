@@ -122,17 +122,19 @@
                 List<Empresa> empr = empresa.consultarXID(Integer.parseInt(idEmpresa));
         %>
         <div class="col-md-2">
-            <%
-                for (Empresa e : empr) {
-                    if (e.getRutaLogo() == null) {
-            %>
-            <input type="button" name="edit" value="Completa  tu Información" class="btn btn-primary active" id="button" onclick="location.href = 'completarEmpresa.jsp?id=' + (<%=idEmpresa%>);">                     
-            <% } else {
-            %>
-            <input type="button" name="edit" value="Información completada" class="btn btn-primary disabled" id="button" onclick="location.href = ">
-            <%
-                    }
-                }%>
+            <div class="well">
+                <%
+                    for (Empresa e : empr) {
+                        if (e.getRutaLogo() == null) {
+                %>
+                <input type="button" name="edit" value="Completar perfil" class="btn btn-primary active" id="button" onclick="location.href = 'completarEmpresa.jsp?id=' + (<%=idEmpresa%>);">                     
+                <% } else {
+                %>
+                <input type="button" name="edit" value="Perfil completo" class="btn btn-primary disabled" id="button" onclick="location.href = ">
+                <%
+                        }
+                    }%>
+            </div>
         </div>
         <div class="col-md-8">
             <center><h1>Bienvenido <%=nombreEmpresa%></h1></center>
@@ -150,17 +152,19 @@
                 List<Persona> per = persona.consultarXID(Integer.parseInt(idPersona));
         %>
         <div class="col-md-2">   
-            <%
-                for (Persona p : per) {
-                    if (p.getRutaFoto() == null | p.getRutaHojadevida() == null) {
-            %>
-            <input type="button" name="edit" value="Completa  tu Información" class="btn btn-primary active" id="button" onclick="location.href = 'completarPersona.jsp?id=' + (<%=idPersona%>);">                     
-            <% } else {
-            %>
-            <input type="button" name="edit" value="Información completada" class="btn btn-primary disabled" id="button" onclick="location.href = ">
-            <%
-                    }
-                }%>
+            <div class="well">
+                <%
+                    for (Persona p : per) {
+                        if (p.getRutaFoto() == null | p.getRutaHojadevida() == null) {
+                %>
+                <input type="button" name="edit" value="Completar perfil" class="btn btn-primary active" id="button" onclick="location.href = 'completarPersona.jsp?id=' + (<%=idPersona%>);">                     
+                <% } else {
+                %>
+                <input type="button" name="edit" value="Perfil completo" class="btn btn-primary disabled" id="button" onclick="location.href = ">
+                <%
+                        }
+                    }%>
+            </div>
         </div>
         <div class="col-md-8">
             <center><h1>Bienvenido <%=nombrePersona%></h1></center>
