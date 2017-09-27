@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="Modelo.Jornada"%>
 <%@page import="Modelo.Salario"%>
 <%@page import="Modelo.Cargo"%>
@@ -23,21 +24,21 @@
         <title>Empleos</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <% if (request.getAttribute("respuesta") != null) {%>
+        <meta http-equiv="refresh" content="3;URL=empleos.jsp">        
+        <% }%>    
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />
         <link rel="stylesheet" type="text/css" href="css/foundation.min.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" href="pe-icon-7-stroke/css/pe-icon-7-stroke.css">
         <!-- Optional - Adds useful class to manipulate icon font display -->
-        <link rel="stylesheet" href="pe-icon-7-stroke/css/helper.css">
-        <% if (request.getAttribute("respuesta") != null) {%>
-        <meta http-equiv="refresh" content="3;URL=empleos.jsp">
-        <% }%>
-        <script>
-            function pasar() {
-                document.filtrarEmpl.submit();
-            }
-        </script>
+        <link rel="stylesheet" href="pe-icon-7-stroke/css/helper.css"> 
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+        <script type="text/javascript" src="js/jquery.js"></script> 
+        <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>        
+
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>      
     </head>
     <body>
         <%
@@ -143,20 +144,22 @@
         <%
             if (sesion.getAttribute("idEmpresa") != null) {
         %>
-
         <div class="col-md-3 left panel-info">
             <div class="well">
-                <div class="panel-heading">
+                <div class="panel panel-primary">
                     <b>Filtrar empleos</b>
                 </div>
                 <div class="panel-body">
-                    <form action="ServletEmpleo" method="post" id="filtrarEmpl" name="filtrarEmpl">
+                    <form action="empleos.jsp" method="post" id="filtrarEmpl" name="filtrarEmpl">
                         <div>
                             <b>Ciudad:</b>
-                            <select name="idCiudad" form="crearEmpl" class="form-control inputSection">                       
+                            <select name="Ciudad" form="filtrarEmpl" class="form-control inputSection">                       
                                 <%
                                     Consultas cons = new Consultas();
                                     List<Ciudad> ciu = cons.consultarCiudad();
+                                    %>
+                                    <option value="0">Seleccionar</option> 
+                                    <%
                                     for (Ciudad c : ciu) {
                                 %>  
                                 <option value="<%=c.getIdCiudad()%>"><%=c.getNombreCiudad()%></option>                      
@@ -164,9 +167,13 @@
                             </select>
                         </div>
                         <div>
+                            <b>Cargo:</b>
                             <select name="Cargo" form="filtrarEmpl" class="form-control inputSection">                       
                                 <%
                                     List<Cargo> car = cons.consultarCargo();
+                                    %>
+                                    <option value="0">Seleccionar</option> 
+                                    <%
                                     for (Cargo ca : car) {
                                 %>  
                                 <option value="<%=ca.getIdCargo()%>"><%=ca.getNombreCargo()%></option>                      
@@ -174,16 +181,23 @@
                             </select>
                         </div>
                         <div>
+                            <b>Salario:</b>
                             <select name="Salario" form="filtrarEmpl" class="form-control inputSection">                       
                                 <%
                                     List<Salario> sa = cons.consultarSalario();
+                                    %>
+                                    <option value="0">Seleccionar</option> 
+                                    <%
                                     for (Salario s : sa) {
                                 %>  
                                 <option value="<%=s.getIdSalario()%>"><%=s.getSalario()%></option>                      
                                 <% }%>
                             </select>
                         </div>
-                        <center><input type="submit" value="Filtrar" class="btn btn-success" name="crearEmpleo"/></center>
+                            <div>
+                        <center><input type="submit" value="Filtrar" class="btn btn-primary" name="Filtrar"/>
+                        <input type="submit" value="Cancelar" class="btn btn-default" name="Filtrar" onclick="location.href = 'empleos.jsp"/></center>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -198,25 +212,37 @@
 
             <% }%>
             <div><input type="button" name="edit" value="Crear Empleo" class="btn btn-default" id="button" onclick="location.href = 'crearEmpleo.jsp'"></div><br>       
-            <table id="datos" class="table table-striped table-bordered table-condensed table-hover">
+            <table id="example" class="display table table-striped table-bordered table-condensed table-hover" width="100%"></table>
+            <table id="table_id" class="display table table-striped table-bordered table-condensed table-hover">
                 <thead>                               
                 <th>Ciudad</th>
                 <th>Cargo</th>
                 <th>Salario</th>
                 <th colspan="2">Acciones</th>
-
                 </thead>
                 <tbody>    
-                    <jsp:useBean id="cn" class="Acceso.DAOEmpleo" scope="page"></jsp:useBean>
                     <%
-                        DAOEmpleo daoem = new DAOEmpleo();
                         int id = Integer.parseInt(idEmpresa);
-                        List<Empleo> y = daoem.consultarIdE(id);
+                        DAOEmpleo daoem = new DAOEmpleo();
+                        List<Empleo> y = new ArrayList<Empleo>(); 
+                      if(request.getParameter("Ciudad") != null ){
+                          int Ciudad = 0;
+                          Ciudad =Integer.parseInt(request.getParameter("Ciudad"));
+                          if(Ciudad != 0){
+                          y = daoem.filtro(Ciudad);
+                          }else{
+                              y = daoem.consultarIdE(id);
+                          }
+                      }
+                      else{
+                          y = daoem.consultarIdE(id);
+                      }
+                        
                         for (Empleo empleo : y) {
+
                     %>
                     <tr><center>     
-                    <%
-                        List<Ciudad> ci = cons.consultarCiudadId(empleo.getIdCiudad());
+                    <%                        List<Ciudad> ci = cons.consultarCiudadId(empleo.getIdCiudad());
                         for (Ciudad ciudad : ci) {
                     %>     
                     <td class="col-md-3"><p><%=ciudad.getNombreCiudad()%></p></td>
@@ -236,7 +262,8 @@
                         <%  }%>
                     <td class="col-md-1"><input type="button" name="edit" value="Ver" class="btn btn-primary" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>
                     <td class="col-md-1"><input type="button" name="edit" value="Editar" class="btn btn-default" id="button" onclick="location.href = 'editarEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>
-                    </tr>              
+                    </tr>    
+
                     <%  }%>
                     </tbody> 
             </table>
@@ -399,19 +426,6 @@
                 }
             %>
 
-            <div class="center-block"> 
-                <center>
-                    <ul class="pagination pagination-lg">
-                        <li><a href="#">&laquo;</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">&raquo;</a></li>
-                    </ul>
-                </center>
-            </div>
 
         </div>
 
@@ -421,7 +435,5 @@
             }
         %>
 
-        <script src="js/jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
     </body>
 </html>

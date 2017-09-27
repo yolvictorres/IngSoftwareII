@@ -264,16 +264,20 @@ public class DAOEmpleo implements CRUD {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public List<Empleo> filtro(String Ciudad) {
+    public List<Empleo> filtro(int Ciudad) {
         List<Empleo> y = new ArrayList<>();
         Connection conn = null;
         ResultSet rs = null;
         PreparedStatement pst = null;
         try {
             conn = con.getconexion();
-            String consulta = "select from publicar_empresa where cod_cargo = ?";
+            String consulta = "select * from publicar_empresa where ";
+            if (Ciudad != 0) {
+                consulta = consulta + "cod_ciudad = ?";
+            }
+            
             pst = conn.prepareStatement(consulta);
-            pst.setNString(1, Ciudad);
+pst.setInt(1, Ciudad);
             rs = pst.executeQuery();
             while (rs.next()) {
                 y.add(new Empleo(rs.getInt("cod_p_empresa"),

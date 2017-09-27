@@ -187,8 +187,8 @@
                     </div>
                     <div><input name="experiencia" placeholder="Experiencia requerida" class="form-control inputSection" type="text" required=""/></div><br>
                     <div>
-                        <center><input type="submit" value="Crear" class="btn btn-success" name="crearEmpleo"/></center>
-                        <center><input type="submit" value="Cancelar" class="btn btn-danger" formaction="empleos.jsp" formnovalidate/></center>
+                        <center><input type="submit" value="Crear" class="btn btn-primary" name="crearEmpleo"/></center>
+                        <center><input type="submit" value="Cancelar" class="btn btn-default" formaction="empleos.jsp" formnovalidate/></center>
                     </div>
                 </form>
             </div>
