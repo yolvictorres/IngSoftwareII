@@ -110,7 +110,9 @@ CREATE TABLE `empresa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `empresa` (`COD_EMPRESA`, `COD_C_LABORAL`, `NOM_EMPRESA`, `RUTA_LOGO`, `CORREO`, `CLAVE`, `TELEFONO`, `DESCRIPCION`) VALUES
-(444, NULL, 'Konrad Lorenz', NULL, 'k@k', '123', NULL, NULL);
+(111, NULL, 'Konrad Lorenz', 'images\img111.jpg', 'konrad@konrad.com', '123', 457676645, NULL),
+(222, NULL, 'Microsoft', 'images\img222.jpg', 'microsoft@microsoft.com', '123', 567867645, NULL),
+(333, NULL, 'Cafam', 'images\img333.jpg', 'cafam@cafam.com', '123', 86786546, NULL);
 
 
 -- --------------------------------------------------------
@@ -200,7 +202,16 @@ CREATE TABLE `persona` (
 --
 
 INSERT INTO `persona` (`COD_PERSONA`, `NOMBRES`, `APELLIDOS`, `FECHA_NACIMIENTO`, `FOTO`, `RUTA_FOTO`, `CORREO`, `CLAVE`, `TELEFONO`, `HOJA_DE_VIDA`) VALUES
-(1, 'ian', 'Mendez', NULL, NULL, NULL, 'ian@ian', '123', NULL, NULL);
+(1, 'ian', 'Mendez', NULL, NULL, 'images/img1.jpg', 'ian@ian', '123', 78856898, 'documentos/doc1.pdf'),
+(2, 'Diego', 'Schotborg', NULL, NULL, 'images/img2.jpg', 'diego@diego', '123', 1981525, 'documentos/doc2.pdf'),
+(3, 'Yolvic', 'Torres', NULL, NULL, 'images/img3.jpg', 'yolvic@yolvic', '123', 89166629, 'documentos/doc3.pdf'),
+(4, 'Jose Miguel', 'Bumbury', NULL, NULL, 'images/img4.jpg', 'miguel@gmail.com', '123', 4534344, NULL),
+(5, 'Alejandra', 'Tinoco', NULL, NULL, 'images/img5.jpg', 'alej@gmail.com', '123', 4865578, NULL),
+(6, 'Manuel', 'Muñoz', NULL, NULL, 'images/img6.jpg', 'manu@gmail.com', '123', 4867545, NULL),
+(7, 'Jorge', 'Solano', NULL, NULL, 'images/img7.jpg', 'yoyo@gmail.com', '123', 7878786, NULL),
+(8, 'Lina Maria', 'Cifuentes', NULL, NULL, 'images/img8.jpg', 'maria@gmail.com', '123', 4555786, NULL),
+(9, 'Paola', 'Marquez', NULL, NULL, 'images/img9.jpg', 'pao@gmail.com', '123', 77567688, NULL),
+(10, 'Roberto', 'Niño', NULL, NULL, 'images/img10.jpg', 'beto@gmail.com', '123', 5377845, NULL);
 
 -- --------------------------------------------------------
 
@@ -220,6 +231,13 @@ CREATE TABLE `publicar_empresa` (
   `FECHA` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `camello`.`publicar_empresa` (`COD_P_EMPRESA`, `COD_EMPRESA`, `COD_CIUDAD`, `COD_JORNADA`, `COD_CARGO`, `COD_SALARIO`, `DETALLE_PUBLICACION`, `EXPERIENCIA_REQUERIDA`) VALUES
+ ('453378386', '111', '5', '1', '1', '3', 'monitor de salas', 'ninguna'),
+ ('737835324', '111', '1', '2', '3', '1', 'asistente', 'ninguna'),
+ ('870475767', '222', '5', '3', '2', '5', 'programador', 'ninguna'),
+ ('445278453', '222', '1', '2', '3', '2', 'asesor de redes', 'ninguna'),
+ ('757866789', '333', '5', '1', '2', '3', 'callcenter', 'ninguna'),
+ ('411457780', '333', '1', '2', '1', '4', 'cajero de minisuper', 'ninguna');
 -- --------------------------------------------------------
 
 --
@@ -292,7 +310,7 @@ ALTER TABLE `ciudad`
 ALTER TABLE `postulados`
   ADD PRIMARY KEY (`COD_P_EMPRESA`,`COD_PERSONA`),
   ADD KEY `POSTULADOS_PERSONA_FK` (`COD_PERSONA`),
-  ADD KEY `POSTULADOS_PIBLICAR_EMPRESA_FK` (`COD_P_EMPRESA`);
+  ADD KEY `POSTULADOS_PUBLICAR_EMPRESA_FK` (`COD_P_EMPRESA`);
 
 --
 -- Indices de la tabla `empresa`
