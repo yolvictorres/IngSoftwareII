@@ -1,6 +1,7 @@
 package Acceso;
 
 import Modelo.Empleo;
+import Modelo.Postulados;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -296,5 +297,34 @@ public class DAOEmpleo implements CRUD {
             System.err.println("Error" + e);
         }
         return y;
+    }
+    public String postular(Object obj) {
+        Postulados postulados = (Postulados) obj;
+        String consulta = "insert into postulados (cod_p_empresa, cod_persona, estado_postulado, estado_envio) values (?, ?, ?, ?)";
+        String respuesta = "";
+        Connection conn = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, postulados.getCodigoEmpleo());
+            pst.setInt(2, postulados.getCodigoPersona());
+            pst.setInt(3, postulados.getEstadoPostulados());
+            pst.setInt(4, postulados.getEstadoEnvio());
+            int filas = pst.executeUpdate();
+            respuesta = "Postulado correctamente";
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Error" + e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                System.out.println("Error" + e);
+            }
+        }
+        return respuesta;
     }
 }

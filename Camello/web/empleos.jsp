@@ -325,8 +325,8 @@
             </div>
         </div>
         <div class="col-md-7">
-          <div class="panel-heading"> <center><h1>Encuentra empleo</h1></center></div><br>
-            
+            <div class="panel-heading"> <center><h1>Encuentra empleo</h1></center></div><br>
+
             <b>Filtrar empleos</b>
             <table class="table table-condensed table-bordered table-hover" id="table1">
                 <thead>                
@@ -383,7 +383,15 @@
                     <td class="col-md-3"><p ><%=salario.getSalario()%></p></td>
                         <%  }%>
                     <td class="col-md-1"><input type="button" name="edit" value="Ver" class="btn btn-primary" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>  
-                    <td class="col-md-1"><input type="button" name="edit" value="Postularse" class="btn btn-default" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td> 
+                    <td class="col-md-1">
+                        <form action="ServletEmpleo" method="post" id="postular" name="postular">
+                            <input name="idEmpleo" value="<%=empleo.getIdEmpleo()%>" type="hidden" />
+                            <input name="Estadoe" value="0" type="hidden" />
+                            <input name="Estadop" value="0" type="hidden" />
+                            <input name="idPersona" value="<%=sesion.getAttribute("idPersona")%>"  type="hidden" />         
+                            <input type="submit" name="Postularse" value="Postularse" class="btn btn-default" />
+                        </form>
+                    </td> 
                     </tr>
                     <%  }%>
                     </tbody> 
@@ -402,7 +410,7 @@
                     col_2: 'select',
                     col_3: 'select',
                     col_4: 'none',
-                    col_5: 'none',                    
+                    col_5: 'none',
                     display_all_text: " Seleccionar ",
                     sort_num_asc: [2],
                     sort_num_desc: [3],

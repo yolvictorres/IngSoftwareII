@@ -8,6 +8,7 @@ package Controlador;
 import Acceso.Consultas;
 import Modelo.Empresa;
 import Modelo.Persona;
+import Modelo.Postulados;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
@@ -41,7 +42,8 @@ public class ServletConsultas extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             
             Consultas cons = new Consultas();
-            Empresa empresa = new Empresa();
+            
+            Empresa empresa = new Empresa();            
             Persona persona = new Persona();
             List<Persona> per = new ArrayList<>();
             List<Empresa> empr = new ArrayList<>();
@@ -77,7 +79,7 @@ public class ServletConsultas extends HttpServlet {
                         out.println("<script type='text/javascript'>  alert('El usuario no existe. o la contraseña es incorrecta!');</script>");
                         out.println("<META HTTP-EQUIV='REFRESH' CONTENT='0;URL=http://localhost:8080/Camello/index.jsp'>");
                     }
-                }
+                } 
             } catch (IOException | NumberFormatException e) {
 
             }
