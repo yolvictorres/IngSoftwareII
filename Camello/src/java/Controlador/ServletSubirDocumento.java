@@ -38,7 +38,7 @@ public class ServletSubirDocumento extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         DAOPersona daop = new DAOPersona();
-        String uploadFilePath = "E:\\IngSoftwareIIS\\Camello\\web\\documentos" + File.separator + UPLOAD_DIR;
+        String uploadFilePath = "E:\\IngSoftwareIIS\\Camello\\web" + File.separator + UPLOAD_DIR;
         File fileSaveDir = new File(uploadFilePath);
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdirs();

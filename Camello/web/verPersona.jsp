@@ -11,17 +11,16 @@
     <head>        
         <title>Empleos</title>
         <meta charset="UTF-8">
+         <% if (request.getAttribute("respuesta") != null) {%>
+        <meta http-equiv="refresh" content="3;URL=empleos.jsp">
+        <% }%>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />
-        <link rel="stylesheet" type="text/css" href="css/foundation.min.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" href="pe-icon-7-stroke/css/pe-icon-7-stroke.css">
         <!-- Optional - Adds useful class to manipulate icon font display -->
-        <link rel="stylesheet" href="pe-icon-7-stroke/css/helper.css">
-        <% if (request.getAttribute("respuesta") != null) {%>
-        <meta http-equiv="refresh" content="3;URL=empleos.jsp">
-        <% }%>
+        <link rel="stylesheet" href="pe-icon-7-stroke/css/helper.css">       
     </head>
     <body>
         <%
@@ -159,10 +158,8 @@
                     </div>                
                 </div>
                 <% }%>
-
                 <table class="table table-bordered">
-                    <tbody>                
-                        <tr>
+                    <tbody>                                     
                             <td class="col-md-2"><center><a >Nombres:</a></center></td> 
                     <td class="col-md-4"><center><a ><%=person.getNombresPersona()%></a></center></td>                              
                     </tbody> 

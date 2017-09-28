@@ -17,7 +17,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />
-        <link rel="stylesheet" type="text/css" href="css/foundation.min.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" href="pe-icon-7-stroke/css/pe-icon-7-stroke.css">
@@ -125,10 +124,8 @@
         <div class="col-md-2">
         </div>
         <div class="col-md-8">
-            <center><h1>Editar empleo</h1></center>
-
-            <form action="ServletEmpleo" method="post" id="editarEmpl" name="editarEmpl">   
-
+            <br><center><h1>Editar empleo</h1></center><br><br>
+            <form action="ServletEmpleo" method="post" id="editarEmpl" name="editarEmpl">  
                 <%
                     DAOEmpleo daoem = new DAOEmpleo();
                     Empleo empl = new Empleo();
@@ -138,149 +135,111 @@
                 %>  
                 <input name="idEmpleo" value="<%=Integer.parseInt(request.getParameter("id"))%>" type="hidden" />
                 <input name="idEmpresa" value="<%=sesion.getAttribute("idEmpresa")%>"  type="hidden" />                
-                <table class="table table-bordered">
-                    <thead>                
-                    <th>Empresa</th>
-                    </thead>
-                    <tbody>                
-                        <%
-                            DAOEmpresa daoe = new DAOEmpresa();
-                            List<Empresa> x = daoe.consultarXID(empleo.getIdEmpresa());
-                            for (Empresa empresa : x) {
-                        %>
-                        <tr><center>      
-                        <td><center><p ><%=empresa.getNombreEmpresa()%></p></center></td>
-                            <%  }%>
-                        </tr>              
-                        </tbody> 
-                </table>
-                <table class="table table-bordered">
-                    <thead>                
-                    <th>Ciudad</th>
-                    </thead>
-                    <tbody><tr>  
-                            <td><select name="idCiudad" form="editarEmpl" class="form-control inputSection">                       
-                                    <%
-                                        Consultas cons = new Consultas();
-                                        List<Ciudad> ciu = cons.consultarCiudad();
-                                        for (Ciudad c : ciu) {
-                                            List<Ciudad> z = cons.consultarCiudadId(empleo.getIdCiudad());
-                                            for (Ciudad ciudad : z) {
-                                                if (c.getIdCiudad() == ciudad.getIdCiudad()) {
-                                    %>     
-                                    <option value="<%=c.getIdCiudad()%>" selected><%=c.getNombreCiudad()%></option>
-                                    <%  } else {
-                                    %>
-                                    <option value="<%=c.getIdCiudad()%>"><%=c.getNombreCiudad()%></option>
-                                    <% }
-                                            }
-                                        }%>
-                        </tr>              
+                <table  class="table edite table-bordered">             
+                    <%
+                        DAOEmpresa daoe = new DAOEmpresa();
+                        List<Empresa> x = daoe.consultarXID(empleo.getIdEmpresa());
+                        for (Empresa empresa : x) {
+                    %>
+                    <tr> 
+                        <td class="col-md-3"><center><p>Empresa:</p></center></td>
+                    <td class="col-md-4"><center><p ><%=empresa.getNombreEmpresa()%></p></center></td>
+                        <%  }%>
+                    </tr>              
+                    <tr>  
+                        <td class="col-md-3"><center><p>Ciudad:</p></center></td>
+                    <td class="col-md-4"><select name="idCiudad" form="editarEmpl" class="form-control inputSection">                       
+                            <%
+                                Consultas cons = new Consultas();
+                                List<Ciudad> ciu = cons.consultarCiudad();
+                                for (Ciudad c : ciu) {
+                                    List<Ciudad> z = cons.consultarCiudadId(empleo.getIdCiudad());
+                                    for (Ciudad ciudad : z) {
+                                        if (c.getIdCiudad() == ciudad.getIdCiudad()) {
+                            %>     
+                            <option value="<%=c.getIdCiudad()%>" selected><%=c.getNombreCiudad()%></option>
+                            <%  } else {
+                            %>
+                            <option value="<%=c.getIdCiudad()%>"><%=c.getNombreCiudad()%></option>
+                            <% }
+                                    }
+                                }%>
+                            </tr>                  
+                            <tr>
+                                <td class="col-md-3"><center><p>Jornada:</p></center></td>
+                    <td class="col-md-4"> <select name="idJornada" form="editarEmpl" class="form-control inputSection">
+                            <%
+                                List<Jornada> j = cons.consultarJornadaId(empleo.getIdJornada());
+                                for (Jornada jornada : j) {
+                                    List<Jornada> jor = cons.consultarJornada();
+                                    for (Jornada jo : jor) {
+                                        if (jornada.getIdJornada() == jo.getIdJornada()) {
+                            %>
+                            <option value="<%=jo.getIdJornada()%>" selected><%=jo.getNombreJornada()%></option>
+                            <%
+                            } else {
+                            %>
+                            <option value="<%=jo.getIdJornada()%>"><%=jo.getNombreJornada()%></option>                     
+                            <%  }
+                                }%>
+                        </select></td>                 
+                        <%  }%>
+                    </tr>                                         
+                    <tr>    
+                        <td class="col-md-3"><center><p>Descripción:</p></center></td>
+                    <td class="col-md-4"><center><div><input name="detalles" value="<%=empleo.getDetalles()%>" class="form-control inputSection" type="text" /></div></center></td>
+                    </tr>                                       
+                    <tr>   
+                        <td class="col-md-3"><center><p>Cargo:</p></center></td>
+                    <td  class="col-md-4"> <select name="idCargo" form="editarEmpl" class="form-control inputSection">
+                            <%
+                                List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
+                                for (Cargo cargo : c) {
+                                    List<Cargo> car = cons.consultarCargo();
+                                    for (Cargo ca : car) {
+                                        if (ca.getIdCargo() == cargo.getIdCargo()) {
+                            %>
+                            <option value="<%=ca.getIdCargo()%>" selected><%=ca.getNombreCargo()%></option>
+                            <%
+                            } else {
+                            %>
+                            <option value="<%=ca.getIdCargo()%>"><%=ca.getNombreCargo()%></option>                     
+                            <%  }
+                                }%>
+                        </select></td>                 
+                        <%  }%>
+                    </tr>                                             
+                    <tr>
+                        <td class="col-md-3"><center><p>Salario:</p></center></td>
+                    <td class="col-md-4"> <select name="idSalario" form="editarEmpl" class="form-control inputSection">
+                            <%
+                                List<Salario> s = cons.consultarSalarioId(empleo.getIdSalario());
+                                for (Salario salario : s) {
+                                    List<Salario> sal = cons.consultarSalario();
+                                    for (Salario sa : sal) {
+                                        if (sa.getIdSalario() == salario.getIdSalario()) {
+                            %>
+                            <option value="<%=sa.getIdSalario()%>" selected><%=sa.getSalario()%></option>
+                            <%
+                            } else {
+                            %>
+                            <option value="<%=sa.getIdSalario()%>"><%=sa.getSalario()%></option>                     
+                            <%  }
+                                }%>
+                        </select></td>                 
+                        <%  }%>
+                    </tr>                   
+                    <tr> 
+                        <td class="col-md-3"><center><p>Experiencia:</p></center></td>
+                    <td class="col-md-3"><center><div><input name="experiencia" value="<%=empleo.getExperiencia()%>" class="form-control inputSection" type="text" /></div></center></td>
+                    </tr>              
                     </tbody> 
-                </table>
-                <table class="table table-bordered">
-                    <thead>                
-                    <th>Jornada</th>
-                    </thead>
-                    <tbody>    
-                        <tr>
-                            <td> <select name="idJornada" form="editarEmpl" class="form-control inputSection">
-                                    <%
-                                        List<Jornada> j = cons.consultarJornadaId(empleo.getIdJornada());
-                                        for (Jornada jornada : j) {
-                                            List<Jornada> jor = cons.consultarJornada();
-                                            for (Jornada jo : jor) {
-                                                if (jornada.getIdJornada() == jo.getIdJornada()) {
-                                    %>
-                                    <option value="<%=jo.getIdJornada()%>" selected><%=jo.getNombreJornada()%></option>
-                                    <%
-                                    } else {
-                                    %>
-                                    <option value="<%=jo.getIdJornada()%>"><%=jo.getNombreJornada()%></option>                     
-                                    <%  }
-                                        }%>
-                                </select></td>                 
-                                <%  }%>
-                        </tr>              
-                    </tbody> 
-                </table>
-                <table class="table table-bordered">
-                    <thead>                
-                    <th>Detalles</th>
-                    </thead>
-                    <tbody>                
-                        <tr><center>      
-                        <td><center><div><input name="detalles" value="<%=empleo.getDetalles()%>" class="form-control inputSection" type="text" /></div></center></td>
-                        </tr>              
-                        </tbody> 
-                </table>
-                <table class="table table-bordered">
-                    <thead>                
-                    <th>Cargo</th>
-                    </thead>
-                    <tbody>                
-                        <tr><center>      
-                        <td> <select name="idCargo" form="editarEmpl" class="form-control inputSection">
-                                <%
-                                    List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
-                                    for (Cargo cargo : c) {
-                                        List<Cargo> car = cons.consultarCargo();
-                                        for (Cargo ca : car) {
-                                            if (ca.getIdCargo() == cargo.getIdCargo()) {
-                                %>
-                                <option value="<%=ca.getIdCargo()%>" selected><%=ca.getNombreCargo()%></option>
-                                <%
-                                } else {
-                                %>
-                                <option value="<%=ca.getIdCargo()%>"><%=ca.getNombreCargo()%></option>                     
-                                <%  }
-                                    }%>
-                            </select></td>                 
-                            <%  }%>
-                        </tr>              
-                        </tbody> 
-                </table>
-                <table class="table table-bordered">
-                    <thead>                
-                    <th>Salario</th>
-                    </thead>
-                    <tbody>                
-                        <tr><center>      
-                        <td> <select name="idSalario" form="editarEmpl" class="form-control inputSection">
-                                <%
-                                    List<Salario> s = cons.consultarSalarioId(empleo.getIdSalario());
-                                    for (Salario salario : s) {
-                                        List<Salario> sal = cons.consultarSalario();
-                                        for (Salario sa : sal) {
-                                            if (sa.getIdSalario() == salario.getIdSalario()) {
-                                %>
-                                <option value="<%=sa.getIdSalario()%>" selected><%=sa.getSalario()%></option>
-                                <%
-                                } else {
-                                %>
-                                <option value="<%=sa.getIdSalario()%>"><%=sa.getSalario()%></option>                     
-                                <%  }
-                                    }%>
-                            </select></td>                 
-                            <%  }%>
-                        </tr>              
-                        </tbody> 
-                </table>
-                <table class="table table-bordered">
-                    <thead>                
-                    <th>Experiencia Requerida</th>
-                    </thead>
-                    <tbody>                
-                        <tr><center>      
-                        <td><center><div><input name="experiencia" value="<%=empleo.getExperiencia()%>" class="form-control inputSection" type="text" /></div></center></td>
-                        </tr>              
-                        </tbody> 
                 </table>
                 <%  }%>
-                <div>
+                <Center>
                     <input type="submit" value="Guardar" class="btn btn-success" name="editarEmpleo"/>
                     <input type="submit" value="Cancelar" class="btn btn-default" formaction="empleos.jsp" formnovalidate/>
-                </div>
+                </center>
             </form>
         </div>
         <div class="col-md-2">

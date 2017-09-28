@@ -1,0 +1,1 @@
+var tf1 = setFilterGrid("table1");

@@ -54,8 +54,8 @@ public class ServletEmpleo extends HttpServlet {
                     empleo.setIdSalario(Integer.parseInt(request.getParameter("idSalario")));
                     empleo.setExperiencia(request.getParameter("experiencia"));
                     respuesta = dao.crear(empleo);
-                    request.setAttribute("respuesta", respuesta);
-                    rd = request.getRequestDispatcher("crearEmpleo.jsp");
+                    request.setAttribute("respuestac", respuesta);
+                    rd = request.getRequestDispatcher("empleos.jsp");
                 } else if (request.getParameter("editarEmpleo") != null) {
                     empleo.setIdEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
                     empleo.setIdEmpresa(Integer.parseInt(request.getParameter("idEmpresa")));
@@ -66,7 +66,7 @@ public class ServletEmpleo extends HttpServlet {
                     empleo.setIdSalario(Integer.parseInt(request.getParameter("idSalario")));
                     empleo.setExperiencia(request.getParameter("experiencia"));
                     respuesta = dao.editar(empleo);
-                    request.setAttribute("respuesta", respuesta);
+                    request.setAttribute("respuestae", respuesta);
                     rd = request.getRequestDispatcher("empleos.jsp");
                 } 
             } catch (NumberFormatException e) {

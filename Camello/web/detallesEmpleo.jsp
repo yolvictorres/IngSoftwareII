@@ -17,7 +17,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />
-        <link rel="stylesheet" type="text/css" href="css/foundation.min.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" href="pe-icon-7-stroke/css/pe-icon-7-stroke.css">
@@ -44,7 +43,7 @@
                 out.print("<script>location.replace('index.jsp');</script>");
             }
         %>
-       <div>
+        <div>
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -132,113 +131,80 @@
         <div class="col-md-2">
         </div>
         <div class="col-md-8">
-            <center><h1>Detalles del empleo</h1></center>
 
-            <%
-                DAOEmpleo daoem = new DAOEmpleo();
-                Empleo empl = new Empleo();
-                empl.setIdEmpleo(Integer.parseInt(request.getParameter("id")));
-                List<Empleo> y = daoem.consultarIdP(empl.getIdEmpleo());
-                for (Empleo empleo : y) {
-            %>  
-            <table class="table table-bordered">
-                <thead>                
-                <th>Empresa</th>
-                </thead>
-                <tbody>                
-                    <%
-                        DAOEmpresa daoe = new DAOEmpresa();
-                        List<Empresa> x = daoe.consultarXID(empleo.getIdEmpresa());
-                        for (Empresa empresa : x) {
-                    %>
-                    <tr><center>      
-                    <td><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>
-                        <%  }%>
-                    </tr>              
-                    </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <thead>                
-                <th>Ciudad</th>
-                </thead>
-                <tbody>                
-                    <%
-                        Consultas cons = new Consultas();
-                        List<Ciudad> z = cons.consultarCiudadId(empleo.getIdCiudad());
-                        for (Ciudad ciudad : z) {
-                    %>
-                    <tr><center>      
-                    <td><center><a ><%=ciudad.getNombreCiudad()%></a></center></td>
-                        <%  }%>
-                    </tr>              
-                    </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <thead>                
-                <th>Jornada</th>
-                </thead>
-                <tbody>                
-                    <%
-                        List<Jornada> j = cons.consultarJornadaId(empleo.getIdJornada());
-                        for (Jornada jornada : j) {
-                    %>
-                    <tr><center>      
-                    <td><center><a ><%=jornada.getNombreJornada()%></a></center></td>
-                        <%  }%>
-                    </tr>              
-                    </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <thead>                
-                <th>Detalles</th>
-                </thead>
-                <tbody>                
-                    <tr><center>      
-                    <td><center><a ><%=empleo.getDetalles()%></a></center></td>
-                    </tr>              
-                    </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <thead>                
-                <th>Cargo</th>
-                </thead>
-                <tbody>                
-                    <%
-                        List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
-                        for (Cargo cargo : c) {
-                    %>
-                    <tr><center>      
-                    <td><center><a ><%=cargo.getNombreCargo()%></a></center></td>
-                        <%  }%>
-                    </tr>              
-                    </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <thead>                
-                <th>Salario</th>
-                </thead>
-                <tbody>                
-                    <%
-                        List<Salario> s = cons.consultarSalarioId(empleo.getIdSalario());
-                        for (Salario salario : s) {
-                    %>
-                    <tr><center>      
-                    <td><center><a ><%=salario.getSalario()%></a></center></td>
-                        <%  }%>
-                    </tr>              
-                    </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <thead>                
-                <th>Experiencia Requerida</th>
-                </thead>
-                <tbody>                
-                    <tr><center>      
-                    <td><center><a ><%=empleo.getExperiencia()%></a></center></td>
-                    </tr>              
-                    </tbody> 
-            </table>
-            <%  }%>
+            <br> <center><h1>Detalles del empleo</h1></center><br><br>
+            <div class="panel panel-default">
+                <%
+                    DAOEmpleo daoem = new DAOEmpleo();
+                    Empleo empl = new Empleo();
+                    empl.setIdEmpleo(Integer.parseInt(request.getParameter("id")));
+                    List<Empleo> y = daoem.consultarIdP(empl.getIdEmpleo());
+                    for (Empleo empleo : y) {
+                %>  
+                <table class="table table-bordered table-hover">
+                    <tbody>                
+                        <%
+                            DAOEmpresa daoe = new DAOEmpresa();
+                            List<Empresa> x = daoe.consultarXID(empleo.getIdEmpresa());
+                            for (Empresa empresa : x) {
+                        %>
+                        <tr><center>   
+                        <td class="col-md-3"><center><p >Empresa:</p></center></td>
+                        <td class="col-md-4"><center><p ><%=empresa.getNombreEmpresa()%></p></center></td>
+                            <%  }%>
+                        </tr>           
+
+                        <%
+                            Consultas cons = new Consultas();
+                            List<Ciudad> z = cons.consultarCiudadId(empleo.getIdCiudad());
+                            for (Ciudad ciudad : z) {
+                        %>                    
+                        <tr>
+                            <td class="col-md-3"><center><p >Ciudad:</p></center></td>
+                        <td class="col-md-4"><center><p ><%=ciudad.getNombreCiudad()%></p></center></td>
+                            <%  }%>    
+                        </tr>
+
+                        <%
+                            List<Jornada> j = cons.consultarJornadaId(empleo.getIdJornada());
+                            for (Jornada jornada : j) {
+                        %>                        
+                        <tr>
+                            <td class="col-md-3"><center><p >Jornada:</p></center></td>
+                        <td class="col-md-4"><center><p><%=jornada.getNombreJornada()%></p></center></td>
+                                <%  }%>
+                        </tr>
+                        <tr>                 
+                            <td class="col-md-3"><center><p >Descripción:</p></center></td>
+                        <td class="col-md-4"><center><p ><%=empleo.getDetalles()%></p></center></td>
+                        </tr>             
+
+                        <%
+                            List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
+                            for (Cargo cargo : c) {
+                        %>
+                        <tr>     
+                            <td class="col-md-3"><center><p >Cargo:</p></center></td>
+                        <td class="col-md-4"><center><p><%=cargo.getNombreCargo()%></p></center></td>
+                                <%  }%>
+                        </tr>                                            
+                        <%
+                            List<Salario> s = cons.consultarSalarioId(empleo.getIdSalario());
+                            for (Salario salario : s) {
+                        %>
+                        <tr>
+                            <td class="col-md-3"><center><p >Salario:</p></center></td>
+                        <td class="col-md-4"><center><p ><%=salario.getSalario()%></p></center></td>
+                            <%  }%>
+                        </tr>                           
+                        <tr>     
+                            <td class="col-md-3"><center><p >Experiencia:</p></center></td>
+                        <td><center><p ><%=empleo.getExperiencia()%></p></center></td>
+                        </tr>              
+                        </tbody> 
+                </table>
+                <%  }%>
+            </div>
         </div>
         <div class="col-md-2">
         </div>
@@ -249,115 +215,85 @@
         %>
 
         <div class="col-md-2">
+            <div class="panel">
+                <center><input id="postul" type="button" name="edit" value="Postularse" class="btn btn-default" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=';"></center>
+            </div>
         </div>
         <div class="col-md-8">
-            <center><h1>Detalles del empleo</h1></center>
 
-            <%
-                DAOEmpleo daoem = new DAOEmpleo();
-                Empleo empl = new Empleo();
-                empl.setIdEmpleo(Integer.parseInt(request.getParameter("id")));
-                List<Empleo> y = daoem.consultarIdP(empl.getIdEmpleo());
-                for (Empleo empleo : y) {
-            %>  
-            <table class="table table-bordered">
-                <thead>                
-                <th>Empresa</th>
-                </thead>
-                <tbody>                
-                    <tr><center>      
-                    <%
-                        DAOEmpresa daoe = new DAOEmpresa();
-                        List<Empresa> x = daoe.consultarXID(empleo.getIdEmpresa());
-                        for (Empresa empresa : x) {
-                    %>
-                    <td class="col-md-5"><center><a ><%=empresa.getNombreEmpresa()%></a></center></td>   
-                        <%  }%>
-                    </tr>              
-                    </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <thead>                
-                <th>Ciudad</th>
-                </thead>
-                <tbody>                
-                    <%
-                        Consultas cons = new Consultas();
-                        List<Ciudad> z = cons.consultarCiudadId(empleo.getIdCiudad());
-                        for (Ciudad ciudad : z) {
-                    %>
-                    <tr><center>      
-                    <td><center><a ><%=ciudad.getNombreCiudad()%></a></center></td>
-                        <%  }%>
-                    </tr>              
-                    </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <thead>                
-                <th>Jornada</th>
-                </thead>
-                <tbody>                
-                    <%
-                        List<Jornada> j = cons.consultarJornadaId(empleo.getIdJornada());
-                        for (Jornada jornada : j) {
-                    %>
-                    <tr><center>      
-                    <td><center><a ><%=jornada.getNombreJornada()%></a></center></td>
-                        <%  }%>
-                    </tr>              
-                    </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <thead>                
-                <th>Detalles</th>
-                </thead>
-                <tbody>                
-                    <tr><center>      
-                    <td><center><a ><%=empleo.getDetalles()%></a></center></td>
-                    </tr>              
-                    </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <thead>                
-                <th>Cargo</th>
-                </thead>
-                <tbody>                
-                    <%
-                        List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
-                        for (Cargo cargo : c) {
-                    %>
-                    <tr><center>      
-                    <td><center><a ><%=cargo.getNombreCargo()%></a></center></td>
-                        <%  }%>
-                    </tr>              
-                    </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <thead>                
-                <th>Salario</th>
-                </thead>
-                <tbody>                
-                    <%
-                        List<Salario> s = cons.consultarSalarioId(empleo.getIdSalario());
-                        for (Salario salario : s) {
-                    %>
-                    <tr><center>      
-                    <td><center><a ><%=salario.getSalario()%></a></center></td>
-                        <%  }%>
-                    </tr>              
-                    </tbody> 
-            </table>
-            <table class="table table-bordered">
-                <thead>                
-                <th>Experiencia Requerida</th>
-                </thead>
-                <tbody>                
-                    <tr><center>      
-                    <td><center><a ><%=empleo.getExperiencia()%></a></center></td>
-                    </tr>              
-                    </tbody> 
-            </table>
-            <%  }%>
+            <br> <center><h1>Detalles del empleo</h1></center><br><br>
+            <div class="panel panel-default">
+                <%
+                    DAOEmpleo daoem = new DAOEmpleo();
+                    Empleo empl = new Empleo();
+                    empl.setIdEmpleo(Integer.parseInt(request.getParameter("id")));
+                    List<Empleo> y = daoem.consultarIdP(empl.getIdEmpleo());
+                    for (Empleo empleo : y) {
+                %>  
+                <table class="table table-bordered table-hover">
+                    <tbody>                
+                        <%
+                            DAOEmpresa daoe = new DAOEmpresa();
+                            List<Empresa> x = daoe.consultarXID(empleo.getIdEmpresa());
+                            for (Empresa empresa : x) {
+                        %>
+                        <tr><center>   
+                        <td class="col-md-3"><center><p >Empresa:</p></center></td>
+                        <td class="col-md-4"><center><p ><%=empresa.getNombreEmpresa()%></p></center></td>
+                            <%  }%>
+                        </tr>           
+
+                        <%
+                            Consultas cons = new Consultas();
+                            List<Ciudad> z = cons.consultarCiudadId(empleo.getIdCiudad());
+                            for (Ciudad ciudad : z) {
+                        %>                    
+                        <tr>
+                            <td class="col-md-3"><center><p >Ciudad:</p></center></td>
+                        <td class="col-md-4"><center><p ><%=ciudad.getNombreCiudad()%></p></center></td>
+                            <%  }%>    
+                        </tr>
+
+                        <%
+                            List<Jornada> j = cons.consultarJornadaId(empleo.getIdJornada());
+                            for (Jornada jornada : j) {
+                        %>                        
+                        <tr>
+                            <td class="col-md-3"><center><p >Jornada:</p></center></td>
+                        <td class="col-md-4"><center><p><%=jornada.getNombreJornada()%></p></center></td>
+                                <%  }%>
+                        </tr>
+                        <tr>                 
+                            <td class="col-md-3"><center><p >Descripción:</p></center></td>
+                        <td class="col-md-4"><center><p ><%=empleo.getDetalles()%></p></center></td>
+                        </tr>             
+
+                        <%
+                            List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
+                            for (Cargo cargo : c) {
+                        %>
+                        <tr>     
+                            <td class="col-md-3"><center><p >Cargo:</p></center></td>
+                        <td class="col-md-4"><center><p><%=cargo.getNombreCargo()%></p></center></td>
+                                <%  }%>
+                        </tr>                                            
+                        <%
+                            List<Salario> s = cons.consultarSalarioId(empleo.getIdSalario());
+                            for (Salario salario : s) {
+                        %>
+                        <tr>
+                            <td class="col-md-3"><center><p >Salario:</p></center></td>
+                        <td class="col-md-4"><center><p ><%=salario.getSalario()%></p></center></td>
+                            <%  }%>
+                        </tr>                           
+                        <tr>     
+                            <td class="col-md-3"><center><p >Experiencia:</p></center></td>
+                        <td><center><p ><%=empleo.getExperiencia()%></p></center></td>
+                        </tr>              
+                        </tbody> 
+                </table>
+                <%  }%>
+            </div>
         </div>
         <div class="col-md-2">
         </div>

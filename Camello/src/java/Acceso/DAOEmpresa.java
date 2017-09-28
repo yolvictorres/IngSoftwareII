@@ -46,7 +46,7 @@ public class DAOEmpresa implements CRUDyBuscar {
 
     public String subirImagen(Object obj) {
         Empresa empresa = (Empresa) obj;
-        String consulta = "insert into empresa(ruta_logo) values (?)";
+        String consulta = "update empresa set ruta_logo=? where cod_empresa=?";
         String respuesta = "";
         Connection conn = null;
         PreparedStatement pst = null;
@@ -54,8 +54,9 @@ public class DAOEmpresa implements CRUDyBuscar {
             conn = con.getconexion();
             pst = conn.prepareStatement(consulta);
             pst.setString(1, empresa.getRutaLogo());
+            pst.setInt(2, empresa.getIdEmpresa());
             int filas = pst.executeUpdate();
-            respuesta = "Logo subido con éxito";
+            respuesta = "Logo guardado";
             conn.close();
         } catch (SQLException e) {
             System.out.println("Error" + e);

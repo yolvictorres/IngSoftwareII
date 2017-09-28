@@ -14,17 +14,21 @@
         <title>Mired</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <% if (request.getAttribute("respuesta") != null) {%>
+        <meta http-equiv="refresh" content="3;URL=empleos.jsp">      
+        <% }%>
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />
-        <link rel="stylesheet" type="text/css" href="css/foundation.min.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" href="pe-icon-7-stroke/css/pe-icon-7-stroke.css">
         <!-- Optional - Adds useful class to manipulate icon font display -->
         <link rel="stylesheet" href="pe-icon-7-stroke/css/helper.css">
-        <script src="js/BuscadorTabla.js" type="text/javascript"></script>
-        <% if (request.getAttribute("respuesta") != null) {%>
-        <meta http-equiv="refresh" content="3;URL=empleos.jsp">      
-        <% }%>
+        <link rel="stylesheet" type="text/css" href="TableFilter/filtergrid.css">
+        <script type="text/javascript" src="js/jquery.js"></script> 
+        <script type="text/javascript" src="js/bootstrap.min.js"></script> 
+        <script type="text/javascript" src="js/BuscadorTabla.js"></script>
+        <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>        
+
     </head>
     <body>
         <%
@@ -42,7 +46,7 @@
                 out.print("<script>location.replace('index.jsp');</script>");
             }
         %>
-       <div>
+        <div>
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -129,36 +133,59 @@
 
         <div class="col-md-2">
         </div>
-        <div class="col-md-7">
-            <center><h1>Mired</h1></center>
-            <input id="searchTerm" type="text" onkeyup="doSearch()" placeholder="Buscar"/>
+        <div class="col-md-8">
+            <center><h1>Mired</h1></center><br>
+            <center>
+                <div>                
+                    <p>
+                        <label><i class="pe-7s-search pe-2x pe-va"></i></label>
+                        <input id="searchTerm" type="text" onkeyup="doSearch()" placeholder="Buscar" />
+                    </p>                
+                </div>
+            </center>
             <br>
-            <br>
-            <table id="datos" class="table table-condensed table-striped table-hover">
-            <thead>
-            <th>Foto</th>
-            <th><center>Nombres</center></th>     
-            </thead>
-            <tbody>
-                <jsp:useBean id="cn" class="Acceso.DAOPersona" scope="page"></jsp:useBean>
+            <table id="datos" class="table table-condensed table-bordered table-hover">
+                <thead>
+                <th>Foto</th>
+                <th><center>Nombres</center></th>     
+                </thead>
+                <tbody>
+                    <jsp:useBean id="cn" class="Acceso.DAOPersona" scope="page"></jsp:useBean>
                     <%
-                    ResultSet rs = cn.listar();
-                    while(rs.next()){
+                        ResultSet rs = cn.listar();
+                        while (rs.next()) {
                     %>
-                <tr>
-                    <% if (rs.getString("ruta_foto") != null) {%>
-                    <td class="col-md-1"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><img src="<%=rs.getString("ruta_foto")%>" alt="..." class="img-thumbnail"></a></center></td>
-                    <% } else {%>
-                    <td class="col-md-1"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><img src="images/persona.png" alt="..." class="img-thumbnail"></a></center></td>   
-                            <% }%>
-                    <td class="col-md-5"><center><p onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><%=rs.getString("nombres")%> <%=rs.getString("apellidos")%></p></center></td>
+                    <tr>
+
+                        <% if (rs.getString("ruta_foto") != null) {%>
+                        <td class="col-md-1"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><img src="<%=rs.getString("ruta_foto")%>" alt="..." class="img-thumbnail"></a></center></td>
+                        <% } else {%>
+                <td class="col-md-1"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><img src="images/persona.png" alt="..." class="img-thumbnail"></a></center></td>   
+                        <% }%>
+                <td class="col-md-5"><center><p onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><%=rs.getString("nombres")%> <%=rs.getString("apellidos")%></p></center></td>
                 </tr>
-                
                 <%
-                }
+                    }
                 %>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+            <script language="javascript" type="text/javascript">
+//<![CDATA[  
+                var table6_Props = {
+                    paging: true,
+                    paging_length: 3,
+                    results_per_page: ['# Empleos por página', [3, 6, 9]],
+                    rows_counter: true,
+                    rows_counter_text: "Rows:",
+                    btn_reset: false,
+                    col_0: 'none',
+                    col_1: 'none',
+                    loader: true,
+                    loader_text: "Filtering data..."
+                };
+                var tf6 = setFilterGrid("datos", table6_Props);
+//]]>  
+            </script> 
         </div>
 
         <div class="col-md-2">
@@ -171,9 +198,6 @@
                 $('#example').DataTable();
             });
         </script>
-        
-        <script src="js/jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
     </body>

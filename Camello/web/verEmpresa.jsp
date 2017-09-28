@@ -166,7 +166,7 @@
                     <td class="col-md-4"><center><p><%=empresa.getNombreEmpresa()%></p></center></td>                              
                     </tr>               
                     <tr>
-                        <td class="col-md-2"><center><p>Descripcion:</p></center></td> 
+                        <td class="col-md-2"><center><p>Descripción:</p></center></td> 
                     <td class="col-md-4"><center><p><%=empresa.getDescripcionEmpresa()%></p></center></td>                              
                     </tr>                
                     <tr>
@@ -174,7 +174,7 @@
                     <td class="col-md-4"><center><p><%=empresa.getCorreoEmpresa()%></p></center></td>                              
                     </tr>                
                     <tr>
-                        <td class="col-md-2"><center><p>Telefono:</p></center></td> 
+                        <td class="col-md-2"><center><p>Teléfono:</p></center></td> 
                     <td class="col-md-4"><center><p><%=empresa.getTelefonoEmpresa()%></p></center></td>                              
                     </tbody> 
                 </table>

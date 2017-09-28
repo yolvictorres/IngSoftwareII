@@ -1,9 +1,9 @@
 
+<%@page import="Modelo.Empresa"%>
+<%@page import="Acceso.DAOEmpresa"%>
 <%@page import="Modelo.Jornada"%>
 <%@page import="Modelo.Ciudad"%>
 <%@page import="Acceso.Consultas"%>
-<%@page import="Modelo.Persona"%>
-<%@page import="Acceso.DAOPersona"%>
 <%@page import="Modelo.Empleo"%>
 <%@page import="java.util.List"%>
 <%@page import="Acceso.DAOEmpleo"%>
@@ -30,16 +30,16 @@
 
             if (sesion.getAttribute("idEmpresa") != null && sesion.getAttribute("nombreEmpresa") != null || sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
 
-                if (sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
-                    idPersona = sesion.getAttribute("idPersona").toString();
-                    nombrePersona = sesion.getAttribute("nombrePersona").toString();
+                if (sesion.getAttribute("idEmpresa") != null && sesion.getAttribute("nombreEmpresa") != null) {
+                    idEmpresa = sesion.getAttribute("idEmpresa").toString();
+                    nombreEmpresa = sesion.getAttribute("nombreEmpresa").toString();
                 }
 
             } else {
                 out.print("<script>location.replace('index.jsp');</script>");
             }
         %>
-         <div>
+        <div>
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -124,16 +124,36 @@
         </div>
         <div class="col-md-8">
             <center><h1>Completar perfil</h1></center>
-
-            <form  enctype="multipart/form-data" action="ServletSubirImagen" method="post" id="completarEmpl" name="completarEmp">   
-                <label>Seleccione una imagen: </label><br>
+                <%
+                    DAOEmpresa daoe = new DAOEmpresa();
+                    Empresa empresa = new Empresa();
+                    empresa.setIdEmpresa(Integer.parseInt(request.getParameter("id")));
+                    List<Empresa> z = daoe.consultarXID(empresa.getIdEmpresa());
+                    for (Empresa empre : z) {
+                        if (empre.getRutaLogo() == null) {
+                %>
+            <form  enctype="multipart/form-data" action="ServletSubirImagen" method="post" id="completarEmpl" name="completarPer">   
+                <label>Seleccione un logo de perfil: </label><br>
                 <input type="file" name="fileName"> 
                 <input name="idEmpresa" value="<%=Integer.parseInt(request.getParameter("id"))%>" type="hidden" />
                 <div>
-                    <input type="submit" value="Guardar logo" class="btn btn-success" name="SubirFoto"/>
-                    <input type="submit" value="Cancelar" class="btn btn-danger" formaction="inicio.jsp" formnovalidate/>
+                    <input type="submit" value="Guardar Logo" class="btn btn-primary" name="SubirLogo"/>
+                    <input type="submit" value="Cancelar" class="btn btn-default" formaction="inicio.jsp" formnovalidate/>
                 </div>
             </form>
+            <%
+            } else {
+            %>
+            <div class="panel-heading">
+                <input type="button" name="edit" value="Imagen guardada" class="btn btn-primary disabled" id="button" onclick="location.href = ">
+            </div>
+
+            <%
+                    }
+                }
+
+            %>
+
         </div>
         <div class="col-md-2">
         </div>
