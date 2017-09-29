@@ -298,6 +298,7 @@ public class DAOEmpleo implements CRUD {
         }
         return y;
     }
+
     public String postular(Object obj) {
         Postulados postulados = (Postulados) obj;
         String consulta = "insert into postulados (cod_p_empresa, cod_persona, estado_postulado, estado_envio) values (?, ?, ?, ?)";
@@ -326,5 +327,49 @@ public class DAOEmpleo implements CRUD {
             }
         }
         return respuesta;
+    }
+
+    public int verificarPostulado(int idPersona, int idEmpleo) {
+        int postul = 0;
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "SELECT count(cod_persona) AS total FROM postulados WHERE cod_p_empresa = ? AND cod_persona = ?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idEmpleo);
+            pst.setInt(2, idPersona);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                postul = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return postul;
+    }
+
+    public List<Postulados> verificarEmpleosPostulados(int idPersona) {
+        List<Postulados> y = new ArrayList<>();
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "select * from postulados where cod_persona = ?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idPersona);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                y.add(new Postulados(rs.getInt("cod_p_empresa"),
+                        rs.getInt("cod_persona"),
+                        rs.getInt("estado_postulado"),
+                        rs.getInt("estado_envio")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return y;
     }
 }

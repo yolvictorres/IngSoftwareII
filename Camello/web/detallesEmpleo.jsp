@@ -212,11 +212,33 @@
         <%
             }
             if (sesion.getAttribute("idPersona") != null) {
+                int idPerson = Integer.parseInt(idPersona);
         %>
 
         <div class="col-md-2">
             <div class="panel">
-                <center><input id="postul" type="button" name="edit" value="Postularse" class="btn btn-default" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=';"></center>
+                <%
+                    DAOEmpleo daoem = new DAOEmpleo();
+                    List<Empleo> e = daoem.consultar();
+                    int idEmpleo = (Integer.parseInt(request.getParameter("id")));
+                    int postul = daoem.verificarPostulado(idPerson, idEmpleo);
+                    if (postul == 0) {
+                %>
+                <form action="ServletEmpleo" method="post" id="postular" name="postular">
+                    <input name="idEmpleo" value="<%=idEmpleo%>" type="hidden" />
+                    <input name="Estadoe" value="0" type="hidden" />
+                    <input name="Estadop" value="0" type="hidden" />
+                    <input name="idPersona" value="<%=sesion.getAttribute("idPersona")%>"  type="hidden" />         
+                    <input id="postul" type="submit" name="Postularse" value="Postularse" class="btn btn-default" />
+                </form>
+                </td> 
+                </tr>
+                <% } else {
+                %>
+                <input id="postul" type="button" name="edit" value="Postulado" class="btn btn-default disabled" id="button">
+                <%
+                    }
+                %>
             </div>
         </div>
         <div class="col-md-8">
@@ -224,7 +246,6 @@
             <br> <center><h1>Detalles del empleo</h1></center><br><br>
             <div class="panel panel-default">
                 <%
-                    DAOEmpleo daoem = new DAOEmpleo();
                     Empleo empl = new Empleo();
                     empl.setIdEmpleo(Integer.parseInt(request.getParameter("id")));
                     List<Empleo> y = daoem.consultarIdP(empl.getIdEmpleo());

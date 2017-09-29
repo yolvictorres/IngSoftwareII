@@ -1,3 +1,4 @@
+<%@page import="Modelo.Postulados"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Modelo.Jornada"%>
 <%@page import="Modelo.Salario"%>
@@ -314,13 +315,42 @@
         <%
             }
             if (sesion.getAttribute("idPersona") != null) {
+                int idPerson = Integer.parseInt(idPersona);
         %>
         <div class="col-md-3 left panel-info">
             <div class="well">
                 <div class="alert alert-dismissible alert-warning">
                     <b>Empleos a los que te has postulado</b>
                 </div>
-                <div class="panel-body">                    
+                <div class="panel-body">         
+                    <table class="table table-condensed table-bordered table-striped table-hover">
+                        <%
+                            DAOEmpleo daoem = new DAOEmpleo();
+                            List<Postulados> p = daoem.verificarEmpleosPostulados(idPerson);
+                            for (Postulados postulado : p) {
+                        %>
+                        <tr>
+                            <%
+                                List<Empleo> em = daoem.consultarIdP(postulado.getCodigoEmpleo());
+                                for (Empleo empleo : em) {
+                                    DAOEmpresa daoemp = new DAOEmpresa();
+                                    List<Empresa> emp = daoemp.consultarXID(empleo.getIdEmpresa());
+                                    for (Empresa empresa : emp) {
+                            %>                            
+                            <td class="col-md-1"><%=empresa.getNombreEmpresa()%></td>
+                            <% }%>
+                            <%
+                                Consultas cons = new Consultas();
+                                List<Cargo> car = cons.consultarCargoId(empleo.getIdCargo());
+                                for (Cargo cargo : car) {
+                            %>
+                            <td class="col-md-1"><%=cargo.getNombreCargo()%></td>
+                            <%}%>
+                            <td class="col-md-1"><input type="button" name="edit" value="Ver" class="btn btn-warning btn-xs" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td> 
+                        </tr>
+                        <% }
+                            }%>
+                    </table>
                 </div>
             </div>
         </div>
@@ -340,20 +370,7 @@
                     <%
                         if (dis == null) {
                             Consultas cons = new Consultas();
-                            DAOEmpleo daoem = new DAOEmpleo();
-                            List<Empleo> y = new ArrayList<Empleo>();
-                            if (request.getParameter("Ciudad") != null) {
-                                int Ciudad = 0;
-                                Ciudad = Integer.parseInt(request.getParameter("Ciudad"));
-                                if (Ciudad != 0) {
-                                    y = daoem.filtro(Ciudad);
-                                } else {
-                                    y = daoem.consultar();
-                                }
-                            } else {
-                                y = daoem.consultar();
-                            }
-
+                            List<Empleo> y = daoem.consultar();
                             for (Empleo empleo : y) {
                     %>
                     <tr><center>   
@@ -384,6 +401,11 @@
                         <%  }%>
                     <td class="col-md-1"><input type="button" name="edit" value="Ver" class="btn btn-primary" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>  
                     <td class="col-md-1">
+                        <%
+                            int idEmpleo = (empleo.getIdEmpleo());
+                            int postul = daoem.verificarPostulado(idPerson, idEmpleo);
+                            if (postul == 0) {
+                        %>
                         <form action="ServletEmpleo" method="post" id="postular" name="postular">
                             <input name="idEmpleo" value="<%=empleo.getIdEmpleo()%>" type="hidden" />
                             <input name="Estadoe" value="0" type="hidden" />
@@ -393,48 +415,53 @@
                         </form>
                     </td> 
                     </tr>
-                    <%  }%>
+                    <% } else {
+                    %>
+                    <input type="button" name="edit" value="Postulado" class="btn btn-default disabled" id="button">
+                    <%
+                            }
+                        }%>
                     </tbody> 
-            </table>
-            <script language="javascript" type="text/javascript">
-                //<![CDATA[  
-                var table10_Props = {
-                    paging: true,
-                    paging_length: 3,
-                    results_per_page: ['# Empleos por página', [3, 6, 9]],
-                    rows_counter: true,
-                    rows_counter_text: "Rows:",
-                    btn_reset: true,
-                    col_0: 'select',
-                    col_1: 'select',
-                    col_2: 'select',
-                    col_3: 'select',
-                    col_4: 'none',
-                    col_5: 'none',
-                    display_all_text: " Seleccionar ",
-                    sort_num_asc: [2],
-                    sort_num_desc: [3],
-                    refresh_filters: true
-                };
-                var tf10 = setFilterGrid("table1", table10_Props);
-                //]]>  
-            </script>  
+                    </table>
+                    <script language="javascript" type="text/javascript">
+                        //<![CDATA[  
+                        var table10_Props = {
+                            paging: true,
+                            paging_length: 3,
+                            results_per_page: ['# Empleos por página', [3, 6, 9]],
+                            rows_counter: true,
+                            rows_counter_text: "Rows:",
+                            btn_reset: true,
+                            col_0: 'select',
+                            col_1: 'select',
+                            col_2: 'select',
+                            col_3: 'select',
+                            col_4: 'none',
+                            col_5: 'none',
+                            display_all_text: " Seleccionar ",
+                            sort_num_asc: [2],
+                            sort_num_desc: [3],
+                            refresh_filters: true
+                        };
+                        var tf10 = setFilterGrid("table1", table10_Props);
+                        //]]>  
+                    </script>  
 
-            <%
-                if (y.size() == 0) {
-            %>
-            <div class="alert alert-warning">
-                <p> Aún no se han publicado empleos, porfavor vuelve más tarde.</p>            
-            </div>            
-            <% }
-                }
-            %>
-        </div>
-        <div class="col-md-2">
-        </div>
-        <%
-            }
-        %>
+                    <%
+                        if (y.size() == 0) {
+                    %>
+                    <div class="alert alert-warning">
+                        <p> Aún no se han publicado empleos, porfavor vuelve más tarde.</p>            
+                    </div>            
+                    <% }
+                        }
+                    %>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                    <%
+                        }
+                    %>
 
-    </body>
-</html>
+                    </body>
+                    </html>
