@@ -142,7 +142,7 @@
                 <div class="col-md-3">
                 </div>
                 <div class="col-md-6">
-                    <center><img src="images/empresa.png" alt="usuarioempresa" class="img-circle"></center>
+                    <center><img src="images/empresa.png" alt="usuarioempresa" class="img-rounded"></center>
                 </div>
                 <div class="col-md-3">
                 </div>                
@@ -152,7 +152,7 @@
                 <div class="col-md-3">
                 </div>
                 <div class="col-md-6">
-                    <center><img src="<%=empresa.getRutaLogo()%>" alt="usuariopersona" class="img-circle"></center>
+                    <center><img src="<%=empresa.getRutaLogo()%>" alt="usuariopersona" class="img-rounded"></center>
                 </div>
                 <div class="col-md-3">
                 </div>                

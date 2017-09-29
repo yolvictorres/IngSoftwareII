@@ -337,16 +337,16 @@
                                     List<Empresa> emp = daoemp.consultarXID(empleo.getIdEmpresa());
                                     for (Empresa empresa : emp) {
                             %>                            
-                            <td class="col-md-1"><%=empresa.getNombreEmpresa()%></td>
+                            <td class="col-md-1"><center><img src="<%=empresa.getRutaLogo()%>" alt="usuariopersona" class="img-rounded"></center></td>
                             <% }%>
                             <%
                                 Consultas cons = new Consultas();
                                 List<Cargo> car = cons.consultarCargoId(empleo.getIdCargo());
                                 for (Cargo cargo : car) {
                             %>
-                            <td class="col-md-1"><%=cargo.getNombreCargo()%></td>
-                            <%}%>
-                            <td class="col-md-1"><input type="button" name="edit" value="Ver" class="btn btn-warning btn-xs" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td> 
+                        <td class="col-md-1"><%=cargo.getNombreCargo()%></td>
+                        <%}%>
+                        <td class="col-md-1"><input type="button" name="edit" value="Ver" class="btn btn-warning btn-xs" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td> 
                         </tr>
                         <% }
                             }%>
@@ -379,12 +379,12 @@
                         List<Empresa> x = daoe.consultarXID(empleo.getIdEmpresa());
                         for (Empresa empresa : x) {
                     %>
-                    <td class="col-md-3"><p><%=empresa.getNombreEmpresa()%></p></td>   
-                            <%  }%>
-                            <%
-                                List<Ciudad> ci = cons.consultarCiudadId(empleo.getIdCiudad());
-                                for (Ciudad ciudad : ci) {
-                            %>     
+                    <td class="col-md-1"><center><img src="<%=empresa.getRutaLogo()%>" alt="usuariopersona" class="img-rounded"></center></td>  
+                        <%  }%>
+                        <%
+                            List<Ciudad> ci = cons.consultarCiudadId(empleo.getIdCiudad());
+                            for (Ciudad ciudad : ci) {
+                        %>     
                     <td class="col-md-3"><p ><%=ciudad.getNombreCiudad()%></p></td>
                         <%  }%>
                         <%

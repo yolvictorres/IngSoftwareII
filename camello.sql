@@ -110,9 +110,9 @@ CREATE TABLE `empresa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `empresa` (`COD_EMPRESA`, `COD_C_LABORAL`, `NOM_EMPRESA`, `RUTA_LOGO`, `CORREO`, `CLAVE`, `TELEFONO`, `DESCRIPCION`) VALUES
-(111, NULL, 'Konrad Lorenz', 'images\img111.jpg', 'konrad@konrad.com', '123', 457676645, NULL),
-(222, NULL, 'Microsoft', 'images\img222.jpg', 'microsoft@microsoft.com', '123', 567867645, NULL),
-(333, NULL, 'Cafam', 'images\img333.jpg', 'cafam@cafam.com', '123', 86786546, NULL);
+(111, NULL, 'Konrad Lorenz', 'images/img111.jpg', 'konrad@konrad.com', '123', 457676645, NULL),
+(222, NULL, 'Microsoft', 'images/img222.jpg', 'microsoft@microsoft.com', '123', 567867645, NULL),
+(333, NULL, 'Cafam', 'images/img333.jpg', 'cafam@cafam.com', '123', 86786546, NULL);
 
 
 -- --------------------------------------------------------

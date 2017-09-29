@@ -36,7 +36,7 @@
             String idEmpresa = null, idPersona = null;
             String nombreEmpresa = null, nombrePersona = null;
 
-            if (sesion.getAttribute("idEmpresa") != null && sesion.getAttribute("nombreEmpresa") != null || sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
+            if (sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
 
                 if (sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
                     idPersona = sesion.getAttribute("idPersona").toString();
@@ -193,12 +193,5 @@
         <%
             }
         %>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#example').DataTable();
-            });
-        </script>
-        <script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js" type="text/javascript"></script>
-        <script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
     </body>
 </html>
