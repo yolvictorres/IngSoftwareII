@@ -37,7 +37,6 @@
         <link rel="stylesheet" type="text/css" href="TableFilter/filtergrid.css">
         <script type="text/javascript" src="js/jquery.js"></script> 
         <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>        
-        <script type="text/javascript" src="js/table1.js"></script> 
         <script type="text/javascript" src="js/bootstrap.min.js"></script>      
     </head>
     <body>
@@ -323,7 +322,7 @@
                     <b>Empleos a los que te has postulado</b>
                 </div>
                 <div class="panel-body">         
-                    <table class="table table-condensed table-bordered table-striped table-hover">
+                    <table id="table2" class="table table-condensed table-bordered table-hover">
                         <%
                             DAOEmpleo daoem = new DAOEmpleo();
                             List<Postulados> p = daoem.verificarEmpleosPostulados(idPerson);
@@ -346,11 +345,24 @@
                             %>
                         <td class="col-md-1"><%=cargo.getNombreCargo()%></td>
                         <%}%>
-                        <td class="col-md-1"><input type="button" name="edit" value="Ver" class="btn btn-warning btn-xs" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td> 
+                        <td class="col-md-1"><center><input type="button" name="edit" value="Ver" class="btn btn-warning btn-xs" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></center></td> 
                         </tr>
                         <% }
                             }%>
                     </table>
+                    <script language="javascript" type="text/javascript">
+                        //<![CDATA[  
+                        var table2_Props = {
+                            rows_counter: true,
+                            rows_counter_text: "Rows:",
+                            col_0: 'none',
+                            col_1: 'select',                            
+                            col_2: 'none',
+                            display_all_text: " Seleccionar "
+                        };
+                        var tf2 = setFilterGrid("table2", table2_Props);
+                        //]]>  
+                    </script>  
                 </div>
             </div>
         </div>
@@ -379,12 +391,12 @@
                         List<Empresa> x = daoe.consultarXID(empleo.getIdEmpresa());
                         for (Empresa empresa : x) {
                     %>
-                    <td class="col-md-1"><center><img src="<%=empresa.getRutaLogo()%>" alt="usuariopersona" class="img-rounded"></center></td>  
-                        <%  }%>
-                        <%
-                            List<Ciudad> ci = cons.consultarCiudadId(empleo.getIdCiudad());
-                            for (Ciudad ciudad : ci) {
-                        %>     
+                    <td class="col-md-2"><%= empresa.getNombreEmpresa()%></td>  
+                    <%  }%>
+                    <%
+                        List<Ciudad> ci = cons.consultarCiudadId(empleo.getIdCiudad());
+                        for (Ciudad ciudad : ci) {
+                    %>     
                     <td class="col-md-3"><p ><%=ciudad.getNombreCiudad()%></p></td>
                         <%  }%>
                         <%
@@ -443,7 +455,7 @@
                             sort_num_desc: [3],
                             refresh_filters: true
                         };
-                        var tf10 = setFilterGrid("table1", table10_Props);
+                        var tf1 = setFilterGrid("table1", table10_Props);
                         //]]>  
                     </script>  
 
