@@ -1,3 +1,4 @@
+<%@page import="Modelo.Postulados"%>
 <%@page import="Modelo.Ciudad"%>
 <%@page import="Acceso.Consultas"%>
 <%@page import="Modelo.Persona"%>
@@ -11,24 +12,19 @@
 <!DOCTYPE html>
 <html>
     <head>        
-        <title>Mired</title>
+        <title>Postulados</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <% if (request.getAttribute("respuesta") != null) {%>
-        <meta http-equiv="refresh" content="3;URL=empleos.jsp">      
-        <% }%>
-        <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+        <link rel="stylesheet" type="text/css" href="css/normalize.css" />      
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">      
         <link rel="stylesheet" href="pe-icon-7-stroke/css/pe-icon-7-stroke.css">
         <!-- Optional - Adds useful class to manipulate icon font display -->
-        <link rel="stylesheet" href="pe-icon-7-stroke/css/helper.css">
+        <link rel="stylesheet" href="pe-icon-7-stroke/css/helper.css"> 
         <link rel="stylesheet" type="text/css" href="TableFilter/filtergrid.css">
         <script type="text/javascript" src="js/jquery.js"></script> 
-        <script type="text/javascript" src="js/bootstrap.min.js"></script> 
-        <script type="text/javascript" src="js/BuscadorTabla.js"></script>
         <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>        
-
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>       
     </head>
     <body>
         <%
@@ -81,7 +77,16 @@
                             } else {
                             %>
                             <li>    
-                                <a href="postulados.jsp"><i class="pe-7s-note2 pe-2x pe-va"></i></a> 
+                                <a href="postulados.jsp">                                    
+                                    <i class="pe-7s-note2 pe-2x pe-va">
+                                        <%
+                                            int idEmpres = (Integer.parseInt(idEmpresa));
+                                            DAOEmpleo daoem = new DAOEmpleo();
+                                            int n = daoem.notificarNuevosPostulados(idEmpres);
+                                        %>
+                                        <span class="badge red"><%=n%></span>  
+                                    </i>
+                                </a> 
                             </li>
                             <%
                                 }
@@ -130,17 +135,97 @@
         <%
             if (sesion.getAttribute("idEmpresa") != null) {
         %>
-
         <div class="col-md-3">
 
         </div>
         <div class="col-md-7">
-            <table class="table table-striped table-bordered">
-                <tr>
-                </tr>
-            </table>
-        </div>
+            <div class="panel-heading"> <center><h1>Postulados</h1></center></div><br>
+            <div class="panel panel-default">
+                <table id="table12" class="table table-striped table-hover" >
+                    <tr></tr>
+                    <tbody>
+                        <%
+                            DAOEmpleo daoem = new DAOEmpleo();
+                            DAOPersona daoper = new DAOPersona();
+                            int idEmpres = (Integer.parseInt(idEmpresa));
+                            List<Postulados> p = daoem.verificarNuevosPostulados(idEmpres);
+                            for (Postulados postulado : p) {
+                                List<Empleo> em = daoem.consultarIdP(postulado.getCodigoEmpleo());
+                                for (Empleo empleo : em) {
+                        %>
+                        <tr>
+                            <%
+                                List<Persona> per = daoper.consultarXID(postulado.getCodigoPersona());
+                                for (Persona person : per) {
+                            %>
+                            <td class="col-md-6">Se ha postulado <b><%=person.getNombresPersona()%> <%=person.getApellidosPersona()%></b> al empleo <b><%=empleo.getDetalles()%></b></td>
+                            <td class="col-md-2"><input type="button" name="" value="Hoja de vida" class="btn btn-primary " id="button" onclick="javascipt:window.open('<%=person.getRutaHojadevida()%>');"></td>
+                            <td class="col-md-2">
+                                <form action="ServletEmpleo" method="post" id="postular" name="postular">
+                                    <input name="idEmpleo" value="<%=empleo.getIdEmpleo()%>" type="hidden" />
+                                    <%
+                                        List<Empleo> W = daoem.consultar();
+                                        for (Empleo emple : W) {
+                                    %>
+                                    <input name="idEmpresa" value="<%=empleo.getIdEmpresa()%>" type="hidden" />
+                                    <%
+                                        }
+                                    %>                         
+                                    <input name="Estadoe" value="0" type="hidden" />
+                                    <input name="Estadop" value="0" type="hidden" />
+                                    <input name="idPersona" value="<%=sesion.getAttribute("idPersona")%>"  type="hidden" />         
+                                    <input type="submit" name="AceptarPostulado" value="Aceptar" class="btn btn-primary" />
+                                </form>
+                            </td>
+                            <td class="col-md-2">
+                                <form action="ServletEmpleo" method="post" id="postular" name="postular">
+                                    <input name="idEmpleo" value="<%=empleo.getIdEmpleo()%>" type="hidden" />
+                                    <%
+                                        List<Empleo> y = daoem.consultar();
+                                        for (Empleo emple : y) {
+                                    %>
+                                    <input name="idEmpresa" value="<%=empleo.getIdEmpresa()%>" type="hidden" />
+                                    <%
+                                        }
+                                    %>                         
+                                    <input name="Estadoe" value="0" type="hidden" />
+                                    <input name="Estadop" value="0" type="hidden" />
+                                    <input name="idPersona" value="<%=sesion.getAttribute("idPersona")%>"  type="hidden" />         
+                                    <input type="submit" name="RechazarPostulado" value="Rechazar" class="btn btn-default" />
+                                </form>
+                            </td>
+                            <%
+                                }
+                            %>
 
+                            <%
+                                }
+                            %>
+                        </tr>
+                        <%                    }
+                        %>
+                    </tbody>
+                </table>
+                <script language="javascript" type="text/javascript">
+//<![CDATA[  
+                    var table12_Props = {
+                        paging: true,
+                        paging_length: 3,
+                        results_per_page: ['# Empleos por página', [3, 6, 9]],
+                        rows_counter: true,
+                        rows_counter_text: "Rows:",
+                        highlight_keywords: true,
+                        on_keyup: true,
+                        on_keyup_delay: 1500,
+                        single_search_filter: true,
+                        selectable: true,
+                        refresh_filters: true
+                    };
+                    var tf12 = setFilterGrid("table12", table12_Props);
+//]]>  
+                </script> 
+            </div>
+        </div>
         <div class="col-md-3">
         </div>
         <%

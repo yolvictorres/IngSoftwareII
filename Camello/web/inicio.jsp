@@ -1,3 +1,4 @@
+<%@page import="Acceso.DAOEmpleo"%>
 <%@page import="Modelo.Empresa"%>
 <%@page import="Acceso.DAOEmpresa"%>
 <%@page import="Modelo.Persona"%>
@@ -7,13 +8,19 @@
 <!DOCTYPE html>
 <html>
     <head>        
-        <title>inicio</title>
+        <title>Inicio</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="css/normalize.css" />      
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">      
         <link rel="stylesheet" href="pe-icon-7-stroke/css/pe-icon-7-stroke.css">
         <!-- Optional - Adds useful class to manipulate icon font display -->
-        <link rel="stylesheet" href="pe-icon-7-stroke/css/helper.css">
+        <link rel="stylesheet" href="pe-icon-7-stroke/css/helper.css"> 
+        <link rel="stylesheet" type="text/css" href="TableFilter/filtergrid.css">
+        <script type="text/javascript" src="js/jquery.js"></script> 
+        <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>        
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>  
     </head>
     <body>
         <%
@@ -34,6 +41,7 @@
             } else {
                 out.print("<script>location.replace('index.jsp');</script>");
             }
+            
         %>
         <div>
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -70,7 +78,19 @@
                             } else {
                             %>
                             <li>    
-                                <a href="postulados.jsp"><i class="pe-7s-note2 pe-2x pe-va"></i></a> 
+                                <a href="postulados.jsp">                                    
+                                    <i class="pe-7s-note2 pe-2x pe-va">
+                                        <%
+                                            int idEmpres = (Integer.parseInt(idEmpresa));
+                                            DAOEmpleo daoem = new DAOEmpleo();
+                                            int n = 0;
+                                            n = daoem.notificarNuevosPostulados(idEmpres);
+                                            if (n != 0){
+                                        %>
+                                        <span class="badge red"><%=n %></span>  
+                                        <% }%>
+                                    </i>
+                                </a> 
                             </li>
                             <%
                                 }
@@ -176,7 +196,5 @@
         <%
             }
         %>
-        <script src="js/jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
     </body>
 </html>

@@ -1,3 +1,4 @@
+<%@page import="Acceso.DAOEmpleo"%>
 <%@page import="Acceso.DAOEmpresa"%>
 <%@page import="Modelo.Ciudad"%>
 <%@page import="Acceso.Consultas"%>
@@ -8,7 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>        
-        <title>Empleos</title>
+        <title>Empresa</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />
@@ -77,7 +78,16 @@
                             } else {
                             %>
                             <li>    
-                                <a href="postulados.jsp"><i class="pe-7s-note2 pe-2x pe-va"></i></a> 
+                                <a href="postulados.jsp">                                    
+                                    <i class="pe-7s-note2 pe-2x pe-va">
+                                        <%
+                                            int idEmpres = (Integer.parseInt(idEmpresa));
+                                            DAOEmpleo daoem = new DAOEmpleo();
+                                            int n = daoem.notificarNuevosPostulados(idEmpres);
+                                        %>
+                                        <span class="badge red"><%=n%></span>  
+                                    </i>
+                                </a> 
                             </li>
                             <%
                                 }

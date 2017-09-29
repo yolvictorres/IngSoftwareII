@@ -7,19 +7,31 @@ package Modelo;
  */
 public class Postulados {
     private int codigoEmpleo;
+    private int codigoEmpresa;    
     private int codigoPersona;
     private int estadoEnvio;
-    private int estadoPostulados;
+    private int estadoPostulados;    
 
     public Postulados() {
     }
 
-    public Postulados(int codigoEmpleo, int codigoPersona, int estadoEnvio, int estadoPostulados) {
+    public Postulados(int codigoEmpleo, int codigoEmpresa, int codigoPersona, int estadoEnvio, int estadoPostulados) {
         this.codigoEmpleo = codigoEmpleo;
+        this.codigoEmpresa = codigoEmpresa;
         this.codigoPersona = codigoPersona;
         this.estadoEnvio = estadoEnvio;
         this.estadoPostulados = estadoPostulados;
     }
+
+    public int getCodigoEmpresa() {
+        return codigoEmpresa;
+    }
+
+    public void setCodigoEmpresa(int codigoEmpresa) {
+        this.codigoEmpresa = codigoEmpresa;
+    }
+
+
 
     public int getCodigoEmpleo() {
         return codigoEmpleo;

@@ -77,7 +77,16 @@
                             } else {
                             %>
                             <li>    
-                                <a href="postulados.jsp"><i class="pe-7s-note2 pe-2x pe-va"></i></a> 
+                                <a href="postulados.jsp">                                    
+                                    <i class="pe-7s-note2 pe-2x pe-va">
+                                        <%
+                                            int idEmpres = (Integer.parseInt(idEmpresa));
+                                            DAOEmpleo daoem = new DAOEmpleo();
+                                            int n = daoem.notificarNuevosPostulados(idEmpres);
+                                        %>
+                                        <span class="badge red"><%=n%></span>  
+                                    </i>
+                                </a> 
                             </li>
                             <%
                                 }

@@ -78,7 +78,16 @@
                             } else {
                             %>
                             <li>    
-                                <a href="postulados.jsp"><i class="pe-7s-note2 pe-2x pe-va"></i></a> 
+                                <a href="postulados.jsp">                                    
+                                    <i class="pe-7s-note2 pe-2x pe-va">
+                                        <%
+                                            int idEmpres = (Integer.parseInt(idEmpresa));
+                                            DAOEmpleo daoem = new DAOEmpleo();
+                                            int n = daoem.notificarNuevosPostulados(idEmpres);
+                                        %>
+                                        <span class="badge red"><%=n%></span>  
+                                    </i>
+                                </a> 
                             </li>
                             <%
                                 }
@@ -225,12 +234,20 @@
                     if (postul == 0) {
                 %>
                 <form action="ServletEmpleo" method="post" id="postular" name="postular">
-                    <input name="idEmpleo" value="<%=idEmpleo%>" type="hidden" />
-                    <input name="Estadoe" value="0" type="hidden" />
-                    <input name="Estadop" value="0" type="hidden" />
-                    <input name="idPersona" value="<%=sesion.getAttribute("idPersona")%>"  type="hidden" />         
-                    <input id="postul" type="submit" name="Postularse" value="Postularse" class="btn btn-default" />
-                </form>
+                            <input name="idEmpleo" value="<%=idEmpleo%>" type="hidden" />
+                            <%
+                           List<Empleo> W = daoem.consultar();
+                            for (Empleo emple : W) {
+                            %>
+                            <input name="idEmpresa" value="<%=idEmpleo%>" type="hidden" />
+                            <%
+                            }
+                            %>                         
+                            <input name="Estadoe" value="0" type="hidden" />
+                            <input name="Estadop" value="0" type="hidden" />
+                            <input name="idPersona" value="<%=sesion.getAttribute("idPersona")%>"  type="hidden" />         
+                            <input id="postul" type="submit" name="Postularse" value="Postularse" class="btn btn-default" />
+                        </form>
                 </td> 
                 </tr>
                 <% } else {

@@ -301,7 +301,7 @@ public class DAOEmpleo implements CRUD {
 
     public String postular(Object obj) {
         Postulados postulados = (Postulados) obj;
-        String consulta = "insert into postulados (cod_p_empresa, cod_persona, estado_postulado, estado_envio) values (?, ?, ?, ?)";
+        String consulta = "insert into postulados (cod_p_empresa, cod_empresa, cod_persona, estado_postulado, estado_envio) values (?, ?, ?, ?, ?)";
         String respuesta = "";
         Connection conn = null;
         PreparedStatement pst = null;
@@ -309,9 +309,10 @@ public class DAOEmpleo implements CRUD {
             conn = con.getconexion();
             pst = conn.prepareStatement(consulta);
             pst.setInt(1, postulados.getCodigoEmpleo());
-            pst.setInt(2, postulados.getCodigoPersona());
-            pst.setInt(3, postulados.getEstadoPostulados());
-            pst.setInt(4, postulados.getEstadoEnvio());
+            pst.setInt(2, postulados.getCodigoEmpresa());
+            pst.setInt(3, postulados.getCodigoPersona());
+            pst.setInt(4, postulados.getEstadoPostulados());
+            pst.setInt(5, postulados.getEstadoEnvio());
             int filas = pst.executeUpdate();
             respuesta = "Postulado correctamente";
             conn.close();
@@ -363,6 +364,7 @@ public class DAOEmpleo implements CRUD {
             rs = pst.executeQuery();
             while (rs.next()) {
                 y.add(new Postulados(rs.getInt("cod_p_empresa"),
+                        rs.getInt("cod_empresa"),
                         rs.getInt("cod_persona"),
                         rs.getInt("estado_postulado"),
                         rs.getInt("estado_envio")));
@@ -371,5 +373,47 @@ public class DAOEmpleo implements CRUD {
             System.err.println("Error" + e);
         }
         return y;
+    }
+        public List<Postulados> verificarNuevosPostulados(int idEmpresa) {
+        List<Postulados> y = new ArrayList<>();
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "select * from postulados where estado_postulado = 0 AND cod_empresa = ?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idEmpresa);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                y.add(new Postulados(rs.getInt("cod_p_empresa"),
+                        rs.getInt("cod_empresa"),
+                        rs.getInt("cod_persona"),
+                        rs.getInt("estado_postulado"),
+                        rs.getInt("estado_envio")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return y;
+    }
+        public int notificarNuevosPostulados(int idEmpresa) {
+        int postul = 0;
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "SELECT count(cod_persona) AS total FROM postulados WHERE estado_postulado = 0 AND cod_empresa = ?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idEmpresa);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                postul = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return postul;
     }
 }

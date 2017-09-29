@@ -72,6 +72,7 @@ public class ServletEmpleo extends HttpServlet {
                     rd = request.getRequestDispatcher("empleos.jsp");
                 } else if(request.getParameter("Postularse") != null){
                     postulados.setCodigoEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
+                    postulados.setCodigoEmpresa(Integer.parseInt(request.getParameter("idEmpresa")));
                     postulados.setCodigoPersona(Integer.parseInt(request.getParameter("idPersona")));
                     postulados.setEstadoEnvio(Integer.parseInt(request.getParameter("Estadoe")));
                     postulados.setEstadoPostulados(Integer.parseInt(request.getParameter("Estadop")));

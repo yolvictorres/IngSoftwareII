@@ -93,8 +93,17 @@
                             <%
                             } else {
                             %>
-                            <li>    
-                                <a href="postulados.jsp"><i class="pe-7s-note2 pe-2x pe-va"></i></a> 
+                           <li>    
+                                <a href="postulados.jsp">                                    
+                                    <i class="pe-7s-note2 pe-2x pe-va">
+                                        <%
+                                            int idEmpres = (Integer.parseInt(idEmpresa));
+                                            DAOEmpleo daoem = new DAOEmpleo();
+                                            int n = daoem.notificarNuevosPostulados(idEmpres);
+                                        %>
+                                        <span class="badge red"><%=n%></span>  
+                                    </i>
+                                </a> 
                             </li>
                             <%
                                 }
@@ -323,32 +332,35 @@
                 </div>
                 <div class="panel-body">         
                     <table id="table2" class="table table-condensed table-bordered table-hover">
-                        <%
-                            DAOEmpleo daoem = new DAOEmpleo();
-                            List<Postulados> p = daoem.verificarEmpleosPostulados(idPerson);
-                            for (Postulados postulado : p) {
-                        %>
-                        <tr>
+                        <tbody>
+                            <tr></tr>
                             <%
-                                List<Empleo> em = daoem.consultarIdP(postulado.getCodigoEmpleo());
-                                for (Empleo empleo : em) {
-                                    DAOEmpresa daoemp = new DAOEmpresa();
-                                    List<Empresa> emp = daoemp.consultarXID(empleo.getIdEmpresa());
-                                    for (Empresa empresa : emp) {
-                            %>                            
-                            <td class="col-md-1"><center><img src="<%=empresa.getRutaLogo()%>" alt="usuariopersona" class="img-rounded"></center></td>
-                            <% }%>
-                            <%
-                                Consultas cons = new Consultas();
-                                List<Cargo> car = cons.consultarCargoId(empleo.getIdCargo());
-                                for (Cargo cargo : car) {
+                                DAOEmpleo daoem = new DAOEmpleo();
+                                List<Postulados> p = daoem.verificarEmpleosPostulados(idPerson);
+                                for (Postulados postulado : p) {
                             %>
+                            <tr>
+                                <%
+                                    List<Empleo> em = daoem.consultarIdP(postulado.getCodigoEmpleo());
+                                    for (Empleo empleo : em) {
+                                        DAOEmpresa daoemp = new DAOEmpresa();
+                                        List<Empresa> emp = daoemp.consultarXID(empleo.getIdEmpresa());
+                                        for (Empresa empresa : emp) {
+                                %>                            
+                                <td class="col-md-1"><center><img src="<%=empresa.getRutaLogo()%>" alt="usuariopersona" class="img-rounded"></center></td>
+                                <% }%>
+                                <%
+                                    Consultas cons = new Consultas();
+                                    List<Cargo> car = cons.consultarCargoId(empleo.getIdCargo());
+                                    for (Cargo cargo : car) {
+                                %>
                         <td class="col-md-1"><%=cargo.getNombreCargo()%></td>
                         <%}%>
                         <td class="col-md-1"><center><input type="button" name="edit" value="Ver" class="btn btn-warning btn-xs" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></center></td> 
                         </tr>
                         <% }
                             }%>
+                        </tbody>
                     </table>
                     <script language="javascript" type="text/javascript">
                         //<![CDATA[  
@@ -356,7 +368,7 @@
                             rows_counter: true,
                             rows_counter_text: "Rows:",
                             col_0: 'none',
-                            col_1: 'select',                            
+                            col_1: 'select',
                             col_2: 'none',
                             display_all_text: " Seleccionar "
                         };
@@ -420,6 +432,14 @@
                         %>
                         <form action="ServletEmpleo" method="post" id="postular" name="postular">
                             <input name="idEmpleo" value="<%=empleo.getIdEmpleo()%>" type="hidden" />
+                            <%
+                           List<Empleo> W = daoem.consultar();
+                            for (Empleo emple : W) {
+                            %>
+                            <input name="idEmpresa" value="<%=empleo.getIdEmpresa()%>" type="hidden" />
+                            <%
+                            }
+                            %>                         
                             <input name="Estadoe" value="0" type="hidden" />
                             <input name="Estadop" value="0" type="hidden" />
                             <input name="idPersona" value="<%=sesion.getAttribute("idPersona")%>"  type="hidden" />         

@@ -87,6 +87,7 @@ INSERT INTO `ciudad` (`COD_CIUDAD`, `COD_PAIS`, `NOM_CIUDAD`) VALUES
 
 CREATE TABLE `postulados` (
   `COD_P_EMPRESA` int(11) NOT NULL,
+  `COD_EMPRESA` int(11) NOT NULL,
   `COD_PERSONA` int(11) NOT NULL,
   `ESTADO_POSTULADO` int(11) NOT NULL,
   `ESTADO_ENVIO` int(11) NOT NULL
@@ -233,10 +234,10 @@ CREATE TABLE `publicar_empresa` (
 
 INSERT INTO `camello`.`publicar_empresa` (`COD_P_EMPRESA`, `COD_EMPRESA`, `COD_CIUDAD`, `COD_JORNADA`, `COD_CARGO`, `COD_SALARIO`, `DETALLE_PUBLICACION`, `EXPERIENCIA_REQUERIDA`) VALUES
  ('453378386', '111', '5', '1', '1', '3', 'monitor de salas', 'ninguna'),
- ('737835324', '111', '1', '2', '3', '1', 'asistente', 'ninguna'),
- ('870475767', '222', '5', '3', '2', '5', 'programador', 'ninguna'),
+ ('737835324', '111', '1', '2', '3', '1', 'asistente tecnico', 'ninguna'),
+ ('870475767', '222', '22', '3', '2', '5', 'programador', 'ninguna'),
  ('445278453', '222', '1', '2', '3', '2', 'asesor de redes', 'ninguna'),
- ('757866789', '333', '5', '1', '2', '3', 'callcenter', 'ninguna'),
+ ('757866789', '333', '11', '1', '2', '3', 'callcenter', 'ninguna'),
  ('411457780', '333', '1', '2', '1', '4', 'cajero de minisuper', 'ninguna');
 -- --------------------------------------------------------
 
