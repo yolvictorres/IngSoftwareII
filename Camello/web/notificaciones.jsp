@@ -1,3 +1,4 @@
+<%@page import="Modelo.Postulados"%>
 <%@page import="Acceso.DAOEmpleo"%>
 <%@page import="Modelo.Empresa"%>
 <%@page import="Acceso.DAOEmpresa"%>
@@ -8,7 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>        
-        <title>Inicio</title>
+        <title>Notificaciones</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />      
@@ -41,7 +42,7 @@
             } else {
                 out.print("<script>location.replace('index.jsp');</script>");
             }
-            
+
         %>
         <div>
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -149,48 +150,51 @@
         </div>
         <%
             if (sesion.getAttribute("idEmpresa") != null) {
-                DAOEmpresa empresa = new DAOEmpresa();
-                List<Empresa> empr = empresa.consultarXID(Integer.parseInt(idEmpresa));
+
         %>
-        <div class="col-md-2">
-            <div class="well">
-                <%
-                    for (Empresa e : empr) {
-                        if (e.getRutaLogo() == null) {
-                %>
-                <input type="button" name="edit" value="Completar perfil" class="btn btn-primary active" id="button" onclick="location.href = 'completarEmpresa.jsp?id=' + (<%=idEmpresa%>);">                     
-                <% } else {
-                %>
-                <input type="button" name="edit" value="Perfil completo" class="btn btn-primary disabled" id="button" onclick="location.href = ">
-                <%
-                        }
-                    }%>
-            </div>
+        <div class="col-md-2">         
         </div>
         <div class="col-md-8">
-            <center><h1>Bienvenido <%=nombreEmpresa%></h1></center>
         </div>
         <div class="col-md-2">
         </div>
-
-
-
-
-        <%
-            }
+        <%            }
             if (sesion.getAttribute("idPersona") != null) {
-                DAOPersona persona = new DAOPersona();
-                List<Persona> per = persona.consultarXID(Integer.parseInt(idPersona));
         %>
-        <div class="col-md-2">   
+        <div class="col-md-3">   
             <div class="well">
-                
+
             </div>
         </div>
-        <div class="col-md-8">
-            
+        <div class="col-md-7">
+            <div class="panel panel-heading"> <center><h1>Notificaciones</h1></center></div><br>
+            <div class="panel panel-default">
+                <table id="table12" class="table table-striped table-hover table-bordered">
+                    <tr></tr>
+                    <%
+                        DAOEmpleo daoem = new DAOEmpleo();
+                        int idPerson = (Integer.parseInt(idPersona));
+                        List<Postulados> p = daoem.mostrarNotificaciones(idPerson);
+                        for (Postulados postulado : p) {
+                    %>
+                    <tbody>
+                        <tr>                        
+                            <td class="col-md-7"><%=postulado.getMensaje()%></td>
+                            <td class="col-md-1">
+                                <form action="ServletEmpleo" method="post" id="notvista" name="notvista">                                      
+                                    <input name="Estadon" value="1" type="hidden" />           
+                                    <input name="idEmpleo" value="<%=postulado.getCodigoEmpleo()%>" type="hidden" />  
+                                    <input name="idPersona" value="<%=postulado.getCodigoPersona()%>" type="hidden" />                                     
+                                    <input type="submit" name="NotVista" value="Aceptar" class="btn btn-primary" />
+                                </form>
+                            </td>
+                            <% }%>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
         </div>
 
 

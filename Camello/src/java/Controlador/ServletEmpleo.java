@@ -88,8 +88,7 @@ public class ServletEmpleo extends HttpServlet {
                     respuesta = dao.aceptarPostulado(postulados);                    
                     request.setAttribute("respuesta", respuesta);
                     rd = request.getRequestDispatcher("postulados.jsp");
-                }
-                else if(request.getParameter("RechazarPostulado") != null){
+                }else if(request.getParameter("RechazarPostulado") != null){
                     postulados.setEstadoPostulados(Integer.parseInt(request.getParameter("Estadop")));
                     postulados.setCodigoPersona(Integer.parseInt(request.getParameter("idPersona")));
                     postulados.setCodigoEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
@@ -97,6 +96,13 @@ public class ServletEmpleo extends HttpServlet {
                     respuesta = dao.aceptarPostulado(postulados);                    
                     request.setAttribute("respuesta", respuesta);
                     rd = request.getRequestDispatcher("postulados.jsp");
+                }else if(request.getParameter("NotVista") != null){
+                    postulados.setEstadoNotificacion(Integer.parseInt(request.getParameter("Estadon")));
+                    postulados.setCodigoPersona(Integer.parseInt(request.getParameter("idPersona")));
+                    postulados.setCodigoEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
+                    respuesta = dao.aceptarPostulado(postulados);                    
+                    request.setAttribute("respuesta", respuesta);
+                    rd = request.getRequestDispatcher("notificaciones.jsp");
                 }
             } catch (NumberFormatException e) {
 

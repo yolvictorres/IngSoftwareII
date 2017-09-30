@@ -171,7 +171,7 @@
                             DAOEmpresa daoemp = new DAOEmpresa();
                             DAOPersona daoper = new DAOPersona();
                             int idEmpres = (Integer.parseInt(idEmpresa));
-                            List<Postulados> p = daoem.verificarNuevosPostulados(idEmpres);
+                            List<Postulados> p = daoem.mostrarNuevosPostulados(idEmpres);
                             for (Postulados postulado : p) {
                                 List<Empleo> em = daoem.consultarIdP(postulado.getCodigoEmpleo());
                                 for (Empleo empleo : em) {
