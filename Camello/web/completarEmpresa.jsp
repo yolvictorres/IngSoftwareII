@@ -39,7 +39,7 @@
                 out.print("<script>location.replace('index.jsp');</script>");
             }
         %>
-        <div>
+      <div>
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -61,14 +61,25 @@
                             <li>
                                 <a href="empleos.jsp"><i class="pe-7s-portfolio pe-2x pe-va"></i></a>
                             </li>   
-                            <%
-                                if (sesion.getAttribute("idPersona") != null) {
+                            <%                                if (sesion.getAttribute("idPersona") != null) {
                             %>
                             <li>
                                 <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va"></i></a>
                             </li> 
-                            <li>
-                                <a href="notificaciones.jsp"><i class="pe-7s-bell pe-2x pe-va"></i></a>
+                            <li>    
+                                <a href="notificaciones.jsp">                                    
+                                    <i class="pe-7s-bell pe-2x pe-va">
+                                        <%
+                                            int idPerson = (Integer.parseInt(idPersona));
+                                            DAOEmpleo daoem = new DAOEmpleo();
+                                            int n = 0;
+                                            n = daoem.verificarNotificaciones(idPerson);
+                                            if (n != 0) {
+                                        %>
+                                        <span class="badge red"><%=n%></span>  
+                                        <% }%>
+                                    </i>
+                                </a> 
                             </li> 
                             <%
                             } else {
@@ -79,9 +90,12 @@
                                         <%
                                             int idEmpres = (Integer.parseInt(idEmpresa));
                                             DAOEmpleo daoem = new DAOEmpleo();
-                                            int n = daoem.notificarNuevosPostulados(idEmpres);
+                                            int n = 0;
+                                            n = daoem.notificarNuevosPostulados(idEmpres);
+                                            if (n != 0) {
                                         %>
                                         <span class="badge red"><%=n%></span>  
+                                        <% }%>
                                     </i>
                                 </a> 
                             </li>

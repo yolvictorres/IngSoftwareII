@@ -11,16 +11,28 @@ public class Postulados {
     private int codigoPersona;
     private int estadoEnvio;
     private int estadoPostulados;    
+    private int estadoNotificacion;    
+    private String mensaje;    
 
     public Postulados() {
     }
 
-    public Postulados(int codigoEmpleo, int codigoEmpresa, int codigoPersona, int estadoEnvio, int estadoPostulados) {
+    public Postulados(int codigoEmpleo, int codigoEmpresa, int codigoPersona, int estadoEnvio, int estadoPostulados, int estadoNotificacion, String mensaje) {
         this.codigoEmpleo = codigoEmpleo;
         this.codigoEmpresa = codigoEmpresa;
         this.codigoPersona = codigoPersona;
         this.estadoEnvio = estadoEnvio;
         this.estadoPostulados = estadoPostulados;
+        this.estadoNotificacion = estadoNotificacion;
+        this.mensaje = mensaje;
+    }
+
+    public int getCodigoEmpleo() {
+        return codigoEmpleo;
+    }
+
+    public void setCodigoEmpleo(int codigoEmpleo) {
+        this.codigoEmpleo = codigoEmpleo;
     }
 
     public int getCodigoEmpresa() {
@@ -29,16 +41,6 @@ public class Postulados {
 
     public void setCodigoEmpresa(int codigoEmpresa) {
         this.codigoEmpresa = codigoEmpresa;
-    }
-
-
-
-    public int getCodigoEmpleo() {
-        return codigoEmpleo;
-    }
-
-    public void setCodigoEmpleo(int codigoEmpleo) {
-        this.codigoEmpleo = codigoEmpleo;
     }
 
     public int getCodigoPersona() {
@@ -64,6 +66,22 @@ public class Postulados {
     public void setEstadoPostulados(int estadoPostulados) {
         this.estadoPostulados = estadoPostulados;
     }
-    
-    
+
+    public int getEstadoNotificacion() {
+        return estadoNotificacion;
+    }
+
+    public void setEstadoNotificacion(int estadoNotificacion) {
+        this.estadoNotificacion = estadoNotificacion;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
+   
 }

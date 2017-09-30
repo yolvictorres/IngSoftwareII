@@ -8,19 +8,24 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <head>        
-        <title>Empleos</title>
+       <head>        
+        <title>Mired</title>
         <meta charset="UTF-8">
-         <% if (request.getAttribute("respuesta") != null) {%>
-        <meta http-equiv="refresh" content="3;URL=empleos.jsp">
-        <% }%>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <% if (request.getAttribute("respuesta") != null) {%>
+        <meta http-equiv="refresh" content="3;URL=empleos.jsp">      
+        <% }%>
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" href="pe-icon-7-stroke/css/pe-icon-7-stroke.css">
         <!-- Optional - Adds useful class to manipulate icon font display -->
-        <link rel="stylesheet" href="pe-icon-7-stroke/css/helper.css">       
+        <link rel="stylesheet" href="pe-icon-7-stroke/css/helper.css">
+        <link rel="stylesheet" type="text/css" href="TableFilter/filtergrid.css">
+        <script type="text/javascript" src="js/jquery.js"></script> 
+        <script type="text/javascript" src="js/bootstrap.min.js"></script> 
+        <script type="text/javascript" src="js/BuscadorTabla.js"></script>
+        <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>       
     </head>
     <body>
         <%
@@ -64,14 +69,25 @@
                             <li>
                                 <a href="empleos.jsp"><i class="pe-7s-portfolio pe-2x pe-va"></i></a>
                             </li>   
-                            <%
-                                if (sesion.getAttribute("idPersona") != null) {
+                            <%                                if (sesion.getAttribute("idPersona") != null) {
                             %>
                             <li>
                                 <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va"></i></a>
                             </li> 
-                            <li>
-                                <a href="notificaciones.jsp"><i class="pe-7s-bell pe-2x pe-va"></i></a>
+                            <li>    
+                                <a href="notificaciones.jsp">                                    
+                                    <i class="pe-7s-bell pe-2x pe-va">
+                                        <%
+                                            int idPerson = (Integer.parseInt(idPersona));
+                                            DAOEmpleo daoem = new DAOEmpleo();
+                                            int n = 0;
+                                            n = daoem.verificarNotificaciones(idPerson);
+                                            if (n != 0) {
+                                        %>
+                                        <span class="badge red"><%=n%></span>  
+                                        <% }%>
+                                    </i>
+                                </a> 
                             </li> 
                             <%
                             } else {
@@ -82,9 +98,12 @@
                                         <%
                                             int idEmpres = (Integer.parseInt(idEmpresa));
                                             DAOEmpleo daoem = new DAOEmpleo();
-                                            int n = daoem.notificarNuevosPostulados(idEmpres);
+                                            int n = 0;
+                                            n = daoem.notificarNuevosPostulados(idEmpres);
+                                            if (n != 0) {
                                         %>
                                         <span class="badge red"><%=n%></span>  
+                                        <% }%>
                                     </i>
                                 </a> 
                             </li>
@@ -135,76 +154,72 @@
         <%
             if (sesion.getAttribute("idEmpresa") != null) {
         %>
-        <div class="col-md-2">
+         <div class="col-md-2">
         </div>
-        <div class="col-md-8">
+        <div class="col-md-8">            
+
+            <%
+                DAOPersona daop = new DAOPersona();
+                Persona persona = new Persona();
+                persona.setIdPersona(Integer.parseInt(request.getParameter("id")));
+                List<Persona> y = daop.consultarXID(persona.getIdPersona());
+                for (Persona person : y) {
+                    if (person.getRutaFoto() == null) {
+            %>                
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <center><img src="images/persona.png" alt="usuariopersona" class="img-circle"></center>
+                </div>
+                <div class="col-md-3">
+                </div>                
+            </div><br>                
+            <% } else {%>
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <center><img src="<%=person.getRutaFoto()%>" alt="usuariopersona" class="img-circle"></center>
+                </div>
+                <div class="col-md-3">
+                </div>                
+            </div><br>
+            <% }%>
             <div class="panel panel-default">
-                <%
-                    DAOPersona daop = new DAOPersona();
-                    Persona persona = new Persona();
-                    persona.setIdPersona(Integer.parseInt(request.getParameter("id")));
-                    List<Persona> y = daop.consultarXID(persona.getIdPersona());
-                    for (Persona person : y) {
-                        if (person.getRutaFoto() == null) {
-                %>           
-                <div class="row">
-                    <div class="col-md-3">
-                    </div>
-                    <div class="col-md-6">
-                        <center><img src="images/persona.png" alt="usuariopersona" class="img-circle"></center>
-                    </div>
-                    <div class="col-md-3">
-                    </div>                
-                </div>
-                <% } else {%>
-                <div class="row">
-                    <div class="col-md-3">
-                    </div>
-                    <div class="col-md-6">
-                        <center><img src="<%=person.getRutaFoto()%>" alt="usuariopersona" class="img-circle"></center>
-                    </div>
-                    <div class="col-md-3">
-                    </div>                
-                </div>
-                <% }%>
-                <table class="table table-bordered">
-                    <tbody>                                     
-                            <td class="col-md-2"><center><a >Nombres:</a></center></td> 
-                    <td class="col-md-4"><center><a ><%=person.getNombresPersona()%></a></center></td>                              
-                    </tbody> 
-                </table>
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                     <tbody>                
                         <tr>
-                            <td class="col-md-2"><center><a >Apellidos:</a></center></td> 
-                    <td class="col-md-4"><center><a ><%=person.getApellidosPersona()%></a></center></td>                              
+                            <td class="col-md-2"><center><p>Nombres:</p></center></td> 
+                    <td class="col-md-4"><center><p ><%=person.getNombresPersona()%></p></center></td>                              
+                    </tr>               
+                    <tr>
+                        <td class="col-md-2"><center><p >Apellidos:</p></center></td> 
+                    <td class="col-md-4"><center><p><%=person.getApellidosPersona()%></p></center></td>                              
+                    </tr>                
+                    <tr>
+                        <td class="col-md-2"><center><p >Correo Electronico:</p></center></td> 
+                    <td class="col-md-4"><center><p ><%=person.getCorreoPersona()%></p></center></td>                              
+                    </tr>                
+                    <tr>
+                        <td class="col-md-2"><center><p>Telefono:</p></center></td> 
+                    <td class="col-md-4"><center><p ><%=person.getTelefono()%></p></center></td>                              
+                    </tr>                 
+                    <tr>
+                        <td class="col-md-2"><center><p>Fecha de nácimiento:</p></center></td> 
+                    <td class="col-md-4"><center><p ><%=person.getEdad()%></p></center></td>                              
+                    </tbody> 
+                    <tr>
+                        <td class="col-md-2"><center><p>Hoja de vida:</p></center></td> 
+                    <td class="col-md-4"><center><input type="button" name="edit" value="Ver" class="btn btn-primary btn-sm" id="button" onclick="javascipt:window.open('<%=person.getRutaHojadevida()%>');"></center>
+                    </td>                              
                     </tbody> 
                 </table>
-                <table class="table table-bordered">
-                    <tbody>                
-                        <tr>
-                            <td class="col-md-2"><center><a >Correo Electronico:</a></center></td> 
-                    <td class="col-md-4"><center><a ><%=person.getCorreoPersona()%></a></center></td>                              
-                    </tbody> 
-                </table>
-                <table class="table table-bordered">
-                    <tbody>                
-                        <tr>
-                            <td class="col-md-2"><center><a >Telefono:</a></center></td> 
-                    <td class="col-md-4"><center><a ><%=person.getTelefono()%></a></center></td>                              
-                    </tbody> 
-                </table>
-                <table class="table table-bordered">
-                    <tbody>                
-                        <tr>
-                            <td class="col-md-2"><center><a >Fecha de nacimiento:</a></center></td> 
-                    <td class="col-md-4"><center><a ><%=person.getEdad()%></a></center></td>                              
-                    </tbody> 
-                </table>
-                <%
-                    }
-                %>
-            </div>
+            </div>            
+            <br>
+            <%
+                }
+            %>
         </div>
         <div class="col-md-2">
         </div>
@@ -285,7 +300,6 @@
         <%
             }
         %>
-        <script src="js/jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+
     </body>
 </html>

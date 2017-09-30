@@ -76,9 +76,27 @@ public class ServletEmpleo extends HttpServlet {
                     postulados.setCodigoPersona(Integer.parseInt(request.getParameter("idPersona")));
                     postulados.setEstadoEnvio(Integer.parseInt(request.getParameter("Estadoe")));
                     postulados.setEstadoPostulados(Integer.parseInt(request.getParameter("Estadop")));
+                    postulados.setEstadoNotificacion(Integer.parseInt(request.getParameter("Estadon")));
                     respuesta = dao.postular(postulados);                    
                     request.setAttribute("respuesta", respuesta);
                     rd = request.getRequestDispatcher("empleos.jsp");
+                }else if(request.getParameter("AceptarPostulado") != null){
+                    postulados.setEstadoPostulados(Integer.parseInt(request.getParameter("Estadop")));
+                    postulados.setCodigoPersona(Integer.parseInt(request.getParameter("idPersona")));
+                    postulados.setCodigoEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
+                    postulados.setMensaje(request.getParameter("Mensaje"));
+                    respuesta = dao.aceptarPostulado(postulados);                    
+                    request.setAttribute("respuesta", respuesta);
+                    rd = request.getRequestDispatcher("postulados.jsp");
+                }
+                else if(request.getParameter("RechazarPostulado") != null){
+                    postulados.setEstadoPostulados(Integer.parseInt(request.getParameter("Estadop")));
+                    postulados.setCodigoPersona(Integer.parseInt(request.getParameter("idPersona")));
+                    postulados.setCodigoEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
+                    postulados.setMensaje(request.getParameter("Mensaje"));
+                    respuesta = dao.aceptarPostulado(postulados);                    
+                    request.setAttribute("respuesta", respuesta);
+                    rd = request.getRequestDispatcher("postulados.jsp");
                 }
             } catch (NumberFormatException e) {
 
