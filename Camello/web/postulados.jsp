@@ -155,8 +155,8 @@
             <div class="panel panel-default ">
                 <ul class="nav nav-pills nav-stacked">
                     <li class="active"><a href="postulados.jsp">Postulados</a></li>
-                    <li><a href="#">Pre-seleccionados</a></li>
-                    <li><a href="#">Rechazados</a></li>
+                    <li><a href="preseleccionados.jsp">Pre-seleccionados</a></li>
+                    <li><a href="rechazados.jsp">Rechazados</a></li>
                 </ul>
             </div>
         </div>
@@ -171,7 +171,7 @@
                             DAOEmpresa daoemp = new DAOEmpresa();
                             DAOPersona daoper = new DAOPersona();
                             int idEmpres = (Integer.parseInt(idEmpresa));
-                            List<Postulados> p = daoem.mostrarNuevosPostulados(idEmpres);
+                            List<Postulados> p = daoem.mostrarNuevosPostulados(0, idEmpres);
                             for (Postulados postulado : p) {
                                 List<Empleo> em = daoem.consultarIdP(postulado.getCodigoEmpleo());
                                 for (Empleo empleo : em) {
@@ -246,7 +246,13 @@
                     var tf12 = setFilterGrid("table12", table12_Props);
                     //]]>  
                 </script> 
-
+                <%
+                    if (p.size() == 0) {
+                %>
+                <div class="alert alert-warning">
+                    <p>No hay <strong>nuevos postulados</strong> revisa más tarde.</p>            
+                </div>            
+                <% }%>
             </div>
         </div>
         <div class="col-md-3">

@@ -29,7 +29,8 @@ use camello;
 
 CREATE TABLE `amigos` (
   `COD_PERSONA` int(11) NOT NULL,
-  `COD_AMIGO` int(11) NOT NULL
+  `COD_AMIGO` int(11) NOT NULL,
+  `ESTADO_SOLICITUD` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -261,11 +262,18 @@ CREATE TABLE `cargo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `cargo` (`COD_CARGO`, `NOM_CARGO`) VALUES
-(1, 'secretaria'),
-(2, 'Administrador'),
-(3, 'cajero'),
-(4, 'profesor'),
-(5, 'arquitecto');
+(1, 'Administrador'),
+(2, 'Arquitecto'),
+(3, 'Aseador'),
+(4, 'Cordinador'),
+(5, 'Cajero'),
+(6, 'Docente de planta'),
+(7, 'Domiciliario'),
+(8, 'Gerente'),
+(9, 'Tesorero'),
+(10, 'Profesor suplente'),
+(11, 'Vendedor'),
+(12, 'Vigilante');
 
 CREATE TABLE `salario` (
   `COD_SALARIO` int(11) NOT NULL,

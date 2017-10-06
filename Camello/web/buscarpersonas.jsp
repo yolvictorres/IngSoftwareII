@@ -1,30 +1,33 @@
-<%@page import="Modelo.Postulados"%>
-<%@page import="Acceso.DAOEmpleo"%>
-<%@page import="Modelo.Empresa"%>
-<%@page import="Acceso.DAOEmpresa"%>
+<%@page import="Modelo.Ciudad"%>
+<%@page import="Acceso.Consultas"%>
 <%@page import="Modelo.Persona"%>
-<%@page import="java.util.List"%>
 <%@page import="Acceso.DAOPersona"%>
+<%@page import="Modelo.Empleo"%>
+<%@page import="java.util.List"%>
+<%@page import="Acceso.DAOEmpleo"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>        
-        <title>Notificaciones</title>
+        <title>Buscar Personas</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <% if (request.getAttribute("respuesta") != null ) {%>
-        <meta http-equiv="refresh" content="1;URL=notificaciones.jsp">        
-        <% }%>  
-        <link rel="stylesheet" type="text/css" href="css/normalize.css" />      
+        <% if (request.getAttribute("respuestasol") != null) {%>
+        <meta http-equiv="refresh" content="1;URL=buscarpersonas.jsp">      
+        <% }%>
+        <link rel="stylesheet" type="text/css" href="css/normalize.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/style.css">      
+        <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" href="pe-icon-7-stroke/css/pe-icon-7-stroke.css">
         <!-- Optional - Adds useful class to manipulate icon font display -->
-        <link rel="stylesheet" href="pe-icon-7-stroke/css/helper.css"> 
+        <link rel="stylesheet" href="pe-icon-7-stroke/css/helper.css">
         <link rel="stylesheet" type="text/css" href="TableFilter/filtergrid.css">
         <script type="text/javascript" src="js/jquery.js"></script> 
-        <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>        
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>  
+        <script type="text/javascript" src="js/bootstrap.min.js"></script> 
+        <script type="text/javascript" src="js/BuscadorTabla.js"></script>
+        <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>       
     </head>
     <body>
         <%
@@ -32,12 +35,8 @@
             String idEmpresa = null, idPersona = null;
             String nombreEmpresa = null, nombrePersona = null;
 
-            if (sesion.getAttribute("idEmpresa") != null && sesion.getAttribute("nombreEmpresa") != null || sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
+            if (sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
 
-                if (sesion.getAttribute("idEmpresa") != null && sesion.getAttribute("nombreEmpresa") != null) {
-                    idEmpresa = sesion.getAttribute("idEmpresa").toString();
-                    nombreEmpresa = sesion.getAttribute("nombreEmpresa").toString();
-                }
                 if (sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
                     idPersona = sesion.getAttribute("idPersona").toString();
                     nombrePersona = sesion.getAttribute("nombrePersona").toString();
@@ -45,7 +44,6 @@
             } else {
                 out.print("<script>location.replace('index.jsp');</script>");
             }
-
         %>
         <div>
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -152,62 +150,98 @@
             </nav>
         </div>
         <%
-            if (sesion.getAttribute("idEmpresa") != null) {
-
-        %>
-        <div class="col-md-2">         
-        </div>
-        <div class="col-md-8">
-        </div>
-        <div class="col-md-2">
-        </div>
-        <%            }
             if (sesion.getAttribute("idPersona") != null) {
         %>
-        <div class="col-md-3">   
-            <div class="well">
 
+        <div class="col-md-3">
+            <div class="panel panel-default ">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"><a href="buscarpersonas.jsp">Buscar Personas</a></li>
+                    <li ><a href="mired.jsp">Mi Red</a></li>
+                    <li><a href="solicitudespendientes.jsp">Solicitudes Pendientes</a></li>
+                </ul>
             </div>
         </div>
         <div class="col-md-7">
-            <div class="panel panel-heading"> <center><h1>Notificaciones</h1></center></div><br>
-            <div class="panel panel-default">
-                <table id="table12" class="table table-striped table-hover table-bordered">
-                    <tr></tr>
+            <center><h1>Buscar Personas</h1></center><br>
+            <center>
+                <div>                
+                    <p>
+                        <label><i class="pe-7s-search pe-2x pe-va"></i></label>
+                        <input id="searchTerm" type="text" onkeyup="doSearch()" placeholder=" Buscar personas " />
+                    </p>                
+                </div>
+            </center>
+            <br>
+            <table id="datos" class="table table-condensed table-bordered table-hover">
+                <thead>
+                <th>Foto</th>
+                <th><center>Nombres</center></th>  
+                <th>Solicitar unirse a Mi Red</th>
+                </thead>
+                <tbody>
+                    <jsp:useBean id="cn" class="Acceso.DAOPersona" scope="page"></jsp:useBean>
                     <%
-                        DAOEmpleo daoem = new DAOEmpleo();
+                        DAOPersona daop = new DAOPersona();
                         int idPerson = (Integer.parseInt(idPersona));
-                        List<Postulados> p = daoem.mostrarNotificaciones(idPerson);
-                        for (Postulados postulado : p) {
+                        ResultSet rs = cn.listar();
+                        while (rs.next()) {
+                            if (rs.getInt("cod_persona") != idPerson) {
                     %>
-                    <tbody>
-                        <tr>                        
-                            <td class="col-md-7"><%=postulado.getMensaje()%></td>
-                            <td class="col-md-1">
-                                <form action="ServletEmpleo" method="post" id="notvista" name="notvista">                                      
-                                    <input name="Estadon" value="1" type="hidden" />           
-                                    <input name="idEmpleo" value="<%=postulado.getCodigoEmpleo()%>" type="hidden" />  
-                                    <input name="idPersona" value="<%=postulado.getCodigoPersona()%>" type="hidden" />                                     
-                                    <input type="submit" name="NotVista" value="Aceptar" class="btn btn-primary" />
-                                </form>
-                            </td>
-                            <% }%>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <%
-                    if (p.size() == 0) {
-                %>
-                <div class="alert alert-warning">
-                    <p>No hay novedades<strong>porfavor</strong> revisa más tarde.</p>            
-                </div>            
+                    <tr>
+
+                        <% if (rs.getString("ruta_foto") != null) {%>
+                        <td class="col-md-1"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><img src="<%=rs.getString("ruta_foto")%>" alt="..." class="img-thumbnail"></a></center></td>
+                        <% } else {%>
+                <td class="col-md-1"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><img src="images/persona.png" alt="..." class="img-thumbnail"></a></center></td>   
+                        <% }%>
+                <td class="col-md-5"><center><p onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><%=rs.getString("nombres")%> <%=rs.getString("apellidos")%></p></center></td>
+                    <%
+                        int postul = daop.verificarSolicitud(idPerson, rs.getInt("cod_persona"));
+                        if (postul == 0) {
+                    %>           
+                <td class="col-md-1"><center>
+                    <form action="ServletPersona" method="post" id="amigoS" name="amigoS">                                      
+                        <input name="EstadoS" value="0" type="hidden" />
+                        <input name="idPersona" value="<%=idPerson%>" type="hidden" />
+                        <input name="idAmigo" value="<%=rs.getInt("cod_persona")%>" type="hidden" />      
+                        <input type="submit" name="AmigoS" value="Enviar Solicitud" class="btn btn-primary" />
+                    </form></center>
+                </td>
+                <% } else {%>
+                <td class="col-md-1"><center>
+                    <input type="button" name="edit" value="Solicitud Enviada" class="btn btn-primary disabled" id="button">
+                </center>
+                </td>
                 <% }%>
-        </div>
-        <div class="col-md-3">
+                </tr>
+                <% }
+                    }
+                %>
+                </tbody>
+            </table>
+            <script language="javascript" type="text/javascript">
+//<![CDATA[  
+                var table6_Props = {
+                    paging: true,
+                    paging_length: 3,
+                    results_per_page: ['# Empleos por página', [3, 6, 9]],
+                    rows_counter: true,
+                    rows_counter_text: "Rows:",
+                    btn_reset: false,
+                    col_0: 'none',
+                    col_1: 'none',
+                    col_2: 'none',
+                    loader: true,
+                    loader_text: "Filtering data..."
+                };
+                var tf6 = setFilterGrid("datos", table6_Props);
+//]]>  
+            </script> 
         </div>
 
-
+        <div class="col-md-2">
+        </div>
         <%
             }
         %>

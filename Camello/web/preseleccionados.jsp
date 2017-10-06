@@ -1,20 +1,22 @@
-<%@page import="Modelo.Postulados"%>
-<%@page import="Acceso.DAOEmpleo"%>
-<%@page import="Modelo.Empresa"%>
 <%@page import="Acceso.DAOEmpresa"%>
+<%@page import="Modelo.Empresa"%>
+<%@page import="Modelo.Postulados"%>
+<%@page import="Modelo.Ciudad"%>
+<%@page import="Acceso.Consultas"%>
 <%@page import="Modelo.Persona"%>
-<%@page import="java.util.List"%>
 <%@page import="Acceso.DAOPersona"%>
+<%@page import="Modelo.Empleo"%>
+<%@page import="java.util.List"%>
+<%@page import="Acceso.DAOEmpleo"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>        
-        <title>Notificaciones</title>
+        <title>Preseleccionados</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <% if (request.getAttribute("respuesta") != null ) {%>
-        <meta http-equiv="refresh" content="1;URL=notificaciones.jsp">        
-        <% }%>  
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />      
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">      
@@ -24,7 +26,7 @@
         <link rel="stylesheet" type="text/css" href="TableFilter/filtergrid.css">
         <script type="text/javascript" src="js/jquery.js"></script> 
         <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>        
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>  
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>       
     </head>
     <body>
         <%
@@ -32,20 +34,15 @@
             String idEmpresa = null, idPersona = null;
             String nombreEmpresa = null, nombrePersona = null;
 
-            if (sesion.getAttribute("idEmpresa") != null && sesion.getAttribute("nombreEmpresa") != null || sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
+            if (sesion.getAttribute("idEmpresa") != null && sesion.getAttribute("nombreEmpresa") != null) {
 
                 if (sesion.getAttribute("idEmpresa") != null && sesion.getAttribute("nombreEmpresa") != null) {
                     idEmpresa = sesion.getAttribute("idEmpresa").toString();
                     nombreEmpresa = sesion.getAttribute("nombreEmpresa").toString();
                 }
-                if (sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
-                    idPersona = sesion.getAttribute("idPersona").toString();
-                    nombrePersona = sesion.getAttribute("nombrePersona").toString();
-                }
             } else {
                 out.print("<script>location.replace('index.jsp');</script>");
             }
-
         %>
         <div>
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -153,61 +150,81 @@
         </div>
         <%
             if (sesion.getAttribute("idEmpresa") != null) {
-
         %>
-        <div class="col-md-2">         
-        </div>
-        <div class="col-md-8">
-        </div>
-        <div class="col-md-2">
-        </div>
-        <%            }
-            if (sesion.getAttribute("idPersona") != null) {
-        %>
-        <div class="col-md-3">   
-            <div class="well">
-
+        <div class="col-md-3">
+            <div class="panel panel-default ">
+                <ul class="nav nav-pills nav-stacked">
+                    <li ><a href="postulados.jsp">Postulados</a></li>
+                    <li class="active"><a href="preseleccionados.jsp">Pre-seleccionados</a></li>
+                    <li><a href="rechazados.jsp">Rechazados</a></li>
+                </ul>
             </div>
         </div>
         <div class="col-md-7">
-            <div class="panel panel-heading"> <center><h1>Notificaciones</h1></center></div><br>
+            <div class="panel panel-heading"> <center><h1>Pre-seleccionados</h1></center></div><br>
             <div class="panel panel-default">
-                <table id="table12" class="table table-striped table-hover table-bordered">
+                <table id="table12" class="table table-striped table-hover" >
                     <tr></tr>
-                    <%
-                        DAOEmpleo daoem = new DAOEmpleo();
-                        int idPerson = (Integer.parseInt(idPersona));
-                        List<Postulados> p = daoem.mostrarNotificaciones(idPerson);
-                        for (Postulados postulado : p) {
-                    %>
                     <tbody>
-                        <tr>                        
-                            <td class="col-md-7"><%=postulado.getMensaje()%></td>
-                            <td class="col-md-1">
-                                <form action="ServletEmpleo" method="post" id="notvista" name="notvista">                                      
-                                    <input name="Estadon" value="1" type="hidden" />           
-                                    <input name="idEmpleo" value="<%=postulado.getCodigoEmpleo()%>" type="hidden" />  
-                                    <input name="idPersona" value="<%=postulado.getCodigoPersona()%>" type="hidden" />                                     
-                                    <input type="submit" name="NotVista" value="Aceptar" class="btn btn-primary" />
-                                </form>
-                            </td>
-                            <% }%>
+                        <%
+                            DAOEmpleo daoem = new DAOEmpleo();
+                            DAOEmpresa daoemp = new DAOEmpresa();
+                            DAOPersona daoper = new DAOPersona();
+                            int idEmpres = (Integer.parseInt(idEmpresa));
+                            List<Postulados> p = daoem.mostrarNuevosPostulados(1, idEmpres);
+                            for (Postulados postulado : p) {
+                                List<Empleo> em = daoem.consultarIdP(postulado.getCodigoEmpleo());
+                                for (Empleo empleo : em) {
+                        %>
+                        <tr>
+                            <%
+                                List<Persona> per = daoper.consultarXID(postulado.getCodigoPersona());
+                                for (Persona person : per) {
+                            %>
+                            <td class="col-md-7"><b><%=person.getNombresPersona()%> <%=person.getApellidosPersona()%></b> fué preseleccioando para el empleo <b><%=empleo.getDetalles()%></b></td>
+                            <td class="col-md-1"><input type="button" name="" value="Perfil" class="btn btn-primary " id="button" onclick="location.href = 'verPersona.jsp?id=' + (<%=person.getIdPersona()%>);"></td>
+                            <td class="col-md-1"><input type="button" name="" value="Hoja de vida" class="btn btn-primary " id="button" onclick="javascipt:window.open('<%=person.getRutaHojadevida()%>');"></td>
+                                <%
+                                    }
+                                %>
+
+                            <%
+                                }
+                            %>
                         </tr>
+                        <%                    }
+                        %>
                     </tbody>
                 </table>
-            </div>
-            <%
+                <script language="javascript" type="text/javascript">
+                    //<![CDATA[  
+                    var table12_Props = {
+                        paging: true,
+                        paging_length: 3,
+                        results_per_page: ['# Empleos por página', [3, 6, 9]],
+                        rows_counter: true,
+                        rows_counter_text: "Rows:",
+                        highlight_keywords: true,
+                        on_keyup: true,
+                        on_keyup_delay: 1500,
+                        single_search_filter: true,
+                        selectable: true,
+                        refresh_filters: true
+                    };
+                    var tf12 = setFilterGrid("table12", table12_Props);
+                    //]]>  
+                </script> 
+                <%
                     if (p.size() == 0) {
                 %>
                 <div class="alert alert-warning">
-                    <p>No hay novedades<strong>porfavor</strong> revisa más tarde.</p>            
+                    <p>No se ha <strong>preseleccionado</strong> personal.</p>            
                 </div>            
                 <% }%>
+            </div>
         </div>
         <div class="col-md-3">
         </div>
-
-
         <%
             }
         %>

@@ -377,16 +377,17 @@ public class DAOEmpleo implements CRUD {
         }
         return y;
     }
-        public List<Postulados> mostrarNuevosPostulados(int idEmpresa) {
+        public List<Postulados> mostrarNuevosPostulados(int EP, int idEmpresa) {
         List<Postulados> y = new ArrayList<>();
         Connection conn = null;
         ResultSet rs = null;
         PreparedStatement pst = null;
         try {
             conn = con.getconexion();
-            String consulta = "select * from postulados where estado_postulado = 0 AND cod_empresa = ?";
+            String consulta = "select * from postulados where estado_postulado = ? AND cod_empresa = ?";
             pst = conn.prepareStatement(consulta);
-            pst.setInt(1, idEmpresa);
+            pst.setInt(1, EP);
+            pst.setInt(2, idEmpresa);
             rs = pst.executeQuery();
              while (rs.next()) {
                 y.add(new Postulados(rs.getInt("cod_p_empresa"),

@@ -228,11 +228,31 @@
         %>
 
         <div class="col-md-2">
+              <%
+                  DAOPersona daop = new DAOPersona();
+                        int idPerson = (Integer.parseInt(idPersona)); 
+                        int idAmigo = Integer.parseInt(request.getParameter("id"));
+                        int postul = daop.verificarSolicitud(idPerson, idAmigo );
+                        if (postul == 0) {
+                    %>           
+        
+                    <form action="ServletPersona" method="post" id="amigoS" name="amigoS">                                      
+                        <input name="EstadoS" value="0" type="hidden" />
+                        <input name="idPersona" value="<%=idPerson%>" type="hidden" />
+                        <input name="idAmigo" value="<%=idAmigo%>" type="hidden" />      
+                        <input id="postul" type="submit" name="AmigoS" value="Enviar Solicitud" class="btn btn-primary" />
+           
+                <% } else {%>
+              <center>
+                    <input id="postul" type="button" name="edit" value="Solicitud Enviada" class="btn btn-primary disabled" id="button">
+                </center>
+               
+                <% } %>
         </div>
         <div class="col-md-8">            
 
             <%
-                DAOPersona daop = new DAOPersona();
+
                 Persona persona = new Persona();
                 persona.setIdPersona(Integer.parseInt(request.getParameter("id")));
                 List<Persona> y = daop.consultarXID(persona.getIdPersona());

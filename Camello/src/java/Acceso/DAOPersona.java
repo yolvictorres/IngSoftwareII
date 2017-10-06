@@ -1,6 +1,8 @@
 package Acceso;
 
+import Modelo.Amigos;
 import Modelo.Persona;
+import Modelo.Postulados;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -235,7 +237,78 @@ public class DAOPersona implements CRUDyBuscar {
         ResultSet rs = con.getDatos(com);
         return rs;
     }
+    
+    public String solicitarUnirseAMiRed(Object obj) {
+        Amigos amigos = (Amigos) obj;
+        String consulta = "insert into amigos (cod_persona, cod_amigo, estado_solicitud) values (?, ?, ?)";
+        String respuesta = "";
+        Connection conn = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, amigos.getIdPersona());
+            pst.setInt(2, amigos.getIdAmigo());
+            pst.setInt(3, amigos.getEstado());
+            int filas = pst.executeUpdate();
+            respuesta = "Solicitud enviada correctamente";
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Error" + e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                System.out.println("Error" + e);
+            }
+        }
+        return respuesta;
+    }
 
+    public int verificarSolicitud(int idPersona, int idAmigo) {
+        int postul = 0;
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "SELECT count(cod_amigo) AS total FROM amigos WHERE cod_persona= ? AND cod_amigo = ?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idPersona);
+            pst.setInt(2, idAmigo);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                postul = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return postul;
+    }
+    
+     public int solicitudesPendientes(int idPersona, int Estado) {
+        int postul = 0;
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "SELECT count(cod_amigo) AS total FROM amigos WHERE cod_amigo= ? AND estado_solicitud = ?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idPersona);
+            pst.setInt(2, Estado);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                postul = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return postul;
+    }
+     
     @Override
     public List<?> filtrar(String tabla, String dato) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

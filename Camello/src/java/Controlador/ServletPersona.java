@@ -6,6 +6,7 @@
 package Controlador;
 
 import Acceso.DAOPersona;
+import Modelo.Amigos;
 import Modelo.Persona;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -45,6 +46,7 @@ public class ServletPersona extends HttpServlet {
 
             DAOPersona dao = new DAOPersona();
             Persona persona = new Persona();
+            Amigos amigos = new Amigos();
             List<Persona> per = new ArrayList<>();
             String respuesta = "";
             RequestDispatcher rd = null;
@@ -69,6 +71,13 @@ public class ServletPersona extends HttpServlet {
                     respuesta = dao.editar(persona);
                     request.setAttribute("respuesta", respuesta);
                     rd = request.getRequestDispatcher("inicio.jsp");
+                } else if(request.getParameter("AmigoS") != null){
+                    amigos.setEstado(Integer.parseInt(request.getParameter("EstadoS")));
+                    amigos.setIdPersona(Integer.parseInt(request.getParameter("idPersona")));
+                    amigos.setIdAmigo(Integer.parseInt(request.getParameter("idAmigo")));
+                    respuesta = dao.solicitarUnirseAMiRed(amigos);                    
+                    request.setAttribute("respuestasol", respuesta);
+                    rd = request.getRequestDispatcher("buscarpersonas.jsp");
                 }
             } catch (NumberFormatException e) {
 
