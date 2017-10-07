@@ -8,7 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-       <head>        
+    <head>        
         <title>Mired</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -154,7 +154,7 @@
         <%
             if (sesion.getAttribute("idEmpresa") != null) {
         %>
-         <div class="col-md-2">
+        <div class="col-md-2">
         </div>
         <div class="col-md-8">            
 
@@ -228,25 +228,33 @@
         %>
 
         <div class="col-md-2">
-              <%
-                  DAOPersona daop = new DAOPersona();
-                        int idPerson = (Integer.parseInt(idPersona)); 
-                        int idAmigo = Integer.parseInt(request.getParameter("id"));
-                        int postul = daop.verificarSolicitud(idPerson, idAmigo );
-                        if (postul == 0) {
-                    %>           
-        
-                    <form action="ServletPersona" method="post" id="amigoS" name="amigoS">                                      
-                        <input name="EstadoS" value="0" type="hidden" />
-                        <input name="idPersona" value="<%=idPerson%>" type="hidden" />
-                        <input name="idAmigo" value="<%=idAmigo%>" type="hidden" />      
-                        <input id="postul" type="submit" name="AmigoS" value="Enviar Solicitud" class="btn btn-primary" />
-           
+            <%
+                DAOPersona daop = new DAOPersona();
+                int idPerson = (Integer.parseInt(idPersona));
+                int idAmigo = Integer.parseInt(request.getParameter("id"));
+                int postul = daop.verificarSolicitud(idPerson, idAmigo, 0);
+                int postu = daop.solicitudesPendientes(idPerson, idAmigo, 0);
+                if (postu == 1) {
+            %>
+            <center>
+                <input id="postul" type="button" name="edit" value="Solicitud Pendiente" class="btn btn-default disabled" id="button">
+            </center>
+
+            <%
+            } else if (postul == 0) {
+            %>           
+
+            <form action="ServletPersona" method="post" id="amigoS" name="amigoS">                                      
+                <input name="EstadoS" value="0" type="hidden" />
+                <input name="idPersona" value="<%=idPerson%>" type="hidden" />
+                <input name="idAmigo" value="<%=idAmigo%>" type="hidden" />      
+                <input id="postul" type="submit" name="AmigoS" value="Enviar Solicitud" class="btn btn-primary" />
+
                 <% } else {%>
-              <center>
+                <center>
                     <input id="postul" type="button" name="edit" value="Solicitud Enviada" class="btn btn-primary disabled" id="button">
                 </center>
-               
+
                 <% } %>
         </div>
         <div class="col-md-8">            

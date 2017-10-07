@@ -1,3 +1,4 @@
+<%@page import="Modelo.Amigos"%>
 <%@page import="Modelo.Ciudad"%>
 <%@page import="Acceso.Consultas"%>
 <%@page import="Modelo.Persona"%>
@@ -157,9 +158,17 @@
             <div class="panel panel-default ">
                 <ul class="nav nav-pills nav-stacked">
                     <li ><a href="buscarpersonas.jsp">Buscar Personas</a></li>
-                    <li ><a href="mired.jsp">Mi Red</a></li>
+                    <li ><a href="mired.jsp">Mi Red
+                            <%DAOPersona daop = new DAOPersona();
+                                int idPerson = (Integer.parseInt(idPersona));
+                                int mired = daop.numeroUnidosAMiRed(idPerson);
+                                int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
+                            %>
+                            <span class="badge"><%=mired%></span></a>
+                        </a></li>
                     <li class="active">
-                        <a href="solicitudespendientes.jsp">Solicitudes Pendientes</a>
+                        <a href="solicitudespendientes.jsp">Solicitudes Pendientes     
+                            <span class="badge"><%=SolicitudesP%></span></a>
                     </li>
                 </ul>
             </div>
@@ -167,12 +176,38 @@
         <div class="col-md-7">
             <center><h1>Solicitudes Pendientes</h1></center><br>
             <div class="panel panel-default">
-               
+                <table id="table12" class="table table-striped table-hover table-bordered table-condensed">
+                    <thead>
+                    <th>Mensaje</th>
+                    <th colspan="2"><center>Acciones</center></th>  
+                    </thead>
+                    <tbody>
+                        <%
+                            DAOPersona daoper = new DAOPersona();
+                            List<Amigos> a = daoper.mostrarSolicitudesPendientes(idPerson, 0);
+                            for (Amigos amigos : a) {
+                        %>
+                        <tr>
+                            <%
+                                List<Persona> am = daoper.consultarXID(amigos.getIdPersona());
+                                for (Persona per : am) {
+                            %>
+                            <td ><%=per.getNombresPersona()%> <%=per.getApellidosPersona()%> quiere que te unas a su red de contactos</td>
+                            <td class="col-md-2"><center><input type="button" name="edit" value="Aceptar" class="btn btn-primary disabled btn-sm" id="button"></center></td>
+                            <td class="col-md-2"><center><input type="button" name="edit" value="Rechazar" class="btn btn-default disabled btn-sm" id="button"></center></td>
+                        <%
+                                }
+                            }
+                        %>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
         <div class="col-md-2">
         </div>
+        <% }%>
 
     </body>
 </html>

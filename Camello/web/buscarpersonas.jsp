@@ -157,8 +157,18 @@
             <div class="panel panel-default ">
                 <ul class="nav nav-pills nav-stacked">
                     <li class="active"><a href="buscarpersonas.jsp">Buscar Personas</a></li>
-                    <li ><a href="mired.jsp">Mi Red</a></li>
-                    <li><a href="solicitudespendientes.jsp">Solicitudes Pendientes</a></li>
+                    <li ><a href="mired.jsp">Mi Red
+                            <%DAOPersona daop = new DAOPersona();
+                                int idPerson = (Integer.parseInt(idPersona));
+                                int mired = daop.numeroUnidosAMiRed(idPerson);
+                                int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
+                            %>
+                            <span class="badge"><%=mired%></span></a>
+                        </a></li>
+                    <li >
+                        <a href="solicitudespendientes.jsp">Solicitudes Pendientes     
+                            <span class="badge"><%=SolicitudesP%></span></a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -182,8 +192,6 @@
                 <tbody>
                     <jsp:useBean id="cn" class="Acceso.DAOPersona" scope="page"></jsp:useBean>
                     <%
-                        DAOPersona daop = new DAOPersona();
-                        int idPerson = (Integer.parseInt(idPersona));
                         ResultSet rs = cn.listar();
                         while (rs.next()) {
                             if (rs.getInt("cod_persona") != idPerson) {
@@ -197,9 +205,17 @@
                         <% }%>
                 <td class="col-md-5"><center><p onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><%=rs.getString("nombres")%> <%=rs.getString("apellidos")%></p></center></td>
                     <%
-                        int postul = daop.verificarSolicitud(idPerson, rs.getInt("cod_persona"));
-                        if (postul == 0) {
-                    %>           
+                        int postul = daop.verificarSolicitud(idPerson, rs.getInt("cod_persona"), 0);
+                        int postu = daop.solicitudesPendientes(idPerson, rs.getInt("cod_persona"), 0);
+                        if (postu == 1) {
+                    %>
+                <td class="col-md-1"><center>
+                    <input type="button" name="edit" value="Solicitud Pendiente" class="btn btn-default disabled" id="button">
+                </center>
+                </td>
+                <%
+                    }else  if (postul == 0) {
+                %>           
                 <td class="col-md-1"><center>
                     <form action="ServletPersona" method="post" id="amigoS" name="amigoS">                                      
                         <input name="EstadoS" value="0" type="hidden" />

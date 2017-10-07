@@ -157,8 +157,18 @@
             <div class="panel panel-default ">
                 <ul class="nav nav-pills nav-stacked">
                     <li ><a href="buscarpersonas.jsp">Buscar Personas</a></li>
-                    <li class="active"><a href="mired.jsp">Mi Red</a></li>
-                    <li><a href="solicitudespendientes.jsp">Solicitudes Pendientes</a></li>
+                    <li class="active"><a href="mired.jsp">Mi Red
+                         <%DAOPersona daop = new DAOPersona();
+                            int idPerson = (Integer.parseInt(idPersona));
+                            int mired = daop.numeroUnidosAMiRed(idPerson);
+                            int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
+                            %>
+                        <span class="badge"><%=mired%></span></a>
+                        </a></li>
+                    <li >
+                        <a href="solicitudespendientes.jsp">Solicitudes Pendientes     
+                        <span class="badge"><%=SolicitudesP%></span></a>
+                    </li>
                 </ul>
             </div>
         </div>
