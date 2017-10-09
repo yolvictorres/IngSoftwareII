@@ -55,25 +55,33 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
-                            <li>
+                            <li >
                                 <a href="inicio.jsp"><i class="pe-7s-home pe-2x pe-va"></i></a>
                             </li> 
                             <li>
-                                <a href="empleos.jsp"><i class="pe-7s-portfolio pe-2x pe-va"></i></a>
+                                <a href="empleos.jsp"><i class="pe-7s-portfolio pe-2x pe-va"></i></a>                                                                 
                             </li>   
                             <%                                if (sesion.getAttribute("idPersona") != null) {
                             %>
                             <li>
-                                <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va"></i></a>
+                                <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va">
+                                     <%DAOPersona daop = new DAOPersona();
+                                     int idPerson = (Integer.parseInt(idPersona));
+                                     int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
+                                            if (SolicitudesP != 0) {
+                                        %>
+                                        <span class="badge red"><%=SolicitudesP%></span>  
+                                        <% }%>
+                                    </i></a>
                             </li> 
                             <li>    
                                 <a href="notificaciones.jsp">                                    
                                     <i class="pe-7s-bell pe-2x pe-va">
-                                        <%
-                                            int idPerson = (Integer.parseInt(idPersona));
-                                            DAOEmpleo daoem = new DAOEmpleo();
+                                        <%                                          
+                                            DAOEmpleo daoem = new DAOEmpleo();                                            
                                             int n = 0;
-                                            n = daoem.verificarNotificaciones(idPerson);
+                                            n =daop.numeroNotificacionMiRed(idPerson)+n;
+                                            n = daoem.verificarNotificaciones(idPerson)+n;
                                             if (n != 0) {
                                         %>
                                         <span class="badge red"><%=n%></span>  

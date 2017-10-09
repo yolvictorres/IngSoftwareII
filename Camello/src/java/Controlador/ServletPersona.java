@@ -73,11 +73,26 @@ public class ServletPersona extends HttpServlet {
                     rd = request.getRequestDispatcher("inicio.jsp");
                 } else if(request.getParameter("AmigoS") != null){
                     amigos.setEstado(Integer.parseInt(request.getParameter("EstadoS")));
+                    amigos.setNotificacion(Integer.parseInt(request.getParameter("Notificacion")));
                     amigos.setIdPersona(Integer.parseInt(request.getParameter("idPersona")));
                     amigos.setIdAmigo(Integer.parseInt(request.getParameter("idAmigo")));
                     respuesta = dao.solicitarUnirseAMiRed(amigos);                    
                     request.setAttribute("respuestasol", respuesta);
                     rd = request.getRequestDispatcher("buscarpersonas.jsp");
+                } else if(request.getParameter("EstadoAmigo") != null){
+                    amigos.setEstado(Integer.parseInt(request.getParameter("EstadoS")));
+                    amigos.setIdPersona(Integer.parseInt(request.getParameter("idPersona")));
+                    amigos.setIdAmigo(Integer.parseInt(request.getParameter("idAmigo")));
+                    respuesta = dao.EstadoAmigo(amigos);                    
+                    request.setAttribute("respuestaamigo", respuesta);
+                    rd = request.getRequestDispatcher("solicitudespendientes.jsp");
+                }else if(request.getParameter("NotVista") != null){
+                    amigos.setNotificacion(Integer.parseInt(request.getParameter("NotiSol")));
+                    amigos.setIdPersona(Integer.parseInt(request.getParameter("idPersona")));
+                    amigos.setIdAmigo(Integer.parseInt(request.getParameter("idAmigo")));
+                    respuesta = dao.notificacionVista(amigos);                    
+                    request.setAttribute("respuestaamigo", respuesta);
+                    rd = request.getRequestDispatcher("notificaciones.jsp");
                 }
             } catch (NumberFormatException e) {
 

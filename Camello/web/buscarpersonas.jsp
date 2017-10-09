@@ -27,7 +27,12 @@
         <script type="text/javascript" src="js/jquery.js"></script> 
         <script type="text/javascript" src="js/bootstrap.min.js"></script> 
         <script type="text/javascript" src="js/BuscadorTabla.js"></script>
-        <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>       
+        <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>   
+        <script>
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
     </head>
     <body>
         <%
@@ -61,25 +66,33 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
-                            <li>
+                            <li >
                                 <a href="inicio.jsp"><i class="pe-7s-home pe-2x pe-va"></i></a>
                             </li> 
                             <li>
-                                <a href="empleos.jsp"><i class="pe-7s-portfolio pe-2x pe-va"></i></a>
+                                <a href="empleos.jsp"><i class="pe-7s-portfolio pe-2x pe-va"></i></a>                                                                 
                             </li>   
                             <%                                if (sesion.getAttribute("idPersona") != null) {
                             %>
                             <li>
-                                <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va"></i></a>
+                                <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va">
+                                     <%DAOPersona daop = new DAOPersona();
+                                     int idPerson = (Integer.parseInt(idPersona));
+                                     int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
+                                            if (SolicitudesP != 0) {
+                                        %>
+                                        <span class="badge red"><%=SolicitudesP%></span>  
+                                        <% }%>
+                                    </i></a>
                             </li> 
                             <li>    
                                 <a href="notificaciones.jsp">                                    
                                     <i class="pe-7s-bell pe-2x pe-va">
-                                        <%
-                                            int idPerson = (Integer.parseInt(idPersona));
-                                            DAOEmpleo daoem = new DAOEmpleo();
+                                        <%                                          
+                                            DAOEmpleo daoem = new DAOEmpleo();                                            
                                             int n = 0;
-                                            n = daoem.verificarNotificaciones(idPerson);
+                                            n =daop.numeroNotificacionMiRed(idPerson)+n;
+                                            n = daoem.verificarNotificaciones(idPerson)+n;
                                             if (n != 0) {
                                         %>
                                         <span class="badge red"><%=n%></span>  
@@ -199,35 +212,43 @@
                     <tr>
 
                         <% if (rs.getString("ruta_foto") != null) {%>
-                        <td class="col-md-1"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><img src="<%=rs.getString("ruta_foto")%>" alt="..." class="img-thumbnail"></a></center></td>
+                        <td class="col-md-1"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><img src="<%=rs.getString("ruta_foto")%>" style="width:70%"  class="img-thumbnail"></a></center></td>
                         <% } else {%>
-                <td class="col-md-1"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><img src="images/persona.png" alt="..." class="img-thumbnail"></a></center></td>   
+                <td class="col-md-1"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><img src="images/persona.png" class="img-thumbnail"></a></center></td>   
                         <% }%>
-                <td class="col-md-5"><center><p onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><%=rs.getString("nombres")%> <%=rs.getString("apellidos")%></p></center></td>
+                <td class="col-md-4"><center><p onclick="location.href = 'verPersona.jsp?id=' + (<%=rs.getString("cod_persona")%>);"><%=rs.getString("nombres")%> <%=rs.getString("apellidos")%></p></center></td>
                     <%
                         int postul = daop.verificarSolicitud(idPerson, rs.getInt("cod_persona"), 0);
                         int postu = daop.solicitudesPendientes(idPerson, rs.getInt("cod_persona"), 0);
-                        if (postu == 1) {
+                        int post = daop.verificarAmigos(idPerson, rs.getInt("cod_persona"), 1);
+                        if(post == 1){
+                            %>
+             <td class="col-md-2"><center>
+                    <button class="btn btn-default disabled btn-sm" id="button" data-toggle="tooltip" data-placement="right" title="" data-original-title="Unido a Mi Red"><i class="pe-7s-users pe-2x pe-va"></i></button>
+                </center>
+                </td>
+            <%
+                        }else if (postu == 1) {
                     %>
-                <td class="col-md-1"><center>
-                    <input type="button" name="edit" value="Solicitud Pendiente" class="btn btn-default disabled" id="button">
+                <td class="col-md-2"><center>
+                    <button class="btn btn-default disabled btn-sm" id="button" data-toggle="tooltip" data-placement="right" title="" data-original-title="Solicitud pendiente"><i class="pe-7s-add-user pe-2x pe-va"></i></button>
                 </center>
                 </td>
                 <%
-                    }else  if (postul == 0) {
+                } else if (postul == 0) {
                 %>           
-                <td class="col-md-1"><center>
+                <td class="col-md-2"><center>
                     <form action="ServletPersona" method="post" id="amigoS" name="amigoS">                                      
                         <input name="EstadoS" value="0" type="hidden" />
+                        <input name="Notificacion" value="0" type="hidden" />
                         <input name="idPersona" value="<%=idPerson%>" type="hidden" />
                         <input name="idAmigo" value="<%=rs.getInt("cod_persona")%>" type="hidden" />      
-                        <input type="submit" name="AmigoS" value="Enviar Solicitud" class="btn btn-primary" />
+                        <button type="submit" name="AmigoS" class="btn btn-primary btn-sm" id="button" data-toggle="tooltip" data-placement="right" title="" data-original-title="Enviar Solicitud"><i class="pe-7s-add-user pe-2x pe-va"></i></button>                       
                     </form></center>
                 </td>
                 <% } else {%>
-                <td class="col-md-1"><center>
-                    <input type="button" name="edit" value="Solicitud Enviada" class="btn btn-primary disabled" id="button">
-                </center>
+                <td class="col-md-2"><center>
+                    <button class="btn btn-primary disabled btn-sm" id="button" data-toggle="tooltip" data-placement="right" title="" data-original-title="Solicitud enviada"><i class="pe-7s-add-user pe-2x pe-va"></i></button></center>
                 </td>
                 <% }%>
                 </tr>

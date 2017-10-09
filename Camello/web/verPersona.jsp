@@ -25,7 +25,12 @@
         <script type="text/javascript" src="js/jquery.js"></script> 
         <script type="text/javascript" src="js/bootstrap.min.js"></script> 
         <script type="text/javascript" src="js/BuscadorTabla.js"></script>
-        <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>       
+        <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>  
+        <script>
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
     </head>
     <body>
         <%
@@ -63,25 +68,33 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
-                            <li>
+                            <li >
                                 <a href="inicio.jsp"><i class="pe-7s-home pe-2x pe-va"></i></a>
                             </li> 
                             <li>
-                                <a href="empleos.jsp"><i class="pe-7s-portfolio pe-2x pe-va"></i></a>
+                                <a href="empleos.jsp"><i class="pe-7s-portfolio pe-2x pe-va"></i></a>                                                                 
                             </li>   
                             <%                                if (sesion.getAttribute("idPersona") != null) {
                             %>
                             <li>
-                                <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va"></i></a>
+                                <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va">
+                                        <%DAOPersona daop = new DAOPersona();
+                                            int idPerson = (Integer.parseInt(idPersona));
+                                            int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
+                                            if (SolicitudesP != 0) {
+                                        %>
+                                        <span class="badge red"><%=SolicitudesP%></span>  
+                                        <% }%>
+                                    </i></a>
                             </li> 
                             <li>    
                                 <a href="notificaciones.jsp">                                    
                                     <i class="pe-7s-bell pe-2x pe-va">
                                         <%
-                                            int idPerson = (Integer.parseInt(idPersona));
                                             DAOEmpleo daoem = new DAOEmpleo();
                                             int n = 0;
-                                            n = daoem.verificarNotificaciones(idPerson);
+                                            n = daop.numeroNotificacionMiRed(idPerson) + n;
+                                            n = daoem.verificarNotificaciones(idPerson) + n;
                                             if (n != 0) {
                                         %>
                                         <span class="badge red"><%=n%></span>  
@@ -234,28 +247,39 @@
                 int idAmigo = Integer.parseInt(request.getParameter("id"));
                 int postul = daop.verificarSolicitud(idPerson, idAmigo, 0);
                 int postu = daop.solicitudesPendientes(idPerson, idAmigo, 0);
-                if (postu == 1) {
+                int post = daop.verificarAmigos(idPerson, idAmigo, 1);
+                if (post == 1) {
             %>
             <center>
-                <input id="postul" type="button" name="edit" value="Solicitud Pendiente" class="btn btn-default disabled" id="button">
+                <button  id="postul" class="btn btn-default disabled btn-sm" id="button" data-toggle="tooltip" data-placement="right" title="" data-original-title="Unido a Mi Red"><i class="pe-7s-users pe-2x pe-va"></i></button>
+            </center>
+            <%
+            } else if (postu == 1) {
+            %>
+            <center>
+                <button id="postul" class="btn btn-default disabled btn-sm" id="button" data-toggle="tooltip" data-placement="right" title="" data-original-title="Solicitud pendiente"><i class="pe-7s-add-user pe-2x pe-va"></i></button>
             </center>
 
             <%
             } else if (postul == 0) {
             %>           
 
-            <form action="ServletPersona" method="post" id="amigoS" name="amigoS">                                      
-                <input name="EstadoS" value="0" type="hidden" />
-                <input name="idPersona" value="<%=idPerson%>" type="hidden" />
-                <input name="idAmigo" value="<%=idAmigo%>" type="hidden" />      
-                <input id="postul" type="submit" name="AmigoS" value="Enviar Solicitud" class="btn btn-primary" />
+            <center>
+                <form action="ServletPersona" method="post" id="amigoS" name="amigoS">                                      
+                    <input name="EstadoS" value="0" type="hidden" />
+                    <input name="Notificacion" value="0" type="hidden" />
+                    <input name="idPersona" value="<%=idPerson%>" type="hidden" />
+                    <input name="idAmigo" value="<%=idAmigo%>" type="hidden" />      
+                    <button type="submit" name="AmigoS" class="btn btn-primary btn-sm" id="postul" data-toggle="tooltip" data-placement="right" title="" data-original-title="Enviar Solicitud"><i class="pe-7s-add-user pe-2x pe-va"></i></button>                       
+                </form>
+            </center>
 
-                <% } else {%>
-                <center>
-                    <input id="postul" type="button" name="edit" value="Solicitud Enviada" class="btn btn-primary disabled" id="button">
-                </center>
+            <% } else {%>
+            <center>
+                <button id="postul" class="btn btn-primary disabled btn-sm" id="button" data-toggle="tooltip" data-placement="right" title="" data-original-title="Solicitud enviada"><i class="pe-7s-add-user pe-2x pe-va"></i></button>
+            </center>
 
-                <% } %>
+            <% } %>
         </div>
         <div class="col-md-8">            
 

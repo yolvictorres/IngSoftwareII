@@ -1,3 +1,4 @@
+<%@page import="Modelo.Amigos"%>
 <%@page import="Modelo.Ciudad"%>
 <%@page import="Acceso.Consultas"%>
 <%@page import="Modelo.Persona"%>
@@ -61,25 +62,33 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
-                            <li>
+                            <li >
                                 <a href="inicio.jsp"><i class="pe-7s-home pe-2x pe-va"></i></a>
                             </li> 
                             <li>
-                                <a href="empleos.jsp"><i class="pe-7s-portfolio pe-2x pe-va"></i></a>
+                                <a href="empleos.jsp"><i class="pe-7s-portfolio pe-2x pe-va"></i></a>                                                                 
                             </li>   
                             <%                                if (sesion.getAttribute("idPersona") != null) {
                             %>
                             <li>
-                                <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va"></i></a>
+                                <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va">
+                                     <%DAOPersona daop = new DAOPersona();
+                                     int idPerson = (Integer.parseInt(idPersona));
+                                     int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
+                                            if (SolicitudesP != 0) {
+                                        %>
+                                        <span class="badge red"><%=SolicitudesP%></span>  
+                                        <% }%>
+                                    </i></a>
                             </li> 
                             <li>    
                                 <a href="notificaciones.jsp">                                    
                                     <i class="pe-7s-bell pe-2x pe-va">
-                                        <%
-                                            int idPerson = (Integer.parseInt(idPersona));
-                                            DAOEmpleo daoem = new DAOEmpleo();
+                                        <%                                          
+                                            DAOEmpleo daoem = new DAOEmpleo();                                            
                                             int n = 0;
-                                            n = daoem.verificarNotificaciones(idPerson);
+                                            n =daop.numeroNotificacionMiRed(idPerson)+n;
+                                            n = daoem.verificarNotificaciones(idPerson)+n;
                                             if (n != 0) {
                                         %>
                                         <span class="badge red"><%=n%></span>  
@@ -174,7 +183,63 @@
         </div>
         <div class="col-md-7">
             <center><h1>Mi Red</h1></center><br>
-           
+            <table id="datos" class="table table-condensed table-bordered table-hover ">
+                 <thead>
+                <th>Foto</th>
+                <th><center>Nombres</center></th>  
+                
+                </thead>
+                <tbody>
+                    <%
+                            DAOPersona daoper = new DAOPersona();     
+                            int v = 0;
+                            List<Amigos> a = daoper.mostrarMired(idPerson, 1);
+                            for (Amigos amigos : a) {                                
+                        %>
+                    <tr>
+                        <%
+                            if(amigos.getIdAmigo() == idPerson){
+                            v = amigos.getIdPersona();
+                            } else if(amigos.getIdPersona()== idPerson){
+                                v = amigos.getIdAmigo();
+                            }
+                                List<Persona> am = daoper.consultarXID(v);
+                                for (Persona per : am) {
+                                    
+                            %>
+                             <% if (per.getRutaFoto() != null) {%>
+                        <td class="col-md-1"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=per.getIdPersona()%>);"><img src="<%=per.getRutaFoto()%>" style="width:70%"  class="img-thumbnail"></a></center></td>
+                        <% } else {%>
+                <td class="col-md-1"><center><a onclick="location.href = 'verPersona.jsp?id=' + (<%=per.getIdPersona()%>);"><img src="images/persona.png" class="img-thumbnail"></a></center></td>   
+                        <% }%>
+                <td class="col-md-4"><center><p onclick="location.href = 'verPersona.jsp?id=' + (<%=per.getIdPersona()%>);"><%=per.getNombresPersona()%> <%=per.getApellidosPersona()%></p></center></td>
+                        <%
+                            }
+                            %>
+                    </tr>
+                    <%
+                    }
+                    %>
+                </tbody>
+            </table>
+             <script language="javascript" type="text/javascript">
+                //<![CDATA[  
+                var table10_Props = {
+                    paging: true,
+                    paging_length: 3,
+                    results_per_page: ['# Empleos por página', [3, 6, 9]],
+                    rows_counter: true,
+                    rows_counter_text: "Rows:",                
+                    col_0: 'none',
+                    col_1: 'none',
+                    display_all_text: " Seleccionar ",
+                    sort_num_asc: [2],
+                    sort_num_desc: [3]
+                   
+                };
+                var tf10 = setFilterGrid("datos", table10_Props);
+                //]]>  
+            </script>  
         </div>
 
         <div class="col-md-2">

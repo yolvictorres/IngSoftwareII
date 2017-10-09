@@ -30,7 +30,8 @@ use camello;
 CREATE TABLE `amigos` (
   `COD_PERSONA` int(11) NOT NULL,
   `COD_AMIGO` int(11) NOT NULL,
-  `ESTADO_SOLICITUD` int(11) NOT NULL
+  `ESTADO_SOLICITUD` int(11) NOT NULL,
+  `NOTIFICACION_SOLICITUD` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------

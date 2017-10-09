@@ -15,8 +15,8 @@
         <title>Solicitudes Pendientes</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <% if (request.getAttribute("respuestasol") != null) {%>
-        <meta http-equiv="refresh" content="1;URL=mired.jsp">      
+        <% if (request.getAttribute("respuestaamigo") != null) {%>
+        <meta http-equiv="refresh" content="1;URL=solicitudespendientes.jsp">      
         <% }%>
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
@@ -62,25 +62,33 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
-                            <li>
+                            <li >
                                 <a href="inicio.jsp"><i class="pe-7s-home pe-2x pe-va"></i></a>
                             </li> 
                             <li>
-                                <a href="empleos.jsp"><i class="pe-7s-portfolio pe-2x pe-va"></i></a>
+                                <a href="empleos.jsp"><i class="pe-7s-portfolio pe-2x pe-va"></i></a>                                                                 
                             </li>   
                             <%                                if (sesion.getAttribute("idPersona") != null) {
                             %>
                             <li>
-                                <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va"></i></a>
+                                <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va">
+                                     <%DAOPersona daop = new DAOPersona();
+                                     int idPerson = (Integer.parseInt(idPersona));
+                                     int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
+                                            if (SolicitudesP != 0) {
+                                        %>
+                                        <span class="badge red"><%=SolicitudesP%></span>  
+                                        <% }%>
+                                    </i></a>
                             </li> 
                             <li>    
                                 <a href="notificaciones.jsp">                                    
                                     <i class="pe-7s-bell pe-2x pe-va">
-                                        <%
-                                            int idPerson = (Integer.parseInt(idPersona));
-                                            DAOEmpleo daoem = new DAOEmpleo();
+                                        <%                                          
+                                            DAOEmpleo daoem = new DAOEmpleo();                                            
                                             int n = 0;
-                                            n = daoem.verificarNotificaciones(idPerson);
+                                            n =daop.numeroNotificacionMiRed(idPerson)+n;
+                                            n = daoem.verificarNotificaciones(idPerson)+n;
                                             if (n != 0) {
                                         %>
                                         <span class="badge red"><%=n%></span>  
@@ -192,9 +200,23 @@
                                 List<Persona> am = daoper.consultarXID(amigos.getIdPersona());
                                 for (Persona per : am) {
                             %>
-                            <td ><%=per.getNombresPersona()%> <%=per.getApellidosPersona()%> quiere que te unas a su red de contactos</td>
-                            <td class="col-md-2"><center><input type="button" name="edit" value="Aceptar" class="btn btn-primary disabled btn-sm" id="button"></center></td>
-                            <td class="col-md-2"><center><input type="button" name="edit" value="Rechazar" class="btn btn-default disabled btn-sm" id="button"></center></td>
+                            <td ><a onclick="location.href = 'verPersona.jsp?id=' + (<%=per.getIdPersona()%>);"><img src="<%=per.getRutaFoto()%>" style="width:10%" class="img-thumbnail"></a>  <%=per.getNombresPersona()%> <%=per.getApellidosPersona()%> quiere que te unas a su red de contactos</td>
+                            <td class="col-md-2"><center>
+                        <form action="ServletPersona" method="post" >                                      
+                            <input name="EstadoS" value="1" type="hidden" />
+                            <input name="idPersona" value="<%=per.getIdPersona()%>" type="hidden" />
+                            <input name="idAmigo" value="<%=idPerson%>" type="hidden" />      
+                            <button type="submit" name="EstadoAmigo" class="btn btn-primary btn-sm" id="button">Aceptar</button>                       
+                        </form></center>
+                    </td>
+                    <td class="col-md-2"><center>
+                        <form action="ServletPersona" method="post" >                                      
+                            <input name="EstadoS" value="2" type="hidden" />
+                            <input name="idPersona" value="<%=per.getIdPersona()%>" type="hidden" />
+                            <input name="idAmigo" value="<%=idPerson%>" type="hidden" />      
+                            <button type="submit" name="EstadoAmigo" class="btn btn-default btn-sm" id="button">Rechazar</button>                       
+                        </form></center>
+                    </td>
                         <%
                                 }
                             }

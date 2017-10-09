@@ -1,3 +1,4 @@
+<%@page import="Modelo.Amigos"%>
 <%@page import="Modelo.Postulados"%>
 <%@page import="Acceso.DAOEmpleo"%>
 <%@page import="Modelo.Empresa"%>
@@ -12,7 +13,7 @@
         <title>Notificaciones</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <% if (request.getAttribute("respuesta") != null ) {%>
+        <% if (request.getAttribute("respuesta") != null) {%>
         <meta http-equiv="refresh" content="1;URL=notificaciones.jsp">        
         <% }%>  
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />      
@@ -47,7 +48,7 @@
             }
 
         %>
-        <div>
+       <div>
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -63,25 +64,33 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
-                            <li>
+                            <li >
                                 <a href="inicio.jsp"><i class="pe-7s-home pe-2x pe-va"></i></a>
                             </li> 
                             <li>
-                                <a href="empleos.jsp"><i class="pe-7s-portfolio pe-2x pe-va"></i></a>
+                                <a href="empleos.jsp"><i class="pe-7s-portfolio pe-2x pe-va"></i></a>                                                                 
                             </li>   
                             <%                                if (sesion.getAttribute("idPersona") != null) {
                             %>
                             <li>
-                                <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va"></i></a>
+                                <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va">
+                                     <%DAOPersona daop = new DAOPersona();
+                                     int idPerson = (Integer.parseInt(idPersona));
+                                     int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
+                                            if (SolicitudesP != 0) {
+                                        %>
+                                        <span class="badge red"><%=SolicitudesP%></span>  
+                                        <% }%>
+                                    </i></a>
                             </li> 
                             <li>    
                                 <a href="notificaciones.jsp">                                    
                                     <i class="pe-7s-bell pe-2x pe-va">
-                                        <%
-                                            int idPerson = (Integer.parseInt(idPersona));
-                                            DAOEmpleo daoem = new DAOEmpleo();
+                                        <%                                          
+                                            DAOEmpleo daoem = new DAOEmpleo();                                            
                                             int n = 0;
-                                            n = daoem.verificarNotificaciones(idPerson);
+                                            n =daop.numeroNotificacionMiRed(idPerson)+n;
+                                            n = daoem.verificarNotificaciones(idPerson)+n;
                                             if (n != 0) {
                                         %>
                                         <span class="badge red"><%=n%></span>  
@@ -173,36 +182,80 @@
             <div class="panel panel-heading"> <center><h1>Notificaciones</h1></center></div><br>
             <div class="panel panel-default">
                 <table id="table12" class="table table-striped table-hover table-bordered">
-                    <tr></tr>
-                    <%
-                        DAOEmpleo daoem = new DAOEmpleo();
-                        int idPerson = (Integer.parseInt(idPersona));
-                        List<Postulados> p = daoem.mostrarNotificaciones(idPerson);
-                        for (Postulados postulado : p) {
-                    %>
-                    <tbody>
-                        <tr>                        
+                    <thead></thead>
+                    <tbody>                        
+                        <%
+                            DAOEmpleo daoem = new DAOEmpleo();
+                            int idPerson = (Integer.parseInt(idPersona));
+                            List<Postulados> p = daoem.mostrarNotificaciones(idPerson);
+                            for (Postulados postulado : p) {
+                        %>
+                        <tr>
                             <td class="col-md-7"><%=postulado.getMensaje()%></td>
-                            <td class="col-md-1">
-                                <form action="ServletEmpleo" method="post" id="notvista" name="notvista">                                      
-                                    <input name="Estadon" value="1" type="hidden" />           
-                                    <input name="idEmpleo" value="<%=postulado.getCodigoEmpleo()%>" type="hidden" />  
-                                    <input name="idPersona" value="<%=postulado.getCodigoPersona()%>" type="hidden" />                                     
-                                    <input type="submit" name="NotVista" value="Aceptar" class="btn btn-primary" />
-                                </form>
-                            </td>
-                            <% }%>
-                        </tr>
+                            <td class="col-md-1"><center>
+                        <form action="ServletEmpleo" method="post" id="notvista" name="notvista">                                      
+                            <input name="Estadon" value="1" type="hidden" />           
+                            <input name="idEmpleo" value="<%=postulado.getCodigoEmpleo()%>" type="hidden" />  
+                            <input name="idPersona" value="<%=postulado.getCodigoPersona()%>" type="hidden" />                                     
+                            <input type="submit" name="NotVista" value="Aceptar" class="btn btn-primary btn-sm" />
+                    </center></form>
+                    </td>
+                    </tr>
+                    <% }%>
+                    <%
+                        DAOPersona daoper = new DAOPersona();
+                        List<Amigos> a = daoper.notificarMiRed(idPerson, 1, 0);
+                        for (Amigos amigos : a) {
+                            int v = amigos.getIdAmigo();
+                            List<Persona> am = daoper.consultarXID(v);
+                            for (Persona per : am) {
+                    %>
+                    <tr>
+                        <td class="col-md-7"><%=per.getNombresPersona()%> <%=per.getApellidosPersona()%> te ha agregado a sus contactos de Mi Red</td>
+                        <td class="col-md-1"><center>
+                       <form action="ServletPersona" method="post" >                                      
+                            <input name="NotiSol" value="1" type="hidden" />                                             
+                            <input name="idPersona" value="<%=idPerson%>" type="hidden" />                                             
+                            <input name="idAmigo" value="<%=amigos.getIdAmigo()%>" type="hidden" />                                             
+                            <input type="submit" name="NotVista" value="Aceptar" class="btn btn-primary btn-sm" />
+                        </form></center>
+                    </td>
+                    <% }
+                        }
+                    %>
+                    </tr>
+                    <%
+                        List< Amigos> am = daoper.notificarMiRed(idPerson, 2, 0);
+                        for (Amigos amigos : am) {
+                            int v = amigos.getIdAmigo();
+                            List<Persona> ami = daoper.consultarXID(v);
+                            for (Persona per : ami) {
+                    %>
+                    <tr>
+                        <td class="col-md-7"><%=per.getNombresPersona()%> <%=per.getApellidosPersona()%> ha rechazado tu solicitud para unirse a Mi Red</td>
+                        <td class="col-md-1"><center>
+                        <form action="ServletPersona" method="post" >                                      
+                            <input name="NotiSol" value="1" type="hidden" />                                             
+                            <input name="idPersona" value="<%=idPerson%>" type="hidden" />                                             
+                            <input name="idAmigo" value="<%=amigos.getIdAmigo()%>" type="hidden" />                                             
+                            <input type="submit" name="NotVista" value="Aceptar" class="btn btn-primary btn-sm" />
+                        </form></center>
+                    </td>
+                    </tr>
+                    <% }
+                        }
+                    %>
+
                     </tbody>
                 </table>
             </div>
             <%
-                    if (p.size() == 0) {
-                %>
-                <div class="alert alert-warning">
-                    <p>No hay novedades<strong>porfavor</strong> revisa más tarde.</p>            
-                </div>            
-                <% }%>
+                if (p.size() == 0 && a.size() == 0 && am.size() == 0) {
+            %>
+            <div class="alert alert-warning">
+                <p>No hay novedades<strong>porfavor</strong> revisa más tarde.</p>            
+            </div>            
+            <% }%>
         </div>
         <div class="col-md-3">
         </div>
