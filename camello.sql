@@ -248,6 +248,15 @@ INSERT INTO `cargo` (`COD_CARGO`, `NOM_CARGO`) VALUES
 (4, 'profesor'),
 (5, 'arquitecto');
 
+CREATE TABLE `intereses` (
+  `COD_PERSONA` int(11) NOT NULL,
+  `COD_CARGO` int(11)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `intereses` (`COD_PERSONA`, `COD_CARGO`) VALUES
+(1, 1),
+(1, 4);
+
 CREATE TABLE `salario` (
   `COD_SALARIO` int(11) NOT NULL,
   `SALARIO` text
@@ -302,6 +311,15 @@ ALTER TABLE `postulados`
 ALTER TABLE `empresa`
   ADD PRIMARY KEY (`COD_EMPRESA`),
   ADD KEY `EMPRESA_CAMPO_LABORAL_FK` (`COD_C_LABORAL`);
+
+--
+-- Indices de la tabla `intereses`
+--
+ALTER TABLE `intereses`
+  ADD PRIMARY KEY (`COD_PERSONA`,`COD_CARGO`),
+  ADD KEY `INTERESES_PERSONA_FK` (`COD_PERSONA`),
+  ADD KEY `INTERESES_CARGO_FK` (`COD_CARGO`);
+
 
 --
 -- Indices de la tabla `cargo`
@@ -374,6 +392,13 @@ ALTER TABLE `amigos`
 --
 ALTER TABLE `ciudad`
   ADD CONSTRAINT `CIUDAD_PAIS_FK` FOREIGN KEY (`COD_PAIS`) REFERENCES `pais` (`COD_PAIS`);
+
+--
+-- Filtros para la tabla `intereses`
+--
+ALTER TABLE `intereses`
+  ADD CONSTRAINT `INTERESES_PERSONA_FK` FOREIGN KEY (`COD_PERSONA`) REFERENCES `persona` (`COD_PERSONA`),
+  ADD CONSTRAINT `INTERESES_CARGO_FK` FOREIGN KEY (`COD_CARGO`) REFERENCES `cargo` (`COD_CARGO`);
 
 --
 -- Filtros para la tabla `empleados`

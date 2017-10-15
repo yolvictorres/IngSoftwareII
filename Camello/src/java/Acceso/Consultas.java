@@ -6,6 +6,7 @@ import Modelo.Ciudad;
 import Modelo.Empresa;
 import Modelo.Jornada;
 import Modelo.Persona;
+import Modelo.Postulados;
 import Modelo.Salario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -301,5 +302,6 @@ public class Consultas {
         return y;
 
     }
+        
 
 }

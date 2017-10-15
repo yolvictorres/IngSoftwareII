@@ -18,23 +18,25 @@
         <link href="css/modern-business.css" rel="stylesheet">
     </head>
     <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a href="index.jsp"><img  class="navbar-brand" src="images/camello.png" style="width: 11%; height: 11%;"></a>
+        <div>
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="index.jsp">Camello</a>
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <!-- /.navbar-collapse -->
                 </div>
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <!-- /.navbar-collapse -->
-            </div>
-            <!-- /.container -->
-        </nav>
+                <!-- /.container -->
+            </nav>
+        </div>
         <div class="col-md-2"><br><br><br><br><br>
             <div class="alert alert-success">
                 <p> ¿Estás buscando un trabajo perfecto para ti? </p>
@@ -54,8 +56,10 @@
                 <h2 class="col-lg-12 registerSection">Inicio de Sesión</h2>            
                 <form action="ServletConsultas">
                     <div><input type="text" name="correo" placeholder="Correo" class="form-control inputSection"></div>
-                    <div><input type="password" name="clave" placeholder="Contraseña" class="form-control inputSection"></div>
-                    <div><input type="submit" value="Ingresar" class="btn btn-success" name="btniniciar"></div>
+                    <input type="password" name="clave" placeholder="Contraseña" class="form-control inputSection"><br>
+                    <div>
+                    <center><input type="submit" value="Ingresar" class="btn btn-success" name="btniniciar"></center>
+                    </div>
                 </form>
             </div>
         </div>

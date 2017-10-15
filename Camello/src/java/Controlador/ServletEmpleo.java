@@ -7,6 +7,7 @@ package Controlador;
 
 import Acceso.DAOEmpleo;
 import Modelo.Empleo;
+import Modelo.Postulados;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class ServletEmpleo extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             DAOEmpleo dao = new DAOEmpleo();
+            Postulados postulados = new Postulados();
             Empleo empleo = new Empleo();
             List<Empleo> empl = new ArrayList<>();
             String respuesta = "";
@@ -54,8 +56,8 @@ public class ServletEmpleo extends HttpServlet {
                     empleo.setIdSalario(Integer.parseInt(request.getParameter("idSalario")));
                     empleo.setExperiencia(request.getParameter("experiencia"));
                     respuesta = dao.crear(empleo);
-                    request.setAttribute("respuesta", respuesta);
-                    rd = request.getRequestDispatcher("crearEmpleo.jsp");
+                    request.setAttribute("respuestac", respuesta);
+                    rd = request.getRequestDispatcher("empleos.jsp");
                 } else if (request.getParameter("editarEmpleo") != null) {
                     empleo.setIdEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
                     empleo.setIdEmpresa(Integer.parseInt(request.getParameter("idEmpresa")));
@@ -66,8 +68,41 @@ public class ServletEmpleo extends HttpServlet {
                     empleo.setIdSalario(Integer.parseInt(request.getParameter("idSalario")));
                     empleo.setExperiencia(request.getParameter("experiencia"));
                     respuesta = dao.editar(empleo);
+                    request.setAttribute("respuestae", respuesta);
+                    rd = request.getRequestDispatcher("empleos.jsp");
+                } else if(request.getParameter("Postularse") != null){
+                    postulados.setCodigoEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
+                    postulados.setCodigoEmpresa(Integer.parseInt(request.getParameter("idEmpresa")));
+                    postulados.setCodigoPersona(Integer.parseInt(request.getParameter("idPersona")));
+                    postulados.setEstadoEnvio(Integer.parseInt(request.getParameter("Estadoe")));
+                    postulados.setEstadoPostulados(Integer.parseInt(request.getParameter("Estadop")));
+                    postulados.setEstadoNotificacion(Integer.parseInt(request.getParameter("Estadon")));
+                    respuesta = dao.postular(postulados);                    
                     request.setAttribute("respuesta", respuesta);
                     rd = request.getRequestDispatcher("empleos.jsp");
+                }else if(request.getParameter("AceptarPostulado") != null){
+                    postulados.setEstadoPostulados(Integer.parseInt(request.getParameter("Estadop")));
+                    postulados.setCodigoPersona(Integer.parseInt(request.getParameter("idPersona")));
+                    postulados.setCodigoEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
+                    postulados.setMensaje(request.getParameter("Mensaje"));
+                    respuesta = dao.aceptarPostulado(postulados);                    
+                    request.setAttribute("respuesta", respuesta);
+                    rd = request.getRequestDispatcher("postulados.jsp");
+                }else if(request.getParameter("RechazarPostulado") != null){
+                    postulados.setEstadoPostulados(Integer.parseInt(request.getParameter("Estadop")));
+                    postulados.setCodigoPersona(Integer.parseInt(request.getParameter("idPersona")));
+                    postulados.setCodigoEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
+                    postulados.setMensaje(request.getParameter("Mensaje"));
+                    respuesta = dao.aceptarPostulado(postulados);                    
+                    request.setAttribute("respuesta", respuesta);
+                    rd = request.getRequestDispatcher("postulados.jsp");
+                }else if(request.getParameter("NotVista") != null){
+                    postulados.setEstadoNotificacion(Integer.parseInt(request.getParameter("Estadon")));
+                    postulados.setCodigoPersona(Integer.parseInt(request.getParameter("idPersona")));
+                    postulados.setCodigoEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
+                    respuesta = dao.aceptarPostulado(postulados);                    
+                    request.setAttribute("respuesta", respuesta);
+                    rd = request.getRequestDispatcher("notificaciones.jsp");
                 }
             } catch (NumberFormatException e) {
 
