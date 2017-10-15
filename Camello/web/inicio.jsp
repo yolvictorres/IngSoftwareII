@@ -1,7 +1,9 @@
+<%@page import="Acceso.Consultas"%>
 <%@page import="Acceso.DAOEmpleo"%>
 <%@page import="Modelo.Empresa"%>
 <%@page import="Acceso.DAOEmpresa"%>
 <%@page import="Modelo.Persona"%>
+<%@page import="Modelo.*"%>
 <%@page import="java.util.List"%>
 <%@page import="Acceso.DAOPersona"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -20,7 +22,8 @@
         <link rel="stylesheet" type="text/css" href="TableFilter/filtergrid.css">
         <script type="text/javascript" src="js/jquery.js"></script> 
         <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>        
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>  
+        <script type="text/javascript" src="js/bootstrap.min.js"></script> 
+        
     </head>
     <body>
         <%
@@ -69,9 +72,9 @@
                             %>
                             <li>
                                 <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va">
-                                     <%DAOPersona daop = new DAOPersona();
-                                     int idPerson = (Integer.parseInt(idPersona));
-                                     int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
+                                        <%DAOPersona daop = new DAOPersona();
+                                            int idPerson = (Integer.parseInt(idPersona));
+                                            int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
                                             if (SolicitudesP != 0) {
                                         %>
                                         <span class="badge red"><%=SolicitudesP%></span>  
@@ -81,11 +84,11 @@
                             <li>    
                                 <a href="notificaciones.jsp">                                    
                                     <i class="pe-7s-bell pe-2x pe-va">
-                                        <%                                          
-                                            DAOEmpleo daoem = new DAOEmpleo();                                            
+                                        <%
+                                            DAOEmpleo daoem = new DAOEmpleo();
                                             int n = 0;
-                                            n =daop.numeroNotificacionMiRed(idPerson)+n;
-                                            n = daoem.verificarNotificaciones(idPerson)+n;
+                                            n = daop.numeroNotificacionMiRed(idPerson) + n;
+                                            n = daoem.verificarNotificaciones(idPerson) + n;
                                             if (n != 0) {
                                         %>
                                         <span class="badge red"><%=n%></span>  
@@ -190,7 +193,7 @@
                 DAOPersona persona = new DAOPersona();
                 List<Persona> per = persona.consultarXID(Integer.parseInt(idPersona));
         %>
-        <div class="col-md-2">   
+        <div class="col-md-3">   
             <div class="well">
                 <%
                     for (Persona p : per) {
@@ -205,8 +208,61 @@
                     }%>
             </div>
         </div>
-        <div class="col-md-8">
-            <center><h1>Bienvenido <%=nombrePersona%></h1></center>
+        <div class="col-md-7">
+            <center><h1>Bienvenido <%=nombrePersona%></h1></center><br>
+            <div class="row">
+                <div class="panel panel-info">
+                    <center><h5><strong>Camello</strong> te sugiere los siguientes empleos:</h></center>
+                </div>
+            </div>
+            <div id="sug" class="panel panel-default">
+                <table class="table table-hover table-condensed table-sm table-striped">
+                    <thead>                
+                    <th>Empresa</th>
+                    <th>Ciudad</th>
+                    <th>Cargo</th>
+                    <th>Salario</th>                
+                    <th>Acciones</th>
+                    </thead>
+                    <tbody>  
+                        <%
+                            DAOEmpleo daoem = new DAOEmpleo();
+                            List<Empleo> y = daoem.consultarIntereses(Integer.parseInt(idPersona));
+                            for (Empleo empleo : y) {
+                        %>
+                        <tr><center>   
+                        <%
+                            Consultas cons = new Consultas();
+                            DAOEmpresa daoe = new DAOEmpresa();
+                            List<Empresa> x = daoe.consultarXID(empleo.getIdEmpresa());
+                            for (Empresa empresa : x) {
+                        %>
+                        <td class="col-md-2"><%= empresa.getNombreEmpresa()%></td>  
+                        <%  }%>
+                        <%
+                            List<Ciudad> ci = cons.consultarCiudadId(empleo.getIdCiudad());
+                            for (Ciudad ciudad : ci) {
+                        %>     
+                        <td class="col-md-3"><p ><%=ciudad.getNombreCiudad()%></p></td>
+                            <%  }%>
+                            <%
+                                List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
+                                for (Cargo cargo : c) {
+                            %>     
+                        <td class="col-md-3"><p ><%=cargo.getNombreCargo()%></p></td>
+                            <%  }%>
+                            <%
+                                List<Salario> s = cons.consultarSalarioId(empleo.getIdSalario());
+                                for (Salario salario : s) {
+                            %>     
+                        <td class="col-md-3"><p ><%=salario.getSalario()%></p></td>
+                            <%  }%>
+                        <td class="col-md-1"><input type="button" name="edit" value="Ver" class="btn btn-primary" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>    
+                        </tr>    
+                        <%  }%>
+                        </tbody> 
+                </table>                 
+            </div>
         </div>
         <div class="col-md-2">
         </div>

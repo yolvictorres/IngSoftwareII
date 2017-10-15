@@ -276,6 +276,19 @@ INSERT INTO `cargo` (`COD_CARGO`, `NOM_CARGO`) VALUES
 (11, 'Vendedor'),
 (12, 'Vigilante');
 
+CREATE TABLE `intereses` (
+  `COD_PERSONA` int(11) NOT NULL,
+  `COD_CARGO` int(11)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `intereses` (`COD_PERSONA`, `COD_CARGO`) VALUES
+(1, 1),
+(1, 3),
+(3, 2),
+(3, 3),
+(2, 1),
+(2, 2);
+
 CREATE TABLE `salario` (
   `COD_SALARIO` int(11) NOT NULL,
   `SALARIO` text
@@ -331,6 +344,14 @@ ALTER TABLE `empresa`
   ADD PRIMARY KEY (`COD_EMPRESA`),
   ADD KEY `EMPRESA_CAMPO_LABORAL_FK` (`COD_C_LABORAL`);
 
+--
+-- Indices de la tabla `intereses`
+--
+ALTER TABLE `intereses`
+  ADD PRIMARY KEY (`COD_PERSONA`,`COD_CARGO`),
+  ADD KEY `INTERESES_PERSONA_FK` (`COD_PERSONA`),
+  ADD KEY `INTERESES_CARGO_FK` (`COD_CARGO`);
+  
 --
 -- Indices de la tabla `cargo`
 --
