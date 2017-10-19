@@ -29,7 +29,9 @@ use camello;
 
 CREATE TABLE `amigos` (
   `COD_PERSONA` int(11) NOT NULL,
-  `COD_AMIGO` int(11) NOT NULL
+  `COD_AMIGO` int(11) NOT NULL,
+  `ESTADO_SOLICITUD` int(11) NOT NULL,
+  `NOTIFICACION_SOLICITUD` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -87,8 +89,11 @@ INSERT INTO `ciudad` (`COD_CIUDAD`, `COD_PAIS`, `NOM_CIUDAD`) VALUES
 
 CREATE TABLE `postulados` (
   `COD_P_EMPRESA` int(11) NOT NULL,
+  `COD_EMPRESA` int(11) NOT NULL,
   `COD_PERSONA` int(11) NOT NULL,
   `ESTADO_POSTULADO` int(11) NOT NULL,
+  `ESTADO_NOTIFICACION` int(11) NOT NULL,
+  `MENSAJE` text,
   `ESTADO_ENVIO` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -110,7 +115,9 @@ CREATE TABLE `empresa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `empresa` (`COD_EMPRESA`, `COD_C_LABORAL`, `NOM_EMPRESA`, `RUTA_LOGO`, `CORREO`, `CLAVE`, `TELEFONO`, `DESCRIPCION`) VALUES
-(444, NULL, 'Konrad Lorenz', NULL, 'k@k', '123', NULL, NULL);
+(111, NULL, 'Konrad Lorenz', 'images/img111.jpg', 'konrad@konrad.com', '123', 457676645, NULL),
+(222, NULL, 'Microsoft', 'images/img222.jpg', 'microsoft@microsoft.com', '123', 567867645, NULL),
+(333, NULL, 'Cafam', 'images/img333.jpg', 'cafam@cafam.com', '123', 86786546, NULL);
 
 
 -- --------------------------------------------------------
@@ -200,7 +207,16 @@ CREATE TABLE `persona` (
 --
 
 INSERT INTO `persona` (`COD_PERSONA`, `NOMBRES`, `APELLIDOS`, `FECHA_NACIMIENTO`, `FOTO`, `RUTA_FOTO`, `CORREO`, `CLAVE`, `TELEFONO`, `HOJA_DE_VIDA`) VALUES
-(1, 'ian', 'Mendez', NULL, NULL, NULL, 'ian@ian', '123', NULL, NULL);
+(1, 'ian', 'Mendez', NULL, NULL, 'images/img1.jpg', 'ian@ian', '123', 78856898, 'documentos/doc1.pdf'),
+(2, 'Diego', 'Schotborg', NULL, NULL, 'images/img2.jpg', 'diego@diego', '123', 1981525, 'documentos/doc2.pdf'),
+(3, 'Yolvic', 'Torres', NULL, NULL, 'images/img3.jpg', 'yolvic@yolvic', '123', 89166629, 'documentos/doc3.pdf'),
+(4, 'Jose Miguel', 'Bumbury', NULL, NULL, 'images/img4.jpg', 'miguel@gmail.com', '123', 4534344, NULL),
+(5, 'Alejandra', 'Tinoco', NULL, NULL, 'images/img5.jpg', 'alej@gmail.com', '123', 4865578, NULL),
+(6, 'Manuel', 'Muñoz', NULL, NULL, 'images/img6.jpg', 'manu@gmail.com', '123', 4867545, NULL),
+(7, 'Jorge', 'Solano', NULL, NULL, 'images/img7.jpg', 'yoyo@gmail.com', '123', 7878786, NULL),
+(8, 'Lina Maria', 'Cifuentes', NULL, NULL, 'images/img8.jpg', 'maria@gmail.com', '123', 4555786, NULL),
+(9, 'Paola', 'Marquez', NULL, NULL, 'images/img9.jpg', 'pao@gmail.com', '123', 77567688, NULL),
+(10, 'Roberto', 'Niño', NULL, NULL, 'images/img10.jpg', 'beto@gmail.com', '123', 5377845, NULL);
 
 -- --------------------------------------------------------
 
@@ -220,6 +236,13 @@ CREATE TABLE `publicar_empresa` (
   `FECHA` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `camello`.`publicar_empresa` (`COD_P_EMPRESA`, `COD_EMPRESA`, `COD_CIUDAD`, `COD_JORNADA`, `COD_CARGO`, `COD_SALARIO`, `DETALLE_PUBLICACION`, `EXPERIENCIA_REQUERIDA`) VALUES
+ ('453378386', '111', '5', '1', '1', '3', 'monitor de salas', 'ninguna'),
+ ('737835324', '111', '1', '2', '3', '1', 'asistente tecnico', 'ninguna'),
+ ('870475767', '222', '22', '3', '2', '5', 'programador', 'ninguna'),
+ ('445278453', '222', '1', '2', '3', '2', 'asesor de redes', 'ninguna'),
+ ('757866789', '333', '11', '1', '2', '3', 'callcenter', 'ninguna'),
+ ('411457780', '333', '1', '2', '1', '4', 'cajero de minisuper', 'ninguna');
 -- --------------------------------------------------------
 
 --
@@ -240,11 +263,31 @@ CREATE TABLE `cargo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `cargo` (`COD_CARGO`, `NOM_CARGO`) VALUES
-(1, 'secretaria'),
-(2, 'Administrador'),
-(3, 'cajero'),
-(4, 'profesor'),
-(5, 'arquitecto');
+(1, 'Administrador'),
+(2, 'Arquitecto'),
+(3, 'Aseador'),
+(4, 'Cordinador'),
+(5, 'Cajero'),
+(6, 'Docente de planta'),
+(7, 'Domiciliario'),
+(8, 'Gerente'),
+(9, 'Tesorero'),
+(10, 'Profesor suplente'),
+(11, 'Vendedor'),
+(12, 'Vigilante');
+
+CREATE TABLE `intereses` (
+  `COD_PERSONA` int(11) NOT NULL,
+  `COD_CARGO` int(11)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `intereses` (`COD_PERSONA`, `COD_CARGO`) VALUES
+(1, 1),
+(1, 3),
+(3, 2),
+(3, 3),
+(2, 1),
+(2, 2);
 
 CREATE TABLE `salario` (
   `COD_SALARIO` int(11) NOT NULL,
@@ -292,7 +335,7 @@ ALTER TABLE `ciudad`
 ALTER TABLE `postulados`
   ADD PRIMARY KEY (`COD_P_EMPRESA`,`COD_PERSONA`),
   ADD KEY `POSTULADOS_PERSONA_FK` (`COD_PERSONA`),
-  ADD KEY `POSTULADOS_PIBLICAR_EMPRESA_FK` (`COD_P_EMPRESA`);
+  ADD KEY `POSTULADOS_PUBLICAR_EMPRESA_FK` (`COD_P_EMPRESA`);
 
 --
 -- Indices de la tabla `empresa`
@@ -301,6 +344,14 @@ ALTER TABLE `empresa`
   ADD PRIMARY KEY (`COD_EMPRESA`),
   ADD KEY `EMPRESA_CAMPO_LABORAL_FK` (`COD_C_LABORAL`);
 
+--
+-- Indices de la tabla `intereses`
+--
+ALTER TABLE `intereses`
+  ADD PRIMARY KEY (`COD_PERSONA`,`COD_CARGO`),
+  ADD KEY `INTERESES_PERSONA_FK` (`COD_PERSONA`),
+  ADD KEY `INTERESES_CARGO_FK` (`COD_CARGO`);
+  
 --
 -- Indices de la tabla `cargo`
 --

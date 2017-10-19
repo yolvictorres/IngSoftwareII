@@ -1,3 +1,6 @@
+<%@page import="Acceso.DAOEmpresa"%>
+<%@page import="Modelo.Empresa"%>
+<%@page import="Modelo.Postulados"%>
 <%@page import="Modelo.Ciudad"%>
 <%@page import="Acceso.Consultas"%>
 <%@page import="Modelo.Persona"%>
@@ -11,24 +14,19 @@
 <!DOCTYPE html>
 <html>
     <head>        
-        <title>Mired</title>
+        <title>Postulados</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <% if (request.getAttribute("respuesta") != null) {%>
-        <meta http-equiv="refresh" content="3;URL=empleos.jsp">      
-        <% }%>
-        <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+        <link rel="stylesheet" type="text/css" href="css/normalize.css" />      
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">      
         <link rel="stylesheet" href="pe-icon-7-stroke/css/pe-icon-7-stroke.css">
         <!-- Optional - Adds useful class to manipulate icon font display -->
-        <link rel="stylesheet" href="pe-icon-7-stroke/css/helper.css">
+        <link rel="stylesheet" href="pe-icon-7-stroke/css/helper.css"> 
         <link rel="stylesheet" type="text/css" href="TableFilter/filtergrid.css">
         <script type="text/javascript" src="js/jquery.js"></script> 
-        <script type="text/javascript" src="js/bootstrap.min.js"></script> 
-        <script type="text/javascript" src="js/BuscadorTabla.js"></script>
         <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>        
-
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>       
     </head>
     <body>
         <%
@@ -62,26 +60,57 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
-                            <li>
+                            <li >
                                 <a href="inicio.jsp"><i class="pe-7s-home pe-2x pe-va"></i></a>
                             </li> 
                             <li>
-                                <a href="empleos.jsp"><i class="pe-7s-portfolio pe-2x pe-va"></i></a>
+                                <a href="empleos.jsp"><i class="pe-7s-portfolio pe-2x pe-va"></i></a>                                                                 
                             </li>   
-                            <%
-                                if (sesion.getAttribute("idPersona") != null) {
+                            <%                                if (sesion.getAttribute("idPersona") != null) {
                             %>
                             <li>
-                                <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va"></i></a>
+                                <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va">
+                                     <%DAOPersona daop = new DAOPersona();
+                                     int idPerson = (Integer.parseInt(idPersona));
+                                     int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
+                                            if (SolicitudesP != 0) {
+                                        %>
+                                        <span class="badge red"><%=SolicitudesP%></span>  
+                                        <% }%>
+                                    </i></a>
                             </li> 
-                            <li>
-                                <a href="notificaciones.jsp"><i class="pe-7s-bell pe-2x pe-va"></i></a>
+                            <li>    
+                                <a href="notificaciones.jsp">                                    
+                                    <i class="pe-7s-bell pe-2x pe-va">
+                                        <%                                          
+                                            DAOEmpleo daoem = new DAOEmpleo();                                            
+                                            int n = 0;
+                                            n =daop.numeroNotificacionMiRed(idPerson)+n;
+                                            n = daoem.verificarNotificaciones(idPerson)+n;
+                                            if (n != 0) {
+                                        %>
+                                        <span class="badge red"><%=n%></span>  
+                                        <% }%>
+                                    </i>
+                                </a> 
                             </li> 
                             <%
                             } else {
                             %>
                             <li>    
-                                <a href="postulados.jsp"><i class="pe-7s-note2 pe-2x pe-va"></i></a> 
+                                <a href="postulados.jsp">                                    
+                                    <i class="pe-7s-note2 pe-2x pe-va">
+                                        <%
+                                            int idEmpres = (Integer.parseInt(idEmpresa));
+                                            DAOEmpleo daoem = new DAOEmpleo();
+                                            int n = 0;
+                                            n = daoem.notificarNuevosPostulados(idEmpres);
+                                            if (n != 0) {
+                                        %>
+                                        <span class="badge red"><%=n%></span>  
+                                        <% }%>
+                                    </i>
+                                </a> 
                             </li>
                             <%
                                 }
@@ -130,17 +159,110 @@
         <%
             if (sesion.getAttribute("idEmpresa") != null) {
         %>
-
         <div class="col-md-3">
-
+            <div class="panel panel-default ">
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"><a href="postulados.jsp">Postulados</a></li>
+                    <li><a href="preseleccionados.jsp">Pre-seleccionados</a></li>
+                    <li><a href="rechazados.jsp">Rechazados</a></li>
+                </ul>
+            </div>
         </div>
         <div class="col-md-7">
-            <table class="table table-striped table-bordered">
-                <tr>
-                </tr>
-            </table>
-        </div>
+            <div class="panel panel-heading"> <center><h1>Postulados</h1></center></div><br>
+            <div class="panel panel-default">
+                <table id="table12" class="table table-striped table-hover" >
+                    <tr></tr>
+                    <tbody>
+                        <%
+                            DAOEmpleo daoem = new DAOEmpleo();
+                            DAOEmpresa daoemp = new DAOEmpresa();
+                            DAOPersona daoper = new DAOPersona();
+                            int idEmpres = (Integer.parseInt(idEmpresa));
+                            List<Postulados> p = daoem.mostrarNuevosPostulados(0, idEmpres);
+                            for (Postulados postulado : p) {
+                                List<Empleo> em = daoem.consultarIdP(postulado.getCodigoEmpleo());
+                                for (Empleo empleo : em) {
+                        %>
+                        <tr>
+                            <%
+                                List<Persona> per = daoper.consultarXID(postulado.getCodigoPersona());
+                                for (Persona person : per) {
+                            %>
+                            <td class="col-md-7">Se ha postulado <b><%=person.getNombresPersona()%> <%=person.getApellidosPersona()%></b> al empleo <b><%=empleo.getDetalles()%></b></td>
+                            <td class="col-md-1"><input type="button" name="" value="Perfil" class="btn btn-primary " id="button" onclick="location.href = 'verPersona.jsp?id=' + (<%=person.getIdPersona()%>);"></td>
+                            <td class="col-md-1"><input type="button" name="" value="Hoja de vida" class="btn btn-primary " id="button" onclick="javascipt:window.open('<%=person.getRutaHojadevida()%>');"></td>
+                            <td class="col-md-1">
+                                <form action="ServletEmpleo" method="post" id="aceptar" name="aceptar">                                      
+                                    <input name="Estadop" value="1" type="hidden" />
+                                    <input name="idEmpleo" value="<%=empleo.getIdEmpleo()%>" type="hidden" />
+                                    <input name="idPersona" value="<%=postulado.getCodigoPersona()%>" type="hidden" />
+                                    <%
+                                        List<Empresa> g = daoemp.consultarXID(idEmpres);
+                                        for (Empresa empre : g) {
+                                    %>
+                                    <input name="Mensaje" value="<%=empre.getNombreEmpresa()%> te preselecciono para el empleo <%=empleo.getDetalles()%>" type="hidden" />
+                                    <%
+                                        }
+                                    %>        
+                                    <input type="submit" name="AceptarPostulado" value="Aceptar" class="btn btn-primary" />
+                                </form>
+                            </td>
+                            <td class="col-md-1">
+                                <form action="ServletEmpleo" method="post" id="aceptar" name="aceptar">                                      
+                                    <input name="Estadop" value="2" type="hidden" />
+                                    <input name="idEmpleo" value="<%=empleo.getIdEmpleo()%>" type="hidden" />
+                                    <input name="idPersona" value="<%=postulado.getCodigoPersona()%>" type="hidden" />
+                                    <%
+                                        List<Empresa> t = daoemp.consultarXID(idEmpres);
+                                        for (Empresa empre : t) {
+                                    %>
+                                    <input name="Mensaje" value="<%=empre.getNombreEmpresa()%> ha rechazado tu solicitud para el empleo <%=empleo.getDetalles()%>" type="hidden" />
+                                    <%
+                                        }
+                                    %>        
+                                    <input type="submit" name="RechazarPostulado" value="Rechazar" class="btn btn-default" />
+                                </form>
+                            </td>
+                            <%
+                                }
+                            %>
 
+                            <%
+                                }
+                            %>
+                        </tr>
+                        <%                    }
+                        %>
+                    </tbody>
+                </table>
+                <script language="javascript" type="text/javascript">
+                    //<![CDATA[  
+                    var table12_Props = {
+                        paging: true,
+                        paging_length: 3,
+                        results_per_page: ['# Empleos por página', [3, 6, 9]],
+                        rows_counter: true,
+                        rows_counter_text: "Rows:",
+                        highlight_keywords: true,
+                        on_keyup: true,
+                        on_keyup_delay: 1500,
+                        single_search_filter: true,
+                        selectable: true,
+                        refresh_filters: true
+                    };
+                    var tf12 = setFilterGrid("table12", table12_Props);
+                    //]]>  
+                </script> 
+                <%
+                    if (p.size() == 0) {
+                %>
+                <div class="alert alert-warning">
+                    <p>No hay <strong>nuevos postulados</strong> revisa más tarde.</p>            
+                </div>            
+                <% }%>
+            </div>
+        </div>
         <div class="col-md-3">
         </div>
         <%

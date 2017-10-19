@@ -1,6 +1,8 @@
 package Acceso;
 
+import Modelo.Amigos;
 import Modelo.Persona;
+import Modelo.Postulados;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -236,6 +238,300 @@ public class DAOPersona implements CRUDyBuscar {
         return rs;
     }
 
+    public String solicitarUnirseAMiRed(Object obj) {
+        Amigos amigos = (Amigos) obj;
+        String consulta = "insert into amigos (cod_persona, cod_amigo, estado_solicitud, notificacion_solicitud) values (?, ?, ? ,?)";
+        String respuesta = "";
+        Connection conn = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, amigos.getIdPersona());
+            pst.setInt(2, amigos.getIdAmigo());
+            pst.setInt(3, amigos.getEstado());
+            pst.setInt(4, amigos.getNotificacion());
+            int filas = pst.executeUpdate();
+            respuesta = "Solicitud enviada correctamente";
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Error" + e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                System.out.println("Error" + e);
+            }
+        }
+        return respuesta;
+    }
+
+    public int verificarSolicitud(int idPersona, int idAmigo, int Estado) {
+        int postul = 0;
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "SELECT count(cod_persona) AS total FROM amigos WHERE cod_persona= ? AND cod_amigo = ? AND estado_solicitud =?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idPersona);
+            pst.setInt(2, idAmigo);
+            pst.setInt(3, Estado);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                postul = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return postul;
+    }
+
+    public int numeroSolicitudesPendientes(int idPersona, int Estado) {
+        int postul = 0;
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "SELECT count(cod_amigo) AS total FROM amigos WHERE cod_amigo= ? AND estado_solicitud = ?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idPersona);
+            pst.setInt(2, Estado);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                postul = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return postul;
+    }
+
+    public int solicitudesPendientes(int idPersona, int idAmigo, int Estado) {
+        int postul = 0;
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "SELECT count(cod_persona) AS total FROM amigos WHERE cod_persona= ? AND cod_amigo = ? AND estado_solicitud =?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idAmigo);
+            pst.setInt(2, idPersona);
+            pst.setInt(3, Estado);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                postul = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return postul;
+    }
+
+    public int verificarAmigos(int idPersona, int idAmigo, int Estado) {
+        int postul = 0;
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "SELECT count(cod_persona) AS total FROM amigos WHERE cod_persona= ? AND cod_amigo=?  AND estado_solicitud =? OR cod_amigo =? AND cod_persona = ? AND estado_solicitud =?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idPersona);
+            pst.setInt(2, idAmigo);
+            pst.setInt(3, Estado);
+            pst.setInt(4, idPersona);
+            pst.setInt(5, idAmigo);
+            pst.setInt(6, Estado);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                postul = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return postul;
+    }
+
+    public int numeroUnidosAMiRed(int idPersona) {
+        int postul = 0;
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "SELECT count(cod_amigo) AS total FROM amigos WHERE cod_amigo= ? AND estado_solicitud = 1 OR cod_persona =? AND estado_solicitud = 1";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idPersona);
+            pst.setInt(2, idPersona);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                postul = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return postul;
+    }
+
+    public List<Amigos> mostrarSolicitudesPendientes(int idPersona, int Estado) {
+        List<Amigos> y = new ArrayList<>();
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "select * from amigos where cod_amigo = ? AND estado_solicitud =?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idPersona);
+            pst.setInt(2, Estado);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                y.add(new Amigos(rs.getInt("cod_persona"),
+                        rs.getInt("cod_amigo"),
+                        rs.getInt("estado_solicitud"),
+                        rs.getInt("notificacion_solicitud")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return y;
+    }
+
+    public String EstadoAmigo(Object obj) {
+        Amigos amigos = (Amigos) obj;
+        String consulta = "update amigos set  estado_solicitud =? where cod_persona =? and cod_amigo =?";
+        String respuesta = "";
+        Connection conn = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, amigos.getEstado());
+            pst.setInt(2, amigos.getIdPersona());
+            pst.setInt(3, amigos.getIdAmigo());
+            int filas = pst.executeUpdate();
+            respuesta = "Estado actualizado";
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Error" + e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                System.out.println("Error" + e);
+            }
+        }
+        return respuesta;
+    }
+
+    public List<Amigos> mostrarMired(int idPersona, int Estado) {
+        List<Amigos> y = new ArrayList<>();
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "select * from amigos where cod_amigo = ? AND estado_solicitud =? OR cod_persona =? AND estado_solicitud =?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idPersona);
+            pst.setInt(2, Estado);
+            pst.setInt(3, idPersona);
+            pst.setInt(4, Estado);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                y.add(new Amigos(rs.getInt("cod_persona"),
+                        rs.getInt("cod_amigo"),
+                        rs.getInt("estado_solicitud"),
+                        rs.getInt("notificacion_solicitud")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return y;
+    }
+
+    public List<Amigos> notificarMiRed(int idPersona, int Estado, int Notificacion) {
+        List<Amigos> y = new ArrayList<>();
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "select * from amigos where cod_persona =? AND estado_solicitud = ? AND notificacion_solicitud =?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idPersona);
+            pst.setInt(2, Estado);
+            pst.setInt(3, Notificacion);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                y.add(new Amigos(rs.getInt("cod_persona"),
+                        rs.getInt("cod_amigo"),
+                        rs.getInt("estado_solicitud"),
+                        rs.getInt("notificacion_solicitud")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return y;
+    }
+
+    public int numeroNotificacionMiRed(int idPersona) {
+        int postul = 0;
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "SELECT count(cod_amigo) AS total FROM amigos WHERE cod_persona =? AND estado_solicitud = 1 AND notificacion_solicitud =0 OR cod_persona =? AND estado_solicitud = 2 AND notificacion_solicitud =0";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idPersona);
+            pst.setInt(2, idPersona);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                postul = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return postul;
+    }
+
+    public String notificacionVista(Object obj) {
+        Amigos amigos = (Amigos) obj;
+        String consulta = "update amigos set  notificacion_solicitud =? where cod_persona =? and cod_amigo =?";
+        String respuesta = "";
+        Connection conn = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, amigos.getNotificacion());
+            pst.setInt(2, amigos.getIdPersona());
+            pst.setInt(3, amigos.getIdAmigo());
+            int filas = pst.executeUpdate();
+            respuesta = "Actualizacion vista";
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println("Error" + e);
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                System.out.println("Error" + e);
+            }
+        }
+        return respuesta;
+    }
     @Override
     public List<?> filtrar(String tabla, String dato) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

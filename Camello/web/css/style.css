@@ -1,3 +1,4 @@
+
 .boxlogin{
     text-align: right;
     border-radius: 4px;
@@ -9,6 +10,20 @@
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
 }
+.boxlogin input {
+    width: 65%;
+    margin: 1px auto;
+}
+
+.boxlogin select {
+    width: 65%;
+    margin: 1px auto;
+}
+.table table-bordered tbody tr td select option{
+    width: 75%;
+    margin: 1px auto;
+}
+
 .boxlogin.form.div{
     width: 50%;
 }
@@ -29,4 +44,88 @@ div img{
 input.ng-invalid dirty{
     border: 1px solid red;
 
+}
+input.text
+{
+    background: url("iconos.gif") no-repeat scroll 0 0 transparent;
+    border: 1px solid #BFBFBF;
+    color: #BFBFBF;
+    padding: 5px 5px 5px 25px;
+    width: 350px;
+}
+
+table.edite select
+{
+    background: url("iconos.gif") no-repeat scroll 0 0 transparent;
+    border: 1px solid #BFBFBF;
+    padding: 5px 5px 5px 25px;
+    width: 300px;
+    margin: 1px auto;
+
+}
+table.edite input
+{
+    background: url("iconos.gif") no-repeat scroll 0 0 transparent;
+    border: 1px solid #BFBFBF;
+    padding: 5px 5px 5px 25px;
+    width: 300px;
+    margin: 1px auto;
+
+}
+
+input.submit
+{
+    width: auto;
+    background-position: 4px -91px;
+    background-color: #999999;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+input.user{ background-position: 4px -21px; }
+input.search{ background-position: 4px 4px; }
+input.password{ background-position: 4px -46px; }
+input.favorite{ background-position: 4px -70px; }
+
+#searchTerm
+{
+    padding: 5px 5px 5px 25px;
+    width: 350px;
+    margin: 1px auto;
+}
+#postul
+{
+    padding: 10px;
+    width: 150px;
+    margin-top: 70%;
+}
+nav .badge {
+  margin-top: -38px;
+  margin-left: -11px;
+}
+nav .badge.green {
+  background: #77cc51;
+  border-color: #59ad33;
+  background-image: -webkit-linear-gradient(top, #a5dd8c, #77cc51);
+  background-image: -moz-linear-gradient(top, #a5dd8c, #77cc51);
+  background-image: -o-linear-gradient(top, #a5dd8c, #77cc51);
+  background-image: linear-gradient(to bottom, #a5dd8c, #77cc51);
+}
+
+nav .badge.yellow {
+  background: #faba3e;
+  border-color: #f4a306;
+  background-image: -webkit-linear-gradient(top, #fcd589, #faba3e);
+  background-image: -moz-linear-gradient(top, #fcd589, #faba3e);
+  background-image: -o-linear-gradient(top, #fcd589, #faba3e);
+  background-image: linear-gradient(to bottom, #fcd589, #faba3e);
+}
+
+nav .badge.red {
+  background: #fa623f;
+  border-color: #fa5a35;
+  background-image: -webkit-linear-gradient(top, #fc9f8a, #fa623f);
+  background-image: -moz-linear-gradient(top, #fc9f8a, #fa623f);
+  background-image: -o-linear-gradient(top, #fc9f8a, #fa623f);
+  background-image: linear-gradient(to bottom, #fc9f8a, #fa623f);
 }
