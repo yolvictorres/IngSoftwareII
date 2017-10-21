@@ -6,11 +6,14 @@
 package Controlador;
 
 import Acceso.DAOEmpleo;
+import Acceso.DAOPersona;
 import Modelo.Empleo;
+import Modelo.Persona;
 import Modelo.Postulados;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,6 +21,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.mail.*;
+import javax.mail.internet.*;
+import java.util.*;
 
 /**
  *
@@ -70,48 +76,124 @@ public class ServletEmpleo extends HttpServlet {
                     respuesta = dao.editar(empleo);
                     request.setAttribute("respuestae", respuesta);
                     rd = request.getRequestDispatcher("empleos.jsp");
-                } else if(request.getParameter("Postularse") != null){
+                } else if (request.getParameter("Postularse") != null) {
                     postulados.setCodigoEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
                     postulados.setCodigoEmpresa(Integer.parseInt(request.getParameter("idEmpresa")));
                     postulados.setCodigoPersona(Integer.parseInt(request.getParameter("idPersona")));
                     postulados.setEstadoEnvio(Integer.parseInt(request.getParameter("Estadoe")));
                     postulados.setEstadoPostulados(Integer.parseInt(request.getParameter("Estadop")));
                     postulados.setEstadoNotificacion(Integer.parseInt(request.getParameter("Estadon")));
-                    respuesta = dao.postular(postulados);                    
+                    respuesta = dao.postular(postulados);
                     request.setAttribute("respuesta", respuesta);
                     rd = request.getRequestDispatcher("empleos.jsp");
-                }else if(request.getParameter("AceptarPostulado") != null){
+                } else if (request.getParameter("AceptarPostulado") != null) {
                     postulados.setEstadoPostulados(Integer.parseInt(request.getParameter("Estadop")));
                     postulados.setCodigoPersona(Integer.parseInt(request.getParameter("idPersona")));
                     postulados.setCodigoEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
+                    postulados.setSmtpServ("smtp.gmail.com");
+                    DAOPersona daoper = new DAOPersona();
+                    List<Persona> p = daoper.consultarXID(postulados.getCodigoPersona());
+                    for (Persona per : p) {
+                        if (per.getIdPersona() == postulados.getCodigoPersona()) {
+                            postulados.setTo(per.getCorreoPersona());
+                        }
+                    }
+                    System.out.println("correo destino: " + postulados.getTo());
+                    postulados.setSubject("Respuesta Postulación");
+                    postulados.setFrom("ingsoftware2kl@gmail.com");
                     postulados.setMensaje(request.getParameter("Mensaje"));
-                    respuesta = dao.aceptarPostulado(postulados);                    
+                    respuesta = dao.aceptarPostulado(postulados);
                     request.setAttribute("respuesta", respuesta);
+                    Properties props = System.getProperties();
+                    // -- Attaching to default Session, or we could start a new one --
+                    props.put("mail.transport.protocol", "smtp");
+                    props.put("mail.smtp.starttls.enable", "true");
+                    props.put("mail.smtp.host", postulados.getSmtpServ());
+                    props.put("mail.smtp.auth", "true");
+                    Authenticator auth = new SMTPAuthenticator();
+                    Session session = Session.getInstance(props, auth);
+                    // -- Create a new message --
+                    Message msg = new MimeMessage(session);
+                    // -- Set the FROM and TO fields --
+                    msg.setFrom(new InternetAddress(postulados.getFrom()));
+                    msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(postulados.getTo(), false));
+                    msg.setSubject(postulados.getSubject());
+                    msg.setText(postulados.getMensaje());
+                    // -- Set some other header information --
+                    msg.setHeader("MyMail", "Mr. XYZ");
+                    msg.setSentDate(new Date());
+                    // -- Send the message --
+                    Transport.send(msg);
+                    System.out.println("Message sent to " + postulados.getTo() + " OK.");
                     rd = request.getRequestDispatcher("postulados.jsp");
-                }else if(request.getParameter("RechazarPostulado") != null){
+                } else if (request.getParameter("RechazarPostulado") != null) {
+                    postulados.setSmtpServ("smtp.gmail.com");
                     postulados.setEstadoPostulados(Integer.parseInt(request.getParameter("Estadop")));
                     postulados.setCodigoPersona(Integer.parseInt(request.getParameter("idPersona")));
                     postulados.setCodigoEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
+                    DAOPersona daoper = new DAOPersona();
+                    List<Persona> p = daoper.consultarXID(postulados.getCodigoPersona());
+                    for (Persona per : p) {
+                        if (per.getIdPersona() == postulados.getCodigoPersona()) {
+                            postulados.setTo(per.getCorreoPersona());
+                        }
+                    }
+                    System.out.println("correo destino: " + postulados.getTo());
+                    postulados.setSubject("Respuesta Postulación");
+                    postulados.setFrom("ingsoftware2kl@gmail.com");
                     postulados.setMensaje(request.getParameter("Mensaje"));
-                    respuesta = dao.aceptarPostulado(postulados);                    
+                    respuesta = dao.aceptarPostulado(postulados);
                     request.setAttribute("respuesta", respuesta);
+                    Properties props = System.getProperties();
+                    // -- Attaching to default Session, or we could start a new one --
+                    props.put("mail.transport.protocol", "smtp");
+                    props.put("mail.smtp.starttls.enable", "true");
+                    props.put("mail.smtp.host", postulados.getSmtpServ());
+                    props.put("mail.smtp.auth", "true");
+                    Authenticator auth = new SMTPAuthenticator();
+                    Session session = Session.getInstance(props, auth);
+                    // -- Create a new message --
+                    Message msg = new MimeMessage(session);
+                    // -- Set the FROM and TO fields --
+                    msg.setFrom(new InternetAddress(postulados.getFrom()));
+                    msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(postulados.getTo(), false));
+                    msg.setSubject(postulados.getSubject());
+                    msg.setText(postulados.getMensaje());
+                    // -- Set some other header information --
+                    msg.setHeader("MyMail", "Mr. XYZ");
+                    msg.setSentDate(new Date());
+                    // -- Send the message --
+                    Transport.send(msg);
+                    System.out.println("Message sent to" + postulados.getTo() + " OK.");
                     rd = request.getRequestDispatcher("postulados.jsp");
-                }else if(request.getParameter("NotVista") != null){
+                } else if (request.getParameter("NotVista") != null) {
                     postulados.setEstadoNotificacion(Integer.parseInt(request.getParameter("Estadon")));
                     postulados.setCodigoPersona(Integer.parseInt(request.getParameter("idPersona")));
                     postulados.setCodigoEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
-                    respuesta = dao.aceptarPostulado(postulados);                    
+                    respuesta = dao.aceptarPostulado(postulados);
                     request.setAttribute("respuesta", respuesta);
                     rd = request.getRequestDispatcher("notificaciones.jsp");
                 }
-            } catch (NumberFormatException e) {
-
+            } catch (Exception e) {
+                System.out.println("Exception " + e);
+                out.println("Exception " + e);
             }
 
             rd.forward(request, response);
 
         } catch (Exception e) {
+            System.out.println("Exception " + e);
+        }
+    }
+// Also include an inner class that is used for authentication purposes
 
+    private class SMTPAuthenticator extends javax.mail.Authenticator {
+
+        @Override
+        public PasswordAuthentication getPasswordAuthentication() {
+            String username = "ingsoftware2kl@gmail.com";           // specify your email id here (sender's email id)
+            String password = "sebyoldie";                                      // specify your password here
+            return new PasswordAuthentication(username, password);
         }
     }
 

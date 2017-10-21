@@ -23,13 +23,13 @@
         <script type="text/javascript" src="js/jquery.js"></script> 
         <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>        
         <script type="text/javascript" src="js/bootstrap.min.js"></script> 
-        
+
     </head>
     <body>
         <%
             HttpSession sesion = request.getSession();
             String idEmpresa = null, idPersona = null;
-            String nombreEmpresa = null, nombrePersona = null;
+            String nombreEmpresa = null, nombrePersona = null,correoPersona = null;
 
             if (sesion.getAttribute("idEmpresa") != null && sesion.getAttribute("nombreEmpresa") != null || sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
 
@@ -40,6 +40,7 @@
                 if (sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
                     idPersona = sesion.getAttribute("idPersona").toString();
                     nombrePersona = sesion.getAttribute("nombrePersona").toString();
+                    
                 }
             } else {
                 out.print("<script>location.replace('index.jsp');</script>");
@@ -258,46 +259,46 @@
                         <td class="col-md-3"><p ><%=salario.getSalario()%></p></td>
                             <%  }%>
                         <td class="col-md-1"><input type="button" name="edit" value="Ver" class="btn btn-primary" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>    
-                         <td class="col-md-1">
-                        <%
-                            int idEmpleo = (empleo.getIdEmpleo());
-                            int idPerson = Integer.parseInt(idPersona);
-                            int postul = daoem.verificarPostulado(idPerson, idEmpleo);
-                            if (postul == 0) {
-                        %>
-                        <form action="ServletEmpleo" method="post" id="postular" name="postular">
-                            <input name="idEmpleo" value="<%=empleo.getIdEmpleo()%>" type="hidden" />
+                        <td class="col-md-1">
                             <%
-                           List<Empleo> W = daoem.consultar();
-                            for (Empleo emple : W) {
+                                int idEmpleo = (empleo.getIdEmpleo());
+                                int idPerson = Integer.parseInt(idPersona);
+                                int postul = daoem.verificarPostulado(idPerson, idEmpleo);
+                                if (postul == 0) {
                             %>
-                            <input name="idEmpresa" value="<%=empleo.getIdEmpresa()%>" type="hidden" />
-                            <%
-                            }
-                            %>                         
-                            <input name="Estadoe" value="0" type="hidden" />
-                            <input name="Estadop" value="0" type="hidden" />
-                            <input name="Estadon" value="0" type="hidden" />                                                      
-                            <input name="idPersona" value="<%=sesion.getAttribute("idPersona")%>"  type="hidden" />         
-                            <input type="submit" name="Postularse" value="Postularse" class="btn btn-default" />
-                        </form>
-                    </td> 
-                    <% } else {
-                    %>
-                    <input type="button" name="edit" value="Postulado" class="btn btn-default disabled" id="button">
-                    <% } %>
+                            <form action="ServletEmpleo" method="post" id="postular" name="postular">
+                                <input name="idEmpleo" value="<%=empleo.getIdEmpleo()%>" type="hidden" />
+                                <%
+                                    List<Empleo> W = daoem.consultar();
+                                    for (Empleo emple : W) {
+                                %>
+                                <input name="idEmpresa" value="<%=empleo.getIdEmpresa()%>" type="hidden" />
+                                <%
+                                    }
+                                %>                         
+                                <input name="Estadoe" value="0" type="hidden" />
+                                <input name="Estadop" value="0" type="hidden" />
+                                <input name="Estadon" value="0" type="hidden" />                                                      
+                                <input name="idPersona" value="<%=sesion.getAttribute("idPersona")%>"  type="hidden" />         
+                                <input type="submit" name="Postularse" value="Postularse" class="btn btn-default" />
+                            </form>
+                        </td> 
+                        <% } else {
+                        %>
+                        <input type="button" name="edit" value="Postulado" class="btn btn-default disabled" id="button">
+                        <% } %>
                         </tr>    
                         <%  }%>
                         </tbody> 
-                </table>                 
-            </div>
-        </div>
-        <div class="col-md-2">
-        </div>
+                        </table>                 
+                        </div>
+                        </div>
+                        <div class="col-md-2">
+                        </div>
 
 
-        <%
-            }
-        %>
-    </body>
-</html>
+                        <%
+                            }
+                        %>
+                        </body>
+                        </html>

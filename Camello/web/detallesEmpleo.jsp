@@ -1,4 +1,5 @@
 
+<%@page import="Acceso.DAOPersona"%>
 <%@page import="Modelo.Salario"%>
 <%@page import="Modelo.Cargo"%>
 <%@page import="Modelo.Jornada"%>
