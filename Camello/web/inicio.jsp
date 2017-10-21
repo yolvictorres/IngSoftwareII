@@ -222,7 +222,7 @@
                     <th>Ciudad</th>
                     <th>Cargo</th>
                     <th>Salario</th>                
-                    <th>Acciones</th>
+                    <th colspan="2">Acciones</th>
                     </thead>
                     <tbody>  
                         <%
@@ -258,6 +258,34 @@
                         <td class="col-md-3"><p ><%=salario.getSalario()%></p></td>
                             <%  }%>
                         <td class="col-md-1"><input type="button" name="edit" value="Ver" class="btn btn-primary" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>    
+                         <td class="col-md-1">
+                        <%
+                            int idEmpleo = (empleo.getIdEmpleo());
+                            int idPerson = Integer.parseInt(idPersona);
+                            int postul = daoem.verificarPostulado(idPerson, idEmpleo);
+                            if (postul == 0) {
+                        %>
+                        <form action="ServletEmpleo" method="post" id="postular" name="postular">
+                            <input name="idEmpleo" value="<%=empleo.getIdEmpleo()%>" type="hidden" />
+                            <%
+                           List<Empleo> W = daoem.consultar();
+                            for (Empleo emple : W) {
+                            %>
+                            <input name="idEmpresa" value="<%=empleo.getIdEmpresa()%>" type="hidden" />
+                            <%
+                            }
+                            %>                         
+                            <input name="Estadoe" value="0" type="hidden" />
+                            <input name="Estadop" value="0" type="hidden" />
+                            <input name="Estadon" value="0" type="hidden" />                                                      
+                            <input name="idPersona" value="<%=sesion.getAttribute("idPersona")%>"  type="hidden" />         
+                            <input type="submit" name="Postularse" value="Postularse" class="btn btn-default" />
+                        </form>
+                    </td> 
+                    <% } else {
+                    %>
+                    <input type="button" name="edit" value="Postulado" class="btn btn-default disabled" id="button">
+                    <% } %>
                         </tr>    
                         <%  }%>
                         </tbody> 
