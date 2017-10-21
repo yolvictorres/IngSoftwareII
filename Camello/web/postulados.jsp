@@ -220,7 +220,7 @@
                                     <input name="Estadop" value="2" type="hidden" />
                                     <input name="idEmpleo" value="<%=empleo.getIdEmpleo()%>" type="hidden" />
                                     <input name="idPersona" value="<%=postulado.getCodigoPersona()%>" type="hidden" />
-                                    <input name="correoPersona" value="<%=per%>" type="hidden" />
+                                    <input name="correoPersona" value="<%=person.getCorreoPersona()%>" type="hidden" />
                                     <%
                                         List<Empresa> t = daoemp.consultarXID(idEmpres);
                                         for (Empresa empre : t) {

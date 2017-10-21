@@ -207,9 +207,9 @@ CREATE TABLE `persona` (
 --
 
 INSERT INTO `persona` (`COD_PERSONA`, `NOMBRES`, `APELLIDOS`, `FECHA_NACIMIENTO`, `FOTO`, `RUTA_FOTO`, `CORREO`, `CLAVE`, `TELEFONO`, `HOJA_DE_VIDA`) VALUES
-(1, 'ian', 'Mendez', NULL, NULL, 'images/img1.jpg', 'ian@ian', '123', 78856898, 'documentos/doc1.pdf'),
-(2, 'Diego', 'Schotborg', NULL, NULL, 'images/img2.jpg', 'diego@diego', '123', 1981525, 'documentos/doc2.pdf'),
-(3, 'Yolvic', 'Torres', NULL, NULL, 'images/img3.jpg', 'yolvic@yolvic', '123', 89166629, 'documentos/doc3.pdf'),
+(1, 'ian', 'Mendez', NULL, NULL, 'images/img1.jpg', 'sebastianmendez1323@gmail.com', '123', 78856898, 'documentos/doc1.pdf'),
+(2, 'Diego', 'Schotborg', NULL, NULL, 'images/img2.jpg', 'diegocschotborgc@gmail.com', '123', 1981525, 'documentos/doc2.pdf'),
+(3, 'Yolvic', 'Torres', NULL, NULL, 'images/img3.jpg', 'yolvic96@gmail.com', '123', 89166629, 'documentos/doc3.pdf'),
 (4, 'Jose Miguel', 'Bumbury', NULL, NULL, 'images/img4.jpg', 'miguel@gmail.com', '123', 4534344, NULL),
 (5, 'Alejandra', 'Tinoco', NULL, NULL, 'images/img5.jpg', 'alej@gmail.com', '123', 4865578, NULL),
 (6, 'Manuel', 'Muñoz', NULL, NULL, 'images/img6.jpg', 'manu@gmail.com', '123', 4867545, NULL),

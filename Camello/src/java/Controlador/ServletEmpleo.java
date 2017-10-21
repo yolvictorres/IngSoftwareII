@@ -90,6 +90,9 @@ public class ServletEmpleo extends HttpServlet {
                     postulados.setEstadoPostulados(Integer.parseInt(request.getParameter("Estadop")));
                     postulados.setCodigoPersona(Integer.parseInt(request.getParameter("idPersona")));
                     postulados.setCodigoEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
+                    postulados.setMensaje(request.getParameter("Mensaje"));
+                    respuesta = dao.aceptarPostulado(postulados);
+                    request.setAttribute("respuesta", respuesta);
                     postulados.setSmtpServ("smtp.gmail.com");
                     DAOPersona daoper = new DAOPersona();
                     List<Persona> p = daoper.consultarXID(postulados.getCodigoPersona());
@@ -100,10 +103,8 @@ public class ServletEmpleo extends HttpServlet {
                     }
                     System.out.println("correo destino: " + postulados.getTo());
                     postulados.setSubject("Respuesta Postulación");
-                    postulados.setFrom("ingsoftware2kl@gmail.com");
-                    postulados.setMensaje(request.getParameter("Mensaje"));
-                    respuesta = dao.aceptarPostulado(postulados);
-                    request.setAttribute("respuesta", respuesta);
+                    postulados.setFrom("ingsoftware2kl@gmail.com");                  
+                    
                     Properties props = System.getProperties();
                     // -- Attaching to default Session, or we could start a new one --
                     props.put("mail.transport.protocol", "smtp");
@@ -131,6 +132,9 @@ public class ServletEmpleo extends HttpServlet {
                     postulados.setEstadoPostulados(Integer.parseInt(request.getParameter("Estadop")));
                     postulados.setCodigoPersona(Integer.parseInt(request.getParameter("idPersona")));
                     postulados.setCodigoEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
+                    postulados.setMensaje(request.getParameter("Mensaje"));
+                    respuesta = dao.aceptarPostulado(postulados);
+                    request.setAttribute("respuesta", respuesta);
                     DAOPersona daoper = new DAOPersona();
                     List<Persona> p = daoper.consultarXID(postulados.getCodigoPersona());
                     for (Persona per : p) {
@@ -140,10 +144,8 @@ public class ServletEmpleo extends HttpServlet {
                     }
                     System.out.println("correo destino: " + postulados.getTo());
                     postulados.setSubject("Respuesta Postulación");
-                    postulados.setFrom("ingsoftware2kl@gmail.com");
-                    postulados.setMensaje(request.getParameter("Mensaje"));
-                    respuesta = dao.aceptarPostulado(postulados);
-                    request.setAttribute("respuesta", respuesta);
+                    postulados.setFrom("ingsoftware2kl@gmail.com");                    
+                    
                     Properties props = System.getProperties();
                     // -- Attaching to default Session, or we could start a new one --
                     props.put("mail.transport.protocol", "smtp");
