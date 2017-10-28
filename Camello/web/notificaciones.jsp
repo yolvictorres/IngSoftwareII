@@ -48,7 +48,7 @@
             }
 
         %>
-       <div>
+        <div>
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -74,9 +74,9 @@
                             %>
                             <li>
                                 <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va">
-                                     <%DAOPersona daop = new DAOPersona();
-                                     int idPerson = (Integer.parseInt(idPersona));
-                                     int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
+                                        <%DAOPersona daop = new DAOPersona();
+                                            int idPerson = (Integer.parseInt(idPersona));
+                                            int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
                                             if (SolicitudesP != 0) {
                                         %>
                                         <span class="badge red"><%=SolicitudesP%></span>  
@@ -86,11 +86,11 @@
                             <li>    
                                 <a href="notificaciones.jsp">                                    
                                     <i class="pe-7s-bell pe-2x pe-va">
-                                        <%                                          
-                                            DAOEmpleo daoem = new DAOEmpleo();                                            
+                                        <%
+                                            DAOEmpleo daoem = new DAOEmpleo();
                                             int n = 0;
-                                            n =daop.numeroNotificacionMiRed(idPerson)+n;
-                                            n = daoem.verificarNotificaciones(idPerson)+n;
+                                            n = daop.numeroNotificacionMiRed(idPerson) + n;
+                                            n = daoem.verificarNotificaciones(idPerson) + n;
                                             if (n != 0) {
                                         %>
                                         <span class="badge red"><%=n%></span>  
@@ -175,7 +175,50 @@
         %>
         <div class="col-md-3">   
             <div class="well">
+                <center><h4>Historial de Notificaciones</h4></center><br>
+                <table id="table12" class="table table-striped table-hover table-bordered">
+                    <thead></thead>
+                    <tbody>                        
+                        <%
+                            DAOEmpleo daoem = new DAOEmpleo();
+                            int idPerson = (Integer.parseInt(idPersona));
+                            List<Postulados> ps = daoem.mostrarNotificaciones(idPerson, 1);
+                            for (Postulados postulado : ps) {
+                        %>
+                        <tr>
+                            <td class="col-md-7"><%=postulado.getMensaje()%></td>
+                        </tr>
+                        <% }%>
+                        <%
+                            DAOPersona daoper = new DAOPersona();
+                            List<Amigos> as = daoper.notificarMiRed(idPerson, 1, 1);
+                            for (Amigos amigos : as) {
+                                int v = amigos.getIdAmigo();
+                                List<Persona> amm = daoper.consultarXID(v);
+                                for (Persona per : amm) {
+                        %>
+                        <tr>
+                            <td class="col-md-7"><%=per.getNombresPersona()%> <%=per.getApellidosPersona()%> te ha agregado a sus contactos de Mi Red</td>
+                            <% }
+                                }
+                            %>
+                        </tr>
+                        <%
+                            List< Amigos> amm = daoper.notificarMiRed(idPerson, 2, 1);
+                            for (Amigos amigos : amm) {
+                                int v = amigos.getIdAmigo();
+                                List<Persona> ami = daoper.consultarXID(v);
+                                for (Persona per : ami) {
+                        %>
+                        <tr>
+                            <td class="col-md-7"><%=per.getNombresPersona()%> <%=per.getApellidosPersona()%> ha rechazado tu solicitud para unirse a Mi Red</td>                        
+                        </tr>
+                        <% }
+                            }
+                        %>
 
+                    </tbody>
+                </table>
             </div>
         </div>
         <div class="col-md-7">
@@ -185,9 +228,7 @@
                     <thead></thead>
                     <tbody>                        
                         <%
-                            DAOEmpleo daoem = new DAOEmpleo();
-                            int idPerson = (Integer.parseInt(idPersona));
-                            List<Postulados> p = daoem.mostrarNotificaciones(idPerson);
+                            List<Postulados> p = daoem.mostrarNotificaciones(idPerson, 0);
                             for (Postulados postulado : p) {
                         %>
                         <tr>
@@ -203,7 +244,6 @@
                     </tr>
                     <% }%>
                     <%
-                        DAOPersona daoper = new DAOPersona();
                         List<Amigos> a = daoper.notificarMiRed(idPerson, 1, 0);
                         for (Amigos amigos : a) {
                             int v = amigos.getIdAmigo();
@@ -213,7 +253,7 @@
                     <tr>
                         <td class="col-md-7"><%=per.getNombresPersona()%> <%=per.getApellidosPersona()%> te ha agregado a sus contactos de Mi Red</td>
                         <td class="col-md-1"><center>
-                       <form action="ServletPersona" method="post" >                                      
+                        <form action="ServletPersona" method="post" >                                      
                             <input name="NotiSol" value="1" type="hidden" />                                             
                             <input name="idPersona" value="<%=idPerson%>" type="hidden" />                                             
                             <input name="idAmigo" value="<%=amigos.getIdAmigo()%>" type="hidden" />                                             
