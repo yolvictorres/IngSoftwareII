@@ -484,6 +484,28 @@ public class DAOEmpleo implements CRUD {
         }
         return respuesta;
     }
+    
+    public int estadoPostulado(int idPersona, int idEmpleo, int Estado) {
+        int postul = 0;
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+        try {
+            conn = con.getconexion();
+            String consulta = "SELECT count(cod_persona) AS total FROM postulados WHERE COD_PERSONA =? AND COD_P_EMPRESA=? AND ESTADO_POSTULADO =?";
+            pst = conn.prepareStatement(consulta);
+            pst.setInt(1, idPersona);
+            pst.setInt(2, idEmpleo);
+            pst.setInt(3, Estado);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                postul = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error" + e);
+        }
+        return postul;
+    }
 
     public int verificarNotificaciones(int idPersona) {
         int postul = 0;

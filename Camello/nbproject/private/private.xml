@@ -2,15 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/diego/Documents/IngSoftwareIID/Camello/web/inicio.jsp</file>
-            <file>file:/C:/Users/diego/Documents/IngSoftwareIID/Camello/src/java/Controlador/ServletEmpleo.java</file>
-            <file>file:/C:/Users/diego/Documents/IngSoftwareIID/Camello/web/postulados.jsp</file>
-            <file>file:/C:/Users/diego/Documents/IngSoftwareIID/Camello/web/detallesEmpleo.jsp</file>
-            <file>file:/C:/Users/diego/Documents/IngSoftwareIID/Camello/src/java/Acceso/DAOEmpleo.java</file>
-            <file>file:/C:/Users/diego/Documents/IngSoftwareIID/Camello/src/java/Modelo/Postulados.java</file>
-            <file>file:/C:/Users/diego/Documents/IngSoftwareIID/Camello/web/notificaciones.jsp</file>
-            <file>file:/C:/Users/diego/Documents/IngSoftwareIID/Camello/src/java/Modelo/Persona.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
