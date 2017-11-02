@@ -38,7 +38,12 @@
         <link rel="stylesheet" type="text/css" href="TableFilter/filtergrid.css">
         <script type="text/javascript" src="js/jquery.js"></script> 
         <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>        
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>      
+        <script type="text/javascript" src="js/bootstrap.min.js"></script> 
+        <script>
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
     </head>
     <body>
         <%
@@ -60,7 +65,7 @@
                 out.print("<script>location.replace('index.jsp');</script>");
             }
         %>
-      <div>
+        <div>
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -71,7 +76,8 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="inicio.jsp">Camello</a>
+                        <input type="image" src="images/logoCamello.png" style="width:80%; height:100%; padding-top:5%" formaction="inicio.jsp" />
+                        <!--<a class="navbar-brand" href="inicio.jsp">Camello</a>-->
                     </div>
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -86,9 +92,9 @@
                             %>
                             <li>
                                 <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va">
-                                     <%DAOPersona daop = new DAOPersona();
-                                     int idPerson = (Integer.parseInt(idPersona));
-                                     int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
+                                        <%DAOPersona daop = new DAOPersona();
+                                            int idPerson = (Integer.parseInt(idPersona));
+                                            int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
                                             if (SolicitudesP != 0) {
                                         %>
                                         <span class="badge red"><%=SolicitudesP%></span>  
@@ -98,11 +104,11 @@
                             <li>    
                                 <a href="notificaciones.jsp">                                    
                                     <i class="pe-7s-bell pe-2x pe-va">
-                                        <%                                          
-                                            DAOEmpleo daoem = new DAOEmpleo();                                            
+                                        <%
+                                            DAOEmpleo daoem = new DAOEmpleo();
                                             int n = 0;
-                                            n =daop.numeroNotificacionMiRed(idPerson)+n;
-                                            n = daoem.verificarNotificaciones(idPerson)+n;
+                                            n = daop.numeroNotificacionMiRed(idPerson) + n;
+                                            n = daoem.verificarNotificaciones(idPerson) + n;
                                             if (n != 0) {
                                         %>
                                         <span class="badge red"><%=n%></span>  
@@ -283,11 +289,12 @@
 
                     %>
                     <tr><center>     
-                    <%                        List<Ciudad> ci = cons.consultarCiudadId(empleo.getIdCiudad());
+                    <%  
+                        List<Ciudad> ci = cons.consultarCiudadId(empleo.getIdCiudad());
                         for (Ciudad ciudad : ci) {
                     %>     
                     <td class="col-md-3"><p><%=ciudad.getNombreCiudad()%></p></td>
-                            <%  }%>
+                    <%  }%>
 
                     <%
                         List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
@@ -380,7 +387,25 @@
                         <td class="col-md-1"><%=cargo.getNombreCargo()%></td>
                         <%}%>
                         <td class="col-md-1"><center><input type="button" name="edit" value="Ver" class="btn btn-warning btn-xs" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></center></td> 
-                        </tr>
+                       <%
+                           int estadou = daoem.estadoPostulado(idPerson,empleo.getIdEmpleo(),1);
+                           if(estadou == 1){
+                       %> 
+            <td class="col-md-1"><center><button class="btn btn-warning  btn-xs" id="button" data-toggle="tooltip" data-placement="right" title="" data-original-title="Preseleccionado"><i class="pe-7s-check pe-2x pe-va"></i></button></<center></td>
+                        <% }%>
+                    <%
+                           int estadod = daoem.estadoPostulado(idPerson,empleo.getIdEmpleo(),0);
+                           if(estadod == 1){
+                       %> 
+            <td class="col-md-1"><center><button class="btn btn-warning  btn-xs" id="button" data-toggle="tooltip" data-placement="right" title="" data-original-title="Pendiente"><i class="pe-7s-less pe-2x pe-va"></i></button></<center></td>
+                        <% }%>
+                    <%
+                           int estadot = daoem.estadoPostulado(idPerson,empleo.getIdEmpleo(),2);
+                           if(estadot == 1){
+                       %> 
+            <td class="col-md-1"><center><button class="btn btn-warning  btn-xs" id="button" data-toggle="tooltip" data-placement="right" title="" data-original-title="Rechazado"><i class="pe-7s-close-circle pe-2x pe-va"></i></button></<center></td>
+                        <% }%>
+                    </tr>
                         <% }
                             }%>
                         </tbody>
@@ -456,12 +481,12 @@
                         <form action="ServletEmpleo" method="post" id="postular" name="postular">
                             <input name="idEmpleo" value="<%=empleo.getIdEmpleo()%>" type="hidden" />
                             <%
-                           List<Empleo> W = daoem.consultar();
-                            for (Empleo emple : W) {
+                                List<Empleo> W = daoem.consultar();
+                                for (Empleo emple : W) {
                             %>
                             <input name="idEmpresa" value="<%=empleo.getIdEmpresa()%>" type="hidden" />
                             <%
-                            }
+                                }
                             %>                         
                             <input name="Estadoe" value="0" type="hidden" />
                             <input name="Estadop" value="0" type="hidden" />

@@ -5,6 +5,10 @@
         <servlet-class>Controlador.ServletPersona</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ServletPublicacion</servlet-name>
+        <servlet-class>Controlador.ServletPublicacion</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ServletEmpresa</servlet-name>
         <servlet-class>Controlador.ServletEmpresa</servlet-class>
     </servlet>

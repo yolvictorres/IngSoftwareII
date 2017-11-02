@@ -1,4 +1,5 @@
 
+<%@page import="Acceso.DAOPersona"%>
 <%@page import="Modelo.Jornada"%>
 <%@page import="Modelo.Ciudad"%>
 <%@page import="Acceso.Consultas"%>
@@ -39,7 +40,7 @@
                 out.print("<script>location.replace('index.jsp');</script>");
             }
         %>
-     <div>
+        <div>
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -50,7 +51,8 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="inicio.jsp">Camello</a>
+                        <input type="image" src="images/logoCamello.png" style="width:80%; height:100%; padding-top:5%" formaction="inicio.jsp" />
+                        <!--<a class="navbar-brand" href="inicio.jsp">Camello</a>-->
                     </div>
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -65,9 +67,9 @@
                             %>
                             <li>
                                 <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va">
-                                     <%DAOPersona daop = new DAOPersona();
-                                     int idPerson = (Integer.parseInt(idPersona));
-                                     int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
+                                        <%DAOPersona daop = new DAOPersona();
+                                            int idPerson = (Integer.parseInt(idPersona));
+                                            int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
                                             if (SolicitudesP != 0) {
                                         %>
                                         <span class="badge red"><%=SolicitudesP%></span>  
@@ -77,11 +79,11 @@
                             <li>    
                                 <a href="notificaciones.jsp">                                    
                                     <i class="pe-7s-bell pe-2x pe-va">
-                                        <%                                          
-                                            DAOEmpleo daoem = new DAOEmpleo();                                            
+                                        <%
+                                            DAOEmpleo daoem = new DAOEmpleo();
                                             int n = 0;
-                                            n =daop.numeroNotificacionMiRed(idPerson)+n;
-                                            n = daoem.verificarNotificaciones(idPerson)+n;
+                                            n = daop.numeroNotificacionMiRed(idPerson) + n;
+                                            n = daoem.verificarNotificaciones(idPerson) + n;
                                             if (n != 0) {
                                         %>
                                         <span class="badge red"><%=n%></span>  
@@ -190,16 +192,15 @@
                 <center>
                     <input type="submit" value="Guardar" class="btn btn-success" name="editarEmpresa"/>
                     <input type="submit" value="Cancelar" class="btn btn-default" formaction="inicio.jsp" formnovalidate/>
-                </center>
+                </center>       
+                <% }%>
+            </form>
         </div>
-        <% }%>
-    </form>
-</div>
-</div>
-<div class="col-md-2">
-</div>
+    
+    <div class="col-md-2">
+    </div>
 
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </body>
 </html>

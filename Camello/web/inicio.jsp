@@ -1,3 +1,4 @@
+<%@page import="Acceso.Consultas"%>
 <%@page import="Acceso.DAOEmpleo"%>
 <%@page import="Modelo.Empresa"%>
 <%@page import="Acceso.DAOEmpresa"%>
@@ -5,7 +6,8 @@
 <%@page import="Modelo.*"%>
 <%@page import="java.util.List"%>
 <%@page import="Acceso.DAOPersona"%>
-<%@page import="Acceso.Consultas"%>
+<%@page import="Acceso.DAOPublicacion"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -22,13 +24,14 @@
         <link rel="stylesheet" type="text/css" href="TableFilter/filtergrid.css">
         <script type="text/javascript" src="js/jquery.js"></script> 
         <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>        
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>  
+        <script type="text/javascript" src="js/bootstrap.min.js"></script> 
+
     </head>
     <body>
         <%
             HttpSession sesion = request.getSession();
             String idEmpresa = null, idPersona = null;
-            String nombreEmpresa = null, nombrePersona = null;
+            String nombreEmpresa = null, nombrePersona = null, correoPersona = null;
 
             if (sesion.getAttribute("idEmpresa") != null && sesion.getAttribute("nombreEmpresa") != null || sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
 
@@ -39,6 +42,7 @@
                 if (sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
                     idPersona = sesion.getAttribute("idPersona").toString();
                     nombrePersona = sesion.getAttribute("nombrePersona").toString();
+
                 }
             } else {
                 out.print("<script>location.replace('index.jsp');</script>");
@@ -56,7 +60,8 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="inicio.jsp">Camello</a>
+                        <input type="image" src="images/logoCamello.png" style="width:80%; height:100%; padding-top:5%" formaction="inicio.jsp" />
+                        <!--<a class="navbar-brand" href="inicio.jsp"> Camello</a>-->
                     </div>
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -71,9 +76,9 @@
                             %>
                             <li>
                                 <a href="mired.jsp"><i class="pe-7s-users pe-2x pe-va">
-                                     <%DAOPersona daop = new DAOPersona();
-                                     int idPerson = (Integer.parseInt(idPersona));
-                                     int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
+                                        <%DAOPersona daop = new DAOPersona();
+                                            int idPerson = (Integer.parseInt(idPersona));
+                                            int SolicitudesP = daop.numeroSolicitudesPendientes(idPerson, 0);
                                             if (SolicitudesP != 0) {
                                         %>
                                         <span class="badge red"><%=SolicitudesP%></span>  
@@ -83,11 +88,11 @@
                             <li>    
                                 <a href="notificaciones.jsp">                                    
                                     <i class="pe-7s-bell pe-2x pe-va">
-                                        <%                                          
-                                            DAOEmpleo daoem = new DAOEmpleo();                                            
+                                        <%
+                                            DAOEmpleo daoem = new DAOEmpleo();
                                             int n = 0;
-                                            n =daop.numeroNotificacionMiRed(idPerson)+n;
-                                            n = daoem.verificarNotificaciones(idPerson)+n;
+                                            n = daop.numeroNotificacionMiRed(idPerson) + n;
+                                            n = daoem.verificarNotificaciones(idPerson) + n;
                                             if (n != 0) {
                                         %>
                                         <span class="badge red"><%=n%></span>  
@@ -192,7 +197,7 @@
                 DAOPersona persona = new DAOPersona();
                 List<Persona> per = persona.consultarXID(Integer.parseInt(idPersona));
         %>
-        <div class="col-md-2">   
+        <div class="col-md-3">   
             <div class="well">
                 <%
                     for (Persona p : per) {
@@ -205,75 +210,145 @@
                 <%
                         }
                     }%>
+
             </div>
-        </div>
-        <div class="col-md-8">
-                <center><h1>Bienvenido <%=nombrePersona%></h1></center>
-                <b>sugerencias de empleos</b>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        
-                    </div>
+            <h5><b>publica lo que quieras</b></h5>
+            <div class="col-md-6">
+                <form action="ServletPublicacion" method="post" id="crearPubli" name="crearPubli">    
+                    <%
+                        int a = 1, b = 999999999;
+                        double idPublire = Math.round(Math.random() * (b - a) + (a));
+                        int idPublir = (int) idPublire;
+                     %>
+                    <div><input type="hidden" name="idPublicacion" value="<%=idPublir%>" class="form-control inputSection"/></div>
+                    <div><input type="hidden" name="idPersona" value="<%=sesion.getAttribute("idPersona").toString()%>" class="form-control inputSection"/></div>
+                    <div><input name="detalles" placeholder="Detalles" class="form-control inputSection" type="text" required=""/></div>
+                    <div><input type="submit" value="Crear" class="btn btn-primary" name="crearPublicacion"/></div>
+                    <!--<center><input type="submit" value="Cancelar" class="btn btn-default" formaction="inicio.jsp" formnovalidate/></center>-->
+                </form>
+            </div>
+        </div>                    
+        <div class="col-md-7">
+            <center><h1>Bienvenido <%=nombrePersona%></h1></center><br>
+            <div class="row">
+                <div class="panel panel-info">
+                    <center><h5><strong>Camello</strong> te sugiere los siguientes empleos:</h></center>
                 </div>
             </div>
-            <%
-                DAOEmpleo daoem = new DAOEmpleo();
-                List<Empleo> y = daoem.consultarIntereses(Integer.parseInt(idPersona));
-                for (Empleo empleo : y) {
-            %>
-            <table class="table table-bordered">
-                <thead>                
-                <th>Empresa</th>
-                <th>Ciudad</th>
-                <th>Cargo</th>
-                <th>Salario</th>                
-                <th>Acciones</th>
-                </thead>
-                <tbody>  
-                    <tr><center>   
-                    <%
-                        Consultas cons = new Consultas();
-                        DAOEmpresa daoe = new DAOEmpresa();
-                        List<Empresa> x = daoe.consultarXID(empleo.getIdEmpresa());
-                        for (Empresa empresa : x) {
-                    %>
-                    <td class="col-md-2"><%= empresa.getNombreEmpresa()%></td>  
-                    <%  }%>
-                    <%
-                        List<Ciudad> ci = cons.consultarCiudadId(empleo.getIdCiudad());
-                        for (Ciudad ciudad : ci) {
-                    %>     
-                    <td class="col-md-3"><p ><%=ciudad.getNombreCiudad()%></p></td>
+            <div id="sug" class="panel panel-default">
+                <table class="table table-hover table-condensed table-sm table-striped">
+                    <thead>                
+                    <th>Empresa</th>
+                    <th>Ciudad</th>
+                    <th>Cargo</th>
+                    <th>Salario</th>                
+                    <th colspan="2">Acciones</th>
+                    </thead>
+                    <tbody>  
+                        <%
+                            DAOEmpleo daoem = new DAOEmpleo();
+                            List<Empleo> y = daoem.consultarIntereses(Integer.parseInt(idPersona));
+                            for (Empleo empleo : y) {
+                        %>
+                        <tr><center>   
+                        <%
+                            Consultas cons = new Consultas();
+                            DAOEmpresa daoe = new DAOEmpresa();
+                            List<Empresa> x = daoe.consultarXID(empleo.getIdEmpresa());
+                            for (Empresa empresa : x) {
+                        %>
+                        <td class="col-md-2"><%= empresa.getNombreEmpresa()%></td>  
                         <%  }%>
                         <%
-                            List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
-                            for (Cargo cargo : c) {
+                            List<Ciudad> ci = cons.consultarCiudadId(empleo.getIdCiudad());
+                            for (Ciudad ciudad : ci) {
                         %>     
-                    <td class="col-md-3"><p ><%=cargo.getNombreCargo()%></p></td>
+                        <td class="col-md-3"><p ><%=ciudad.getNombreCiudad()%></p></td>
+                            <%  }%>
+                            <%
+                                List<Cargo> c = cons.consultarCargoId(empleo.getIdCargo());
+                                for (Cargo cargo : c) {
+                            %>     
+                        <td class="col-md-3"><p ><%=cargo.getNombreCargo()%></p></td>
+                            <%  }%>
+                            <%
+                                List<Salario> s = cons.consultarSalarioId(empleo.getIdSalario());
+                                for (Salario salario : s) {
+                            %>     
+                        <td class="col-md-3"><p ><%=salario.getSalario()%></p></td>
+                            <%  }%>
+                        <td class="col-md-1"><input type="button" name="edit" value="Ver" class="btn btn-primary" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>    
+                        <td class="col-md-1">
+                            <%
+                                int idEmpleo = (empleo.getIdEmpleo());
+                                int idPerson = Integer.parseInt(idPersona);
+                                int postul = daoem.verificarPostulado(idPerson, idEmpleo);
+                                if (postul == 0) {
+                            %>
+                            <form action="ServletEmpleo" method="post" id="postular" name="postular">
+                                <input name="idEmpleo" value="<%=empleo.getIdEmpleo()%>" type="hidden" />
+                                <%
+                                    List<Empleo> W = daoem.consultar();
+                                    for (Empleo emple : W) {
+                                %>
+                                <input name="idEmpresa" value="<%=empleo.getIdEmpresa()%>" type="hidden" />
+                                <%
+                                    }
+                                %>                         
+                                <input name="Estadoe" value="0" type="hidden" />
+                                <input name="Estadop" value="0" type="hidden" />
+                                <input name="Estadon" value="0" type="hidden" />                                                      
+                                <input name="idPersona" value="<%=sesion.getAttribute("idPersona")%>"  type="hidden" />         
+                                <input type="submit" name="Postularse" value="Postularse" class="btn btn-default" />
+                            </form>
+                        </td> 
+                        <% } else {
+                        %>
+                        <input type="button" name="edit" value="Postulado" class="btn btn-default disabled" id="button">
+                        <% } %>
+                        </tr>    
                         <%  }%>
-                        <%
-                            List<Salario> s = cons.consultarSalarioId(empleo.getIdSalario());
-                            for (Salario salario : s) {
-                        %>     
-                    <td class="col-md-3"><p ><%=salario.getSalario()%></p></td>
-                        <%  }%>
-                    <td class="col-md-1"><input type="button" name="edit" value="Ver" class="btn btn-primary" id="button" onclick="location.href = 'detallesEmpleo.jsp?id=' + (<%=empleo.getIdEmpleo()%>);"></td>    
-                    </tr>                                 
-                    </tbody> 
-            </table>
-            <%  }%>
+                        </tbody> 
+                        </table>
+                        </div>
+                        <center><h5>publicaciones de personas</h5></center>
+                        <div id="sug" class="panel panel-default">
 
-        </div>
-            
-                
-            
-        <div class="col-md-2">
-            
-        </div>
-            
-        <%
-            }
-        %>
-    </body>
-</html>
+                            <table class="table table-hover table-condensed table-sm table-striped">
+                                <thead>                
+                                <th>Usuario</th>
+                                <th>Detalle</th>
+                                </thead>
+                                <tbody>
+                                    <%
+                                        DAOPublicacion daopublicacion = new DAOPublicacion();
+                                        List<Publicacion> pu = daopublicacion.consultar();
+                                        for (Publicacion publicacion : pu) {
+                                    %>
+<tr>
+
+                                    <%
+                                        DAOPersona daop = new DAOPersona();
+                                        List<Persona> x = daop.consultarXID(publicacion.getIdUsuario());
+                                        for (Persona p : x) {
+                                    %>
+                                    
+                                        <td class="col-md-4"><center><p><%=p.getNombresPersona()%></p></center></td>
+                                        <%}%>
+                                <td class="col-md-4"><p><%=publicacion.getDetalle()%></p></td>
+                                </tr>
+                                <%  }%>
+                                </tbody>
+                            </table>
+                            
+                        </div>
+
+                        <div class="col-md-2">
+                        </div>
+
+                        </div>
+                        <%
+                            }
+                        %>
+                        </body>
+                        </html>

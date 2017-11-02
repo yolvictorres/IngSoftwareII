@@ -29,7 +29,8 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="index.jsp">Camello</a>
+                        <input type="image" src="images/logoCamello.png" style="width:80%; height:100%; padding-top:5%" formaction="index.jsp" />
+                        <!--<a class="navbar-brand" href="index.jsp">Camello</a>-->
                     </div>
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <!-- /.navbar-collapse -->
@@ -37,11 +38,14 @@
                 <!-- /.container -->
             </nav>
         </div>
-        <div class="col-md-2"><br><br><br><br><br>
-            <div class="alert alert-success">
-                <p> ¿Estás buscando un trabajo perfecto para ti? </p>
-                <p> Estás en el lugar indicado, <strong>Camello es tu mejor solución </strong> regístrate como persona para conocer los mejores empleos.</p>
-            </div>
+        <div class="col-md-2"><br><br><br><br><br>         
+            <ul class="nav nav-pills">
+                <li class="active"><a href="#">
+                        <p> ¿Estás buscando un trabajo perfecto para ti? </p>
+                        <p> Estás en el lugar indicado, <strong>Camello es tu mejor solución </strong> regístrate como persona para conocer los mejores empleos.</p>
+                    </a>
+                </li>
+            </ul>
         </div>
         <div class="col-md-8">
 
@@ -58,16 +62,21 @@
                     <div><input type="text" name="correo" placeholder="Correo" class="form-control inputSection"></div>
                     <input type="password" name="clave" placeholder="Contraseña" class="form-control inputSection"><br>
                     <div>
-                    <center><input type="submit" value="Ingresar" class="btn btn-success" name="btniniciar"></center>
+                        <center><input type="submit" value="Ingresar" class="btn btn-primary" name="btniniciar"></center>
                     </div>
                 </form>
             </div>
         </div>
-        <div class="col-md-2"><br><br><br><br><br>
-            <div class="alert alert-success">
-                <p> ¿Estás buscando los mejores trabajadores para tu empresa? </p>
-                <p> No busqués más, <strong>Camello es la solución  perfecta</strong> regístrate como empresa y publica empleos para encontrar a los mejores y más capacitados.</p>
-            </div>            
+        <div class="col-md-2"><br><br>
+            <div class="alert alert-link">            
+            </div>   
+            <ul class="nav nav-pills">
+                <li class="active"><a href="#">
+                        <p> ¿Estás buscando los mejores trabajadores para tu empresa? </p>
+                        <p> No busqués más, <strong>Camello es la solución  perfecta</strong> regístrate como empresa y publica empleos para encontrar a los mejores y más capacitados.</p>
+                    </a>
+                </li>
+            </ul>
         </div>
         <script type="text/javascript" src="js/lib/bootstrap.js"></script>
         <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>

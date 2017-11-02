@@ -11,6 +11,13 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:useBean id="mail" scope="session" class="Modelo.Postulados"/>
+<jsp:setProperty name="mail" property="to" param="correoPersona" />
+<jsp:setProperty name="mail" property="from" value="ingsoftware2kl@gmail.com" />
+<jsp:setProperty name="mail" property="smtpServ" value="smtp.gmail.com" />
+<jsp:setProperty name="mail" property="subject" value="Respuesta Postulación" />
+<jsp:setProperty name="mail" property="message" param="Mensaje" />
+
 <!DOCTYPE html>
 <html>
     <head>        
@@ -55,7 +62,8 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="inicio.jsp">Camello</a>
+                        <input type="image" src="images/logoCamello.png" style="width:80%; height:100%; padding-top:5%" formaction="inicio.jsp" />
+                        <!--<a class="navbar-brand" href="inicio.jsp">Camello</a>-->
                     </div>
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -213,6 +221,7 @@
                                     <input name="Estadop" value="2" type="hidden" />
                                     <input name="idEmpleo" value="<%=empleo.getIdEmpleo()%>" type="hidden" />
                                     <input name="idPersona" value="<%=postulado.getCodigoPersona()%>" type="hidden" />
+                                    <input name="correoPersona" value="<%=person.getCorreoPersona()%>" type="hidden" />
                                     <%
                                         List<Empresa> t = daoemp.consultarXID(idEmpres);
                                         for (Empresa empre : t) {

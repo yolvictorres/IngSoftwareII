@@ -1,4 +1,5 @@
 
+<%@page import="Acceso.DAOPersona"%>
 <%@page import="Modelo.Salario"%>
 <%@page import="Modelo.Cargo"%>
 <%@page import="Modelo.Jornada"%>
@@ -9,7 +10,6 @@
 <%@page import="Modelo.Empleo"%>
 <%@page import="java.util.List"%>
 <%@page import="Acceso.DAOEmpleo"%>
-<%@page import="Acceso.DAOPersona"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -55,7 +55,8 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="inicio.jsp">Camello</a>
+                        <input type="image" src="images/logoCamello.png" style="width:80%; height:100%; padding-top:5%" formaction="inicio.jsp" />
+                        <!--<a class="navbar-brand" href="inicio.jsp">Camello</a>-->
                     </div>
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -271,7 +272,8 @@
                             <input name="idPersona" value="<%=sesion.getAttribute("idPersona")%>"  type="hidden" />         
                             <input id="postul" type="submit" name="Postularse" value="Postularse" class="btn btn-default" />
                         </form>
-                
+                </td> 
+                </tr>
                 <% } else {
                 %>
                 <input id="postul" type="button" name="edit" value="Postulado" class="btn btn-default disabled" id="button">
