@@ -172,7 +172,7 @@ public class ServletEmpleo extends HttpServlet {
                     postulados.setEstadoNotificacion(Integer.parseInt(request.getParameter("Estadon")));
                     postulados.setCodigoPersona(Integer.parseInt(request.getParameter("idPersona")));
                     postulados.setCodigoEmpleo(Integer.parseInt(request.getParameter("idEmpleo")));
-                    respuesta = dao.aceptarPostulado(postulados);
+                    respuesta = dao.QuitarNotificacion(postulados);
                     request.setAttribute("respuesta", respuesta);
                     rd = request.getRequestDispatcher("notificaciones.jsp");
                 }

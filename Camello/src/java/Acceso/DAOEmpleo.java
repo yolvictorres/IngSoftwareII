@@ -527,16 +527,17 @@ public class DAOEmpleo implements CRUD {
         return postul;
     }
 
-    public List<Postulados> mostrarNotificaciones(int idPersona) {
+    public List<Postulados> mostrarNotificaciones(int idPersona, int Estado) {
         List<Postulados> y = new ArrayList<>();
         Connection conn = null;
         ResultSet rs = null;
         PreparedStatement pst = null;
         try {
             conn = con.getconexion();
-            String consulta = "select * from postulados WHERE cod_persona =? AND estado_notificacion =0 AND estado_postulado =1 OR estado_postulado =2";
+            String consulta = "select * from postulados WHERE cod_persona =? AND estado_notificacion =? AND estado_postulado =1 OR estado_postulado =2";
             pst = conn.prepareStatement(consulta);
             pst.setInt(1, idPersona);
+            pst.setInt(2, Estado);
             rs = pst.executeQuery();
             while (rs.next()) {
                 y.add(new Postulados(rs.getInt("cod_p_empresa"),
@@ -555,7 +556,7 @@ public class DAOEmpleo implements CRUD {
 
     public String QuitarNotificacion(Object obj) {
         Postulados postulado = (Postulados) obj;
-        String consulta = "update postulados set  estado_notificacion =? where cod_empresa=? and cod_persona =?";
+        String consulta = "update postulados set  estado_notificacion =? where cod_p_empresa=? and cod_persona =?";
         String respuesta = "";
         Connection conn = null;
         PreparedStatement pst = null;
@@ -563,7 +564,7 @@ public class DAOEmpleo implements CRUD {
             conn = con.getconexion();
             pst = conn.prepareStatement(consulta);
             pst.setInt(1, postulado.getEstadoNotificacion());
-            pst.setInt(2, postulado.getCodigoEmpresa());
+            pst.setInt(2, postulado.getCodigoEmpleo());
             pst.setInt(3, postulado.getCodigoPersona());
             int filas = pst.executeUpdate();
             respuesta = "Notificacion vista";
