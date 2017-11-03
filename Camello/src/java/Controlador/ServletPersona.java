@@ -16,6 +16,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -71,31 +79,77 @@ public class ServletPersona extends HttpServlet {
                     respuesta = dao.editar(persona);
                     request.setAttribute("respuesta", respuesta);
                     rd = request.getRequestDispatcher("inicio.jsp");
-                } else if(request.getParameter("AmigoS") != null){
+                } else if (request.getParameter("AmigoS") != null) {
                     amigos.setEstado(Integer.parseInt(request.getParameter("EstadoS")));
                     amigos.setNotificacion(Integer.parseInt(request.getParameter("Notificacion")));
                     amigos.setIdPersona(Integer.parseInt(request.getParameter("idPersona")));
                     amigos.setIdAmigo(Integer.parseInt(request.getParameter("idAmigo")));
-                    respuesta = dao.solicitarUnirseAMiRed(amigos);                    
+                    respuesta = dao.solicitarUnirseAMiRed(amigos);
                     request.setAttribute("respuestasol", respuesta);
                     rd = request.getRequestDispatcher("buscarpersonas.jsp");
-                } else if(request.getParameter("EstadoAmigo") != null){
+                } else if (request.getParameter("EstadoAmigo") != null) {
+                    amigos.setSmtpServ("smtp.gmail.com");
                     amigos.setEstado(Integer.parseInt(request.getParameter("EstadoS")));
                     amigos.setIdPersona(Integer.parseInt(request.getParameter("idPersona")));
                     amigos.setIdAmigo(Integer.parseInt(request.getParameter("idAmigo")));
-                    respuesta = dao.EstadoAmigo(amigos);                    
+                    respuesta = dao.EstadoAmigo(amigos);
                     request.setAttribute("respuestaamigo", respuesta);
+                    amigos.setFrom("ingsoftware2kl@gmail.com");                    
+                    DAOPersona daoper = new DAOPersona();
+                    List<Persona> p = daoper.consultarXID(amigos.getIdAmigo());
+                    for (Persona pers : p) {
+                        if (pers.getIdPersona() == amigos.getIdAmigo()) {
+                            amigos.setTo(pers.getCorreoPersona());
+                        }
+                    }
+                    if (amigos.getEstado() == 1) {
+                        for (Persona pers : p) {
+                            if (pers.getIdPersona() == amigos.getIdPersona()) {
+                                amigos.setSubject("Respuesta de "+pers.getNombresPersona());
+                                amigos.setMessage(pers.getNombresPersona()+" ha aceptado tu solicitud");
+                            }
+                        }
+                    } else {
+                        for (Persona pers : p) {
+                            if (pers.getIdPersona() == amigos.getIdPersona()) {
+                                amigos.setSubject("Respuesta de "+pers.getNombresPersona());
+                                amigos.setMessage(pers.getNombresPersona()+" ha rechazado tu solicitud");
+                            }
+                        }
+                    }
+                    Properties props = System.getProperties();
+                    // -- Attaching to default Session, or we could start a new one --
+                    props.put("mail.transport.protocol", "smtp");
+                    props.put("mail.smtp.starttls.enable", "true");
+                    props.put("mail.smtp.host", amigos.getSmtpServ());
+                    props.put("mail.smtp.auth", "true");
+                    Authenticator auth = new ServletPersona.SMTPAuthenticator();
+                    Session session = Session.getInstance(props, auth);
+                    // -- Create a new message --
+                    Message msg = new MimeMessage(session);
+                    // -- Set the FROM and TO fields --
+                    msg.setFrom(new InternetAddress(amigos.getFrom()));
+                    msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(amigos.getTo(), false));
+                    msg.setSubject(amigos.getSubject());
+                    msg.setText(amigos.getMensaje());
+                    // -- Set some other header information --
+                    msg.setHeader("MyMail", "Mr. XYZ");
+                    msg.setSentDate(new Date());
+                    // -- Send the message --
+                    Transport.send(msg);
+                    System.out.println("Message sent to" + amigos.getTo() + " OK.");
                     rd = request.getRequestDispatcher("solicitudespendientes.jsp");
-                }else if(request.getParameter("NotVista") != null){
+                } else if (request.getParameter("NotVista") != null) {
                     amigos.setNotificacion(Integer.parseInt(request.getParameter("NotiSol")));
                     amigos.setIdPersona(Integer.parseInt(request.getParameter("idPersona")));
                     amigos.setIdAmigo(Integer.parseInt(request.getParameter("idAmigo")));
-                    respuesta = dao.notificacionVista(amigos);                    
+                    respuesta = dao.notificacionVista(amigos);
                     request.setAttribute("respuestaamigo", respuesta);
                     rd = request.getRequestDispatcher("notificaciones.jsp");
                 }
             } catch (NumberFormatException e) {
-
+                System.out.println(e);
+                out.println(e);
             }
 
             rd.forward(request, response);
@@ -104,7 +158,17 @@ public class ServletPersona extends HttpServlet {
 
         }
     }
+// Also include an inner class that is used for authentication purposes
 
+    private class SMTPAuthenticator extends javax.mail.Authenticator {
+
+        @Override
+        public PasswordAuthentication getPasswordAuthentication() {
+            String username = "ingsoftware2kl@gmail.com";           // specify your email id here (sender's email id)
+            String password = "sebyoldie";                                      // specify your password here
+            return new PasswordAuthentication(username, password);
+        }
+    }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
