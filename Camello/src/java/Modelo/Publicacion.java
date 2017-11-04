@@ -5,17 +5,18 @@ public class Publicacion {
     private int idPublicacion;
     private String detalle;
     private String fecha;
-    private String idUsuario;
-    private String nombreCiudad;
+    private int idUsuario;
+    private int idCiudad;
     
     public Publicacion() {
     }
 
-    public Publicacion(int id_publicacion, String detalle, String idUsuario, String nombreCiudad) {
+    public Publicacion(int id_publicacion, int idUsuario,int idCiudad,String detalle,String fecha) {
         this.idPublicacion = id_publicacion;
         this.detalle = detalle;
         this.idUsuario = idUsuario;
-        this.nombreCiudad = nombreCiudad;
+        this.idCiudad = idCiudad;
+        this.fecha = fecha;
     }
 
     public int getId_publicacion() {
@@ -42,20 +43,20 @@ public class Publicacion {
         this.fecha = fecha;
     }
 
-    public String getIdUsuario() {
+    public int getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(String idUsuario) {
+    public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
 
-    public String getNombreCiudad() {
-        return nombreCiudad;
+    public int getIdCiudad() {
+        return idCiudad;
     }
 
-    public void setNombreCiudad(String nombreCiudad) {
-        this.nombreCiudad = nombreCiudad;
+    public void setIdCiudad(int idCiudad) {
+        this.idCiudad = idCiudad;
     }
     
 }

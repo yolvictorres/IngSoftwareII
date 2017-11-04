@@ -10,21 +10,15 @@ public class Amigos {
     private int idAmigo;
     private int Estado;
     private int Notificacion;
-    private String mensaje;    
     private String to;
     private String from;
     private String message;
     private String subject;
     private String smtpServ;
 
-    public String getMensaje() {
-        return mensaje;
+    public Amigos() {
     }
-
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
-    }
-
+    
     public String getTo() {
         return to;
     }
@@ -65,8 +59,6 @@ public class Amigos {
         this.smtpServ = smtpServ;
     }
 
-    public Amigos() {
-    }
 
     public Amigos(int idPersona, int idAmigo, int Estado, int Notificacion) {
         this.idPersona = idPersona;

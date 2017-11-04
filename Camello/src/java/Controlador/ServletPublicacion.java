@@ -5,9 +5,15 @@
  */
 package Controlador;
 
+import Acceso.DAOPublicacion;
+import Modelo.Publicacion;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author usuario
  */
+@WebServlet(name = "ServletPublicacion", urlPatterns = {"/ServletPublicacion"})
 public class ServletPublicacion extends HttpServlet {
 
     /**
@@ -31,16 +38,28 @@ public class ServletPublicacion extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServletPublicacion</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServletPublicacion at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            DAOPublicacion daop =new DAOPublicacion();
+            Publicacion publicacion=new Publicacion();
+            List<Publicacion> pub= new ArrayList<>();
+            String respuesta = "";
+            RequestDispatcher rd = null;
+            try {
+                if (request.getParameter("crearPublicacion") != null) {
+                    publicacion.setId_publicacion(Integer.parseInt(request.getParameter("idPublicacion")));
+                    publicacion.setIdUsuario(Integer.parseInt(request.getParameter("idPersona")));
+                    publicacion.setDetalle(request.getParameter("detalles"));
+                    respuesta = daop.crear(publicacion);
+                    request.setAttribute("respuesta", respuesta);
+                    rd = request.getRequestDispatcher("inicio.jsp");     
+                } 
+            } catch (NumberFormatException e) {
+
+            }
+
+            rd.forward(request, response);
+
+        } catch (Exception e) {
+
         }
     }
 

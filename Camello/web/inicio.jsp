@@ -6,6 +6,8 @@
 <%@page import="Modelo.*"%>
 <%@page import="java.util.List"%>
 <%@page import="Acceso.DAOPersona"%>
+<%@page import="Acceso.DAOPublicacion"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -29,7 +31,7 @@
         <%
             HttpSession sesion = request.getSession();
             String idEmpresa = null, idPersona = null;
-            String nombreEmpresa = null, nombrePersona = null,correoPersona = null;
+            String nombreEmpresa = null, nombrePersona = null, correoPersona = null;
 
             if (sesion.getAttribute("idEmpresa") != null && sesion.getAttribute("nombreEmpresa") != null || sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
 
@@ -40,7 +42,7 @@
                 if (sesion.getAttribute("idPersona") != null && sesion.getAttribute("nombrePersona") != null) {
                     idPersona = sesion.getAttribute("idPersona").toString();
                     nombrePersona = sesion.getAttribute("nombrePersona").toString();
-                    
+
                 }
             } else {
                 out.print("<script>location.replace('index.jsp');</script>");
@@ -58,7 +60,8 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="inicio.jsp">Camello</a>
+                        <input type="image" src="images/logoCamello.png" style="width:80%; height:100%; padding-top:5%" formaction="inicio.jsp" />
+                        <!--<a class="navbar-brand" href="inicio.jsp"> Camello</a>-->
                     </div>
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -207,8 +210,24 @@
                 <%
                         }
                     }%>
+
             </div>
-        </div>
+            <h5><b>publica lo que quieras</b></h5>
+            <div class="col-md-6">
+                <form action="ServletPublicacion" method="post" id="crearPubli" name="crearPubli">    
+                    <%
+                        int a = 1, b = 999999999;
+                        double idPublire = Math.round(Math.random() * (b - a) + (a));
+                        int idPublir = (int) idPublire;
+                     %>
+                    <div><input type="hidden" name="idPublicacion" value="<%=idPublir%>" class="form-control inputSection"/></div>
+                    <div><input type="hidden" name="idPersona" value="<%=sesion.getAttribute("idPersona").toString()%>" class="form-control inputSection"/></div>
+                    <div><input name="detalles" placeholder="Detalles" class="form-control inputSection" type="text" required=""/></div>
+                    <div><input type="submit" value="Crear" class="btn btn-primary" name="crearPublicacion"/></div>
+                    <!--<center><input type="submit" value="Cancelar" class="btn btn-default" formaction="inicio.jsp" formnovalidate/></center>-->
+                </form>
+            </div>
+        </div>                    
         <div class="col-md-7">
             <center><h1>Bienvenido <%=nombrePersona%></h1></center><br>
             <div class="row">
@@ -290,13 +309,44 @@
                         </tr>    
                         <%  }%>
                         </tbody> 
-                        </table>                 
+                        </table>
                         </div>
+                        <center><h5>publicaciones de personas</h5></center>
+                        <div id="sug" class="panel panel-default">
+
+                            <table class="table table-hover table-condensed table-sm table-striped">
+                                <thead>                
+                                <th>Usuario</th>
+                                <th>Detalle</th>
+                                </thead>
+                                <tbody>
+                                    <%
+                                        DAOPublicacion daopublicacion = new DAOPublicacion();
+                                        List<Publicacion> pu = daopublicacion.consultar();
+                                        for (Publicacion publicacion : pu) {
+                                    %>
+<tr>
+
+                                    <%
+                                        DAOPersona daop = new DAOPersona();
+                                        List<Persona> x = daop.consultarXID(publicacion.getIdUsuario());
+                                        for (Persona p : x) {
+                                    %>
+                                    
+                                        <td class="col-md-4"><center><p><%=p.getNombresPersona()%></p></center></td>
+                                        <%}%>
+                                <td class="col-md-4"><p><%=publicacion.getDetalle()%></p></td>
+                                </tr>
+                                <%  }%>
+                                </tbody>
+                            </table>
+                            
                         </div>
+
                         <div class="col-md-2">
                         </div>
 
-
+                        </div>
                         <%
                             }
                         %>

@@ -119,7 +119,32 @@ public class ServletEmpleo extends HttpServlet {
                     msg.setFrom(new InternetAddress(postulados.getFrom()));
                     msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(postulados.getTo(), false));
                     msg.setSubject(postulados.getSubject());
-                    msg.setText(postulados.getMensaje());
+                    //msg.setText(postulados.getMensaje());
+                    MimeMultipart content = new MimeMultipart("related");
+                    // ContentID is used by both parts
+                    //String cid = ContentIdGenerator.getContentId();
+
+                    // HTML part
+                    MimeBodyPart textPart = new MimeBodyPart();
+                    textPart.setText("<html><head>"
+                            + "<title>This is not usually displayed</title>"
+                            + "</head>\n"
+                            + "<body>"
+                            + "<div><b>"+postulados.getMensaje()+"</b></div>\n\n"
+                            + "<div><img src=\"cid:image"
+                            + "\" /></div>\n",
+                            "US-ASCII", "html");
+                    content.addBodyPart(textPart);
+
+                    // Image part
+                    MimeBodyPart imagePart = new MimeBodyPart();
+                    imagePart.setContentID("image");
+                    imagePart.attachFile("C:\\Users\\diego\\Documents\\IngSoftwareIID\\Camello\\web\\images\\logoCamello.png");
+                    imagePart.setDisposition(MimeBodyPart.INLINE);
+                    content.addBodyPart(imagePart);
+
+                    msg.setContent(content, "text/html; charset=utf-8");
+ 
                     // -- Set some other header information --
                     msg.setHeader("MyMail", "Mr. XYZ");
                     msg.setSentDate(new Date());
@@ -160,7 +185,33 @@ public class ServletEmpleo extends HttpServlet {
                     msg.setFrom(new InternetAddress(postulados.getFrom()));
                     msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(postulados.getTo(), false));
                     msg.setSubject(postulados.getSubject());
-                    msg.setText(postulados.getMensaje());
+                    //msg.setText(postulados.getMensaje());
+                    MimeMultipart content = new MimeMultipart("related");
+                    // ContentID is used by both parts
+                    //String cid = ContentIdGenerator.getContentId();
+
+                    // HTML part
+                    MimeBodyPart textPart = new MimeBodyPart();
+                    textPart.setText("<html><head>"
+                            + "<title>This is not usually displayed</title>"
+                            + "</head>\n"
+                            + "<body>"
+                            + "<div><b>"+postulados.getMensaje()+"</b></div>\n\n"
+                            + "<div><img src=\"cid:image"
+                            + "\" /></div>\n",
+                            "US-ASCII", "html");
+                    content.addBodyPart(textPart);
+
+                    // Image part
+                    MimeBodyPart imagePart = new MimeBodyPart();
+                    imagePart.setContentID("image");
+                    imagePart.attachFile("C:\\Users\\diego\\Documents\\IngSoftwareIID\\Camello\\web\\images\\logoCamello.png");
+                    imagePart.setDisposition(MimeBodyPart.INLINE);
+                    content.addBodyPart(imagePart);
+
+                    msg.setContent(content, "text/html; charset=utf-8");
+ 
+
                     // -- Set some other header information --
                     msg.setHeader("MyMail", "Mr. XYZ");
                     msg.setSentDate(new Date());
